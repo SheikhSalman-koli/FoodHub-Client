@@ -2,12 +2,11 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme {
-  /* এটি লেখার পর আপনার প্রজেক্টে 'font-bangla' ক্লাসটি অ্যাক্টিভেট হয়ে যাবে */
   --font-bangla: var(--font-tiro-bangla), serif;
 }
+@custom-variant dark (&:is(.dark *));
+
 
 @theme inline {
   --color-background: var(--background);

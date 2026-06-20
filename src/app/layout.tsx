@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import {  Geist_Mono, Tiro_Bangla, Geist } from "next/font/google";
+import {  Geist_Mono, Geist, Tiro_Bangla } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-export const tiro = Tiro_Bangla({
-  weight: "400",
-  variable: "--font-tiro-bangla",
-  subsets: [ "bengali", "latin"]
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const bangla = Tiro_Bangla({
+  weight: "400",
+  subsets: ["bengali","latin"],
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,10 +30,12 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={cn("h-full", "antialiased", tiro.variable, "font-sans", geist.variable)}
+      lang="en" suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body 
+        className={`${bangla.className} antialiased`}
+        >
+        {children}</body>
     </html>
   );
 }
