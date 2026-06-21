@@ -55,7 +55,7 @@ export default function SignUpPage() {
 
         (e.target as HTMLFormElement).reset();
 
-        router.push('/verify-email?email=' + baseUserData.email);
+        router.push(`/verify-email?email=${encodeURIComponent(baseUserData.email)}`);
 
       } else {
         // Create Customer
@@ -63,7 +63,7 @@ export default function SignUpPage() {
 
         if (data) {
           (e.target as HTMLFormElement).reset();
-          router.push('/verify-email?email=' + baseUserData.email);
+          router.push(`/verify-email?email=${encodeURIComponent(baseUserData.email)}`);
         }
       }
 

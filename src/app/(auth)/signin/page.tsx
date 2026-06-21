@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, ArrowRight, Utensils } from "lucide-react";
+import { Mail, Lock, ArrowRight, Utensils, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,28 +14,46 @@ import { useRouter } from "next/navigation";
 export default function SignInPage() {
 
   const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(true)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    const formData = new FormData(e.currentTarget as HTMLFormElement)
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    const signinData = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+    await authClient.signIn.email({
+      email,
+      password,
+    }, {
+      onRequest: () => setLoading(true),
+      onSuccess: () => {
+        (e.target as HTMLFormElement).reset();
+        setLoading(false);
+        router.push("/");
+      },
+      onError: async (ctx) => {
+        if (ctx.error.code === "EMAIL_NOT_VERIFIED") {
+          try {
+            await authClient.sendVerificationEmail({
+              email: email,
+              callbackURL: "/",
+            });
+          } catch (err) {
+            console.error("Verification email failed:", err);
+          }
 
-    };
-
-    const { data, error } = await authClient.signIn.email(signinData)
-
-    if (!data?.user) {
-      alert(error || "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন");
-      return;
-    }
-
-    (e.target as HTMLFormElement).reset();
-    router.push('/')
-
+          // ➔ মেইল প্রসেস শেষ (বা ফেইল) হলে রিডাইরেক্ট হবে
+          router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+          return;
+        }
+        setLoading(false);
+        alert(ctx.error.message || "লগইন করতে সমস্যা হয়েছে।");
+      }
+    });
   };
 
   return (
@@ -109,12 +127,24 @@ export default function SignInPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="text-gray-300">পাসওয়ার্ড</Label>
-                <a href="#" className="text-xs text-amber-500 hover:underline">ভুলে গেছেন?</a>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-amber-500 hover:underline">
+                  ভুলে গেছেন?
+                </Link>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 size-4 text-gray-500" />
+                <Button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-3 top-3 size-4 text-gray-500"
+                >
+                  {showPass ? <Eye /> : <EyeOff />}
+                </Button>
+
                 <Input
-                  type="password"
+                  type={showPass ? "password" : "text"}
                   name="password"
                   placeholder="••••••••"
                   className="pl-10 h-12 bg-[#141414] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl"
@@ -123,8 +153,17 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] font-bold text-base py-6 rounded-xl shadow-lg shadow-amber-500/10 cursor-pointer mt-2">
-              লগইন করুন
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] font-bold text-base py-6 rounded-xl shadow-lg shadow-amber-500/10 cursor-pointer mt-2 disabled:cursor-not-allowed">
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-5 w-5 ...">...</svg>
+                  অপেক্ষা করুন...
+                </span>
+              ) : (<p>লগইন করুন</p>)
+              }
             </Button>
           </form>
 
