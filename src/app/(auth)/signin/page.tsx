@@ -13,34 +13,38 @@ import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
 
- const router = useRouter()
+  const router = useRouter()
 
-  const handleSubmit =async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget as HTMLFormElement)
-    
-     const signinData = {
-      email: formData.get("email") as string ,
+
+    const signinData = {
+      email: formData.get("email") as string,
       password: formData.get("password") as string,
-     
+
     };
 
-    const {data, error} = await authClient.signIn.email(signinData)
+    const { data, error } = await authClient.signIn.email(signinData)
 
-    if(data?.user){
-      router.push('/')
+    if (!data?.user) {
+      alert(error || "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন");
+      return;
     }
-    
+
+    (e.target as HTMLFormElement).reset();
+    router.push('/')
+
   };
 
   return (
     <main className="min-h-screen w-full bg-[#0d0d0d] grid grid-cols-1 lg:grid-cols-2">
-      
+
       {/* LEFT SIDE: Brand Visuals (Hidden on Mobile) */}
       <div className="hidden lg:flex relative flex-col justify-between p-12 overflow-hidden bg-zinc-900">
         {/* Background Image with Dark Mask */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity scale-105 transition-transform duration-10000 hover:scale-100"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop')` }}
         />
@@ -74,7 +78,7 @@ export default function SignInPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl lg:hidden pointer-events-none" />
 
         <div className="w-full max-w-md space-y-8 relative z-10">
-          
+
           {/* Mobile Logo Only */}
           <div className="text-center lg:hidden mb-4">
             <h2 className="text-3xl font-black text-white tracking-tight">
@@ -92,16 +96,16 @@ export default function SignInPage() {
               <Label className="text-gray-300">ইমেইল অ্যাড্রেস</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-4 size-4 text-gray-500" />
-                <Input 
-                  type="email" 
-                  name="email" 
-                  placeholder="name@example.com" 
-                  className="pl-10 h-12 bg-[#141414] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl" 
-                  required 
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  className="pl-10 h-12 bg-[#141414] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl"
+                  required
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="text-gray-300">পাসওয়ার্ড</Label>
@@ -109,12 +113,12 @@ export default function SignInPage() {
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 size-4 text-gray-500" />
-                <Input 
-                  type="password" 
-                  name="password" 
-                  placeholder="••••••••" 
-                  className="pl-10 h-12 bg-[#141414] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl" 
-                  required 
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="pl-10 h-12 bg-[#141414] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl"
+                  required
                 />
               </div>
             </div>
@@ -125,7 +129,7 @@ export default function SignInPage() {
           </form>
 
           <div className="flex justify-center items-center gap-2 text-sm text-gray-400 pt-4 border-t border-white/5">
-            <p>নতুন অ্যাকাউন্ট তৈরি করতে চান?</p> 
+            <p>নতুন অ্যাকাউন্ট তৈরি করতে চান?</p>
             <Link href="/signup" className="text-amber-500 font-bold hover:underline inline-flex items-center gap-1">
               এখানে রেজিস্টার করুন <ArrowRight className="size-3.5" />
             </Link>
