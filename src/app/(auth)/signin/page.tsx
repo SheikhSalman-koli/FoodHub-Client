@@ -8,12 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 
 
 
 export default function SignInPage() {
 
   const router = useRouter()
+
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true)
 
@@ -166,6 +168,8 @@ export default function SignInPage() {
               }
             </Button>
           </form>
+
+              <SocialLogin />
 
           <div className="flex justify-center items-center gap-2 text-sm text-gray-400 pt-4 border-t border-white/5">
             <p>নতুন অ্যাকাউন্ট তৈরি করতে চান?</p>

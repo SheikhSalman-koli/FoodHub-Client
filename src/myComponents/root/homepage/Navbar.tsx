@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 interface MenuItem {
   title: string;
@@ -43,7 +44,12 @@ export default function Navbarr({ className }: NavbarProps) {
     { id: 2, title: "লগইন", url: "/signin" },
   ]
 
+  const { data: session } = authClient.useSession();
 
+
+  console.log(session?.user);
+
+  
 
   return (
     <nav className={cn("fixed top-0 inset-x-0 h-20 bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white z-50 px-6 sm:px-8 lg:px-16 transition-all duration-300 flex items-center", className)}>

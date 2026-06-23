@@ -2,16 +2,18 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { User, Store, Mail, Lock, Phone, MapPin, Edit3, ArrowLeft, Utensils, LocateFixedIcon } from "lucide-react";
+import { User, Store, Mail, Lock, Phone, MapPin, Edit3, ArrowLeft, Utensils, LocateFixedIcon, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 
 export default function SignUpPage() {
   const [role, setRole] = useState<"CUSTOMER" | "PROVIDER">("CUSTOMER");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPass, setShowPass] = useState(true)
 
   const router = useRouter()
 
@@ -160,8 +162,19 @@ export default function SignUpPage() {
                 <div className="space-y-1.5">
                   <Label className="text-gray-400 text-xs">পাসওয়ার্ড</Label>
                   <div className="relative">
+                    <Button
+                      type="button"
+                      onClick={() => setShowPass(!showPass)}
+                      className="absolute right-3 top-3 size-4 text-gray-500"
+                    >
+                      {showPass ? <Eye /> : <EyeOff />}
+                    </Button>
                     <Lock className="absolute left-3 top-2 size-4 text-gray-600" />
-                    <Input name="password" type="password" placeholder="••••••••" className="pl-10 bg-[#0d0d0d] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl" required />
+                    <Input
+                      name="password"
+                      type={showPass ? "password" : "text"}
+                      placeholder="••••••••"
+                      className="pl-10 bg-[#0d0d0d] border-white/5 text-white focus-visible:ring-amber-500 rounded-xl" required />
                   </div>
                 </div>
                 <div className="space-y-1.5">

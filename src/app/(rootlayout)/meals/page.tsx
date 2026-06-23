@@ -1,6 +1,7 @@
 import MealCard from "@/myComponents/root/homepage/MealCard";
 
 
+
 export default async function MealPage() {
 
 
@@ -8,6 +9,7 @@ export default async function MealPage() {
 // const meal = await data.json()
 
 // console.log(meal);
+
 
 
   return (

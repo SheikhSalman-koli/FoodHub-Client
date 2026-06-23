@@ -10,10 +10,8 @@ function ResetPasswordContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    // 🚀 ১. ইউআরএল থেকে টোকেন এবং ইমেইল উভয়ই রিড করুন
     const token = searchParams.get("token");
     const email = searchParams.get("email");
-
 
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -23,7 +21,6 @@ function ResetPasswordContent() {
     const handleReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // টোকেন বা ইমেইল কোনোটিই না থাকলে আটকে দেবে
         if (!token && !email) {
             setErrorMsg("পাসওয়ার্ড রিসেট করার জন্য প্রয়োজনীয় তথ্য পাওয়া যায়নি।");
             return;
@@ -67,7 +64,7 @@ function ResetPasswordContent() {
                     <Button
                         type="button"
                         onClick={() => setShowPass(!showPass)}
-                        className="absolute right-3 top-3 size-4 "
+                        className="absolute right-3 top-3 size-4"
                     >
                         {showPass ? <Eye /> : <EyeOff />}
                     </Button>

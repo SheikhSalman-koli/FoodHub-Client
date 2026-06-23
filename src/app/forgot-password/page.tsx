@@ -15,7 +15,7 @@ export default function ForgotPasswordPage() {
     setErrorMsg("");
 
     // 🚀 আপনার কোডের মেইল পাঠানোর মেথডটি (যা মেইল পাঠাতে সফল হচ্ছে)
-    const { data, error } = await authClient.requestPasswordReset({ 
+    const { error } = await authClient.requestPasswordReset({ 
       email: email,
       redirectTo: "/reset-password", 
     });
