@@ -1,0 +1,9 @@
+import axios from "axios";
+
+export const baseUrl = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    withCredentials: true
+})

@@ -32,7 +32,7 @@ interface NavbarProps {
   className?: string;
 }
 
-export default function Navbarr({ className }: NavbarProps) {
+export default function Navbar({ className }: NavbarProps) {
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
     { title: "মেনু", url: "/meals" },
@@ -44,11 +44,11 @@ export default function Navbarr({ className }: NavbarProps) {
     { id: 2, title: "লগইন", url: "/signin" },
   ]
 
-  const { data: session } = authClient.useSession();
+  // const { data: session } = authClient.useSession();
 
 
-  console.log(session?.user);
-
+  // console.log(session?.user);
+ 
   
 
   return (

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {  Geist_Mono, Geist, Tiro_Bangla } from "next/font/google";
 import "./globals.css";
+import QueryProvider from "@/providers/query-provider";
 
 
 const geistSans = Geist({
@@ -35,7 +36,12 @@ export default function RootLayout({
       <body 
         className={`${bangla.className} antialiased`}
         >
-        {children}</body>
+          <QueryProvider>
+{children}
+  </QueryProvider>
+</body>
+        
+        
     </html>
   );
 }

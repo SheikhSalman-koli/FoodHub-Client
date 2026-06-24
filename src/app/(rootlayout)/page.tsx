@@ -1,6 +1,6 @@
 
 import Hero from "@/myComponents/root/homepage/Hero";
-import MealCard from "@/myComponents/root/homepage/MealCard";
+import PopularMeals from "@/myComponents/root/homepage/PopularMeals";
 import Providers from "@/myComponents/root/homepage/Providers";
 
 
@@ -9,14 +9,13 @@ import Providers from "@/myComponents/root/homepage/Providers";
   return (
     <div className="min-h-screen" style={{ background: "#FAFAF8" }}>
        
-
-      <main className="mx-auto space-y-8 py-6 pb-28">
+      <main className="">
         {/* Hero */}
         <Hero />
 
         <Providers />
 
-        <MealCard />
+       <PopularMeals/>
 
       </main>
      
