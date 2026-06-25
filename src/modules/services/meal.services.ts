@@ -1,5 +1,11 @@
 import { baseUrl } from "@/lib/api-client"
 
+interface Commenter {
+    id: string,
+    name: string,
+    image: string
+}
+
 export interface Review {
     id: string;
     customerId: string;
@@ -9,6 +15,7 @@ export interface Review {
     starCount: number;
     isDeleted: boolean;
     createdAt: string;
+    user: Commenter
 }
 
 export interface MealData {
@@ -23,6 +30,7 @@ export interface MealData {
   isDeleted: boolean;
   discount: number | null;
   reviews?: Review[]
+  similarMeals?: MealData[]
 }
 
 export const mealServices = {

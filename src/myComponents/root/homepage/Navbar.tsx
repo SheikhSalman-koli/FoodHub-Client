@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { useCartStore } from "@/store/useCartStore";
 
 interface MenuItem {
   title: string;
@@ -45,11 +46,10 @@ export default function Navbar({ className }: NavbarProps) {
   ]
 
   // const { data: session } = authClient.useSession();
-
-
   // console.log(session?.user);
  
-  
+  const cart = useCartStore((state) => state.cart)
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className={cn("fixed top-0 inset-x-0 h-20 bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white z-50 px-6 sm:px-8 lg:px-16 transition-all duration-300 flex items-center", className)}>
@@ -92,12 +92,14 @@ export default function Navbar({ className }: NavbarProps) {
 
         {/* RIGHT ACTION NODE: CART & ACCOUNT GATEWAY */}
         <div className="hidden lg:flex items-center gap-4">
-          <button className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
+          <Link 
+          href='/cart'
+          className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
             <ShoppingCart className="size-5" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-orange-600 text-white rounded-full text-[9px] font-black flex items-center justify-center">
-              0
+              {totalItems}
             </span>
-          </button>
+          </Link>
 
          
           {
