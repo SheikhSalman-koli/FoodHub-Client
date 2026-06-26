@@ -1,10 +1,10 @@
 'use client'
-import { Button } from '@/components/ui/button';
 import { CalculateDiscount } from '@/lib/helpers/CalculateDiscount';
 import { MealData } from '@/modules/services/meal.services';
-import { useCartStore } from '@/store/useCartStore';
-import { Flame, Plus, ShoppingCart } from 'lucide-react';
-import Link from 'next/link'; // 1️⃣ Next.js Link ইমপোর্ট করা হয়েছে
+import { Flame } from 'lucide-react';
+import Link from 'next/link';
+import AddToCart from '../../meals/AddToCart';
+import { usePathname } from 'next/navigation';
 
 type MealCardProps = {
   meals: MealData[];
@@ -12,14 +12,16 @@ type MealCardProps = {
 
 export default function MealCard({ meals }: MealCardProps) {
 
-  const addToCart = useCartStore((state) => state.addToCart);
+  const pathname = usePathname()
+
+  const displayedMeal = pathname === '/' ? meals.slice(0,8) : meals
+
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {meals?.map((meal) => {
+    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+       {displayedMeal?.map((meal) => {
 
         const { originalPrice, finalPrice, hasDiscount } = CalculateDiscount(meal.price, meal.discount ?? 0);
-
         const isPopular = meal.orderCount > 100;
 
         return (
@@ -53,16 +55,13 @@ export default function MealCard({ meals }: MealCardProps) {
             </div>
 
             {/* Content Container */}
-            <div className="flex flex-col grow p-4">
+            <div className="flex flex-col grow p-2">
 
-              {/* Title & Description */}
+              {/* Title */}
               <div className="grow mb-4">
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors line-clamp-1 mb-1">
+                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
                   {meal.name}
                 </h3>
-                <p className="text-xs text-gray-400 leading-relaxed line-clamp-2">
-                  {meal.description}
-                </p>
               </div>
 
               {/* Order Count / Social Proof */}
@@ -83,26 +82,11 @@ export default function MealCard({ meals }: MealCardProps) {
                     ৳ {finalPrice}
                   </span>
                 </div>
-
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addToCart({
-                      id: meal.id,
-                      name: meal.name,
-                      image: meal.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
-                      price: finalPrice,
-                      discount: meal?.discount ?? 0,
-                    },
-                      1 //default quantity
-                    );
-                    alert(`${meal.name} কার্টে যোগ হয়েছে!`);
-                  }}
-
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer">
-                  <ShoppingCart className="size-5" />
-                </Button>
+                  {/* add To Cart */}
+                  <AddToCart 
+                  meal={meal}
+                  finalPrice={finalPrice}
+                  />
               </div>
             </div>
           </Link>

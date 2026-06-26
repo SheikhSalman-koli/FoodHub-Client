@@ -1,5 +1,5 @@
 import Image from "next/image";
-import patil from "../../public/patil.webp"
+import patil from '../../../public/patil.webp'
 
 export default function FoodLoader() {
   return (
@@ -36,7 +36,7 @@ export default function FoodLoader() {
         </h2>
 
         <p className="mt-2 text-amber-700">
-          আপনার অর্ডারটি প্রস্তুত হচ্ছে...
+          আপনার জন্যই রান্না হচ্ছে...
         </p>
       </div>
     </div>

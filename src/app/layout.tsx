@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Geist_Mono, Geist, Tiro_Bangla } from "next/font/google";
+import { Geist_Mono, Geist, Tiro_Bangla } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
 
@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 const bangla = Tiro_Bangla({
   weight: "400",
-  subsets: ["bengali","latin"],
+  subsets: ["bengali", "latin"],
 })
 
 export const metadata: Metadata = {
@@ -33,15 +33,17 @@ export default function RootLayout({
     <html
       lang="en" suppressHydrationWarning
     >
-      <body 
+      <body
         className={`${bangla.className} antialiased`}
-        >
-          <QueryProvider>
-{children}
-  </QueryProvider>
-</body>
+      >
         
-        
+                <QueryProvider>
+          {children}
+        </QueryProvider>
+    
+      </body>
+
+
     </html>
   );
 }

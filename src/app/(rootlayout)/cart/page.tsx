@@ -12,8 +12,6 @@ export default function CartPage() {
 
   // 💰 বিল ক্যালকুলেশন
   const subTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const deliveryFee = subTotal > 0 ? 60 : 0; // ফিক্সড ডেলিভারি চার্জ ৬০ টাকা
-  const grandTotal = subTotal + deliveryFee;
 
   // 🛒 কার্ট যদি একদম খালি থাকে
   if (cart.length === 0) {
@@ -38,7 +36,7 @@ export default function CartPage() {
         {/* হেডার */}
         <h1 className="text-3xl font-black mb-8 flex items-center gap-3 tracking-tight">
           <span className="w-3 h-8 bg-amber-500 rounded-full" />
-          আপনার চমৎকার কার্ট ({cart.length})
+          আপনার কার্টে ({cart.length}) টি খাবার আছে
         </h1>
 
         {/* grid লেআউট: ২ কলাম */}
@@ -112,17 +110,13 @@ export default function CartPage() {
                   <span>সাবটোটাল</span>
                   <span className="text-white font-bold">৳{subTotal}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>ডেলিভারি চার্জ</span>
-                  <span className="text-white font-bold">৳{deliveryFee}</span>
-                </div>
                 
                 <div className="h-px bg-white/5 my-2" />
                 
-                <div className="flex justify-between text-base font-black text-white pt-1">
+                {/* <div className="flex justify-between text-base font-black text-white pt-1">
                   <span>সর্বমোট বিল</span>
                   <span className="text-amber-500 text-lg">৳{grandTotal}</span>
-                </div>
+                </div> */}
               </div>
 
               {/* 💳 প্রসিড টু চেকআউট বাটন */}

@@ -8,6 +8,7 @@ import CustomerReviews from './CustomerReviews';
 import { CalculateDiscount } from '@/lib/helpers/CalculateDiscount';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/useCartStore';
+import AddToCart from './AddToCart';
 
 type MelaProps = {
     singleMealData: MealData,
@@ -28,19 +29,6 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
 
     const handleIncrement = () => setQuantity(prev => prev + 1);
     const handleDecrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
-
-    // add to cart
-    const addToCart = useCartStore((state) => state.addToCart)
-    const handleAddToCart =()=> {
-        addToCart({
-            id: singleMealData.id,
-            name: singleMealData.name,
-            price: finalPrice,
-            image: singleMealData.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
-            discount: singleMealData.discount ?? 0
-        },1)
-        alert(`${singleMealData.name} কার্টে যোগ হয়েছে!`);
-    }
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto pt-28 text-white pb-16 selection:bg-amber-500 selection:text-black">
@@ -133,12 +121,19 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
 
                         {/* 🛒 অ্যাকশন বাটনসমূহ (Add to Cart & Buy Now) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                            <Button 
+                            {/* <Button 
                             onClick={handleAddToCart}
                             className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer">
                                 <ShoppingCart className="size-5" />
                                 কার্টে যোগ করুন
-                            </Button>
+                            </Button> */}
+                            {/* add to cart */}
+
+                              <AddToCart 
+                              meal={singleMealData}
+                              finalPrice={finalPrice}
+                              />  
+
                             <Button className="bg-amber-500 hover:bg-amber-600 text-[#0d0d0d] font-black py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.98] shadow-xl shadow-amber-500/10 cursor-pointer">
                                 <CreditCard className="size-5" />
                                 অর্ডার করুন (৳{totalPrice})
