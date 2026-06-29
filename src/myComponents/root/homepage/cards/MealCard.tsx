@@ -14,7 +14,9 @@ export default function MealCard({ meals }: MealCardProps) {
 
   const pathname = usePathname()
 
-  const displayedMeal = pathname === '/' ? meals.slice(0,8) : meals
+  const displayedMeal = pathname === '/' 
+  ? meals.filter(meal => meal.isFeatured).slice(0,4)
+  : meals;
 
 
   return (
@@ -22,7 +24,8 @@ export default function MealCard({ meals }: MealCardProps) {
        {displayedMeal?.map((meal) => {
 
         const { originalPrice, finalPrice, hasDiscount } = CalculateDiscount(meal.price, meal.discount ?? 0);
-        const isPopular = meal.orderCount > 100;
+        // const isPopular = meal.orderCount > 100;
+        const isFeatured = meal?.isFeatured
 
         return (
           <Link
@@ -45,10 +48,10 @@ export default function MealCard({ meals }: MealCardProps) {
                     {meal.discount} % ছাড়
                   </span>
                 )}
-                {isPopular && (
+                {isFeatured && (
                   <span className="bg-amber-500 text-[#0d0d0d] text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-lg flex items-center gap-1 w-max">
                     <Flame className="size-3" />
-                    বেস্টসেলার
+                    জনপ্রিয়
                   </span>
                 )}
               </div>

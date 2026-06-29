@@ -17,8 +17,8 @@ export const providerServices = {
         return res?.data.data
     },
 
-    getProvidersById: async (id: string): Promise<ProviderData[]> => {
-        const res = await baseUrl.get<{ data: ProviderData[], message: string }>(`/api/v1/provider/${id}`)
+    getProvidersById: async (id: string): Promise<ProviderData> => {
+        const res = await baseUrl.get<{ data: ProviderData, message: string }>(`/api/v1/provider/${id}`)
         return res?.data.data
     }
 

@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useCartStore } from "@/store/useCartStore";
+import AuthButtons from "./navbar/AuthButtons";
 
 interface MenuItem {
   title: string;
@@ -34,19 +35,17 @@ interface NavbarProps {
 }
 
 export default function Navbar({ className }: NavbarProps) {
+  
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
     { title: "মেনু", url: "/meals" },
     { title: "অর্ডার ট্র্যাকিং", url: "/track-order" },
   ];
 
-  const auth = [
-    { id: 1, title: "রেজিস্ট্রেশন", url: "/signup" },
-    { id: 2, title: "লগইন", url: "/signin" },
-  ]
-
   // const { data: session } = authClient.useSession();
-  // console.log(session?.user);
+  // console.log(session?.user)
+
+
  
   const cart = useCartStore((state) => state.cart)
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -101,31 +100,23 @@ export default function Navbar({ className }: NavbarProps) {
             </span>
           </Link>
 
-         
-          {
-            auth.map(item => (
-              <Link
-                key={item.id}
-                href={item.url}
-                className="bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] text-xs uppercase font-black tracking-wider px-5 py-3 transition-all duration-300 shadow-md shadow-amber-500/5 active:scale-98"
-              >
-                {item.title}
-              </Link>
-            ))
-          }
+{/* auth Actions */}
+          <AuthButtons />
 
         </div>
 
         {/* MOBILE VIEWPORT TRIGGER ENGINE */}
         <div className="flex items-center gap-4 lg:hidden">
           {/* Mobile Cart Tracker */}
-          <button className="p-2 text-gray-400 hover:text-amber-400 relative bg-transparent border-0">
+          <Link 
+          href='/cart'
+          className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
             <ShoppingCart className="size-5" />
-            <span className="absolute top-0 right-0 w-4 h-4 bg-orange-600 text-white rounded-full text-[9px] font-black flex items-center justify-center">
-              0
+            <span className="absolute top-1 right-1 w-4 h-4 bg-orange-600 text-white rounded-full text-[9px] font-black flex items-center justify-center">
+              {totalItems}
             </span>
-          </button>
-
+          </Link>
+          
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="border-white/10 bg-[#141414] hover:bg-[#1f1f1f] text-white hover:text-amber-400 size-10 rounded-none cursor-pointer">
@@ -162,19 +153,8 @@ export default function Navbar({ className }: NavbarProps) {
                 </Accordion>
 
                 {/* Mobile Auth Button Frame Stack */}
-                <div className="flex flex-col gap-3 pb-6">
-                  {
-                    auth.map(item => (
-                      <Link
-                        key={item.id}
-                        href={item.url}
-                        className="bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] text-xs uppercase font-black tracking-wider px-6 py-3 transition-all duration-300 shadow-md shadow-amber-500/5 active:scale-98"
-                      >
-                        {item.title}
-                      </Link>
-                    ))
-                  }
-                </div>
+                <AuthButtons/>
+
               </div>
             </SheetContent>
           </Sheet>

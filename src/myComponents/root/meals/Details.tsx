@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from 'react';
-import { Star, Flame, Minus, Plus, ShoppingCart, CreditCard, Clock, ShieldCheck, ThumbsUp } from 'lucide-react';
+import { Star, Flame, Minus, Plus, ShieldCheck} from 'lucide-react';
 import { MealData } from '@/modules/services/meal.services';
 import SimilarFoods from './SimilarFoods';
 import CustomerReviews from './CustomerReviews';
 import { CalculateDiscount } from '@/lib/helpers/CalculateDiscount';
-import { Button } from '@/components/ui/button';
-import { useCartStore } from '@/store/useCartStore';
 import AddToCart from './AddToCart';
+import BuyNow from './BuyNow';
 
 type MelaProps = {
     singleMealData: MealData,
@@ -18,8 +17,6 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
 
     const [quantity, setQuantity] = useState(1);
     const { originalPrice, finalPrice, hasDiscount } = CalculateDiscount(singleMealData.price, singleMealData.discount ?? 0);
-    // if customer buy more then one
-    const totalPrice = finalPrice * quantity;
 
     const reviews = singleMealData?.reviews || [];
     const totalReviews = reviews.length;
@@ -31,7 +28,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
     const handleDecrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
     return (
-        <div className="min-h-screen max-w-7xl mx-auto pt-28 text-white pb-16 selection:bg-amber-500 selection:text-black">
+        <div className="min-h-screen max-w-7xl mx-auto pt-20 text-white pb-16 selection:bg-amber-500 selection:text-black">
 
             <div className="max-w-6xl mx-auto px-4 pt-8 md:pt-12">
                 {/* 🟢 মেইন কন্টেন্ট গ্রিড: ইমেজ বনাম ডিটেইলস */}
@@ -46,7 +43,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                             className="w-full h-full object-cover"
                         />
                         {/* গ্রেডিয়েন্ট ওভারলে */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-50" />
+                        <div className="absolute inset-0 bg-linear-to-t from-[#0d0d0d] via-transparent to-transparent opacity-50" />
 
                         {/* ব্যাজসমূহ */}
                         <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -65,9 +62,6 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
 
                     {/* 📝 ডান পাশ: খাবারের ইনফো ও অ্যাকশন বাটন */}
                     <div className="flex flex-col">
-                        {/* <span className="text-amber-500 text-sm font-semibold tracking-wider uppercase">
-                            {singleMealData.restaurantName}
-                        </span> */}
                         <h1 className="text-3xl md:text-4xl font-black text-white mt-1 mb-3 tracking-tight">
                             {singleMealData.name}
                         </h1>
@@ -109,7 +103,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                                 >
                                     <Minus className="size-4" />
                                 </button>
-                                <span className="px-4 font-bold text-lg min-w-[2.5rem] text-center">{quantity}</span>
+                                <span className="px-4 font-bold text-lg min-w-10 text-center">{quantity}</span>
                                 <button
                                     onClick={handleIncrement}
                                     className="p-2 hover:bg-white/5 text-gray-400 hover:text-white rounded-lg transition"
@@ -121,23 +115,18 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
 
                         {/* 🛒 অ্যাকশন বাটনসমূহ (Add to Cart & Buy Now) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                            {/* <Button 
-                            onClick={handleAddToCart}
-                            className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer">
-                                <ShoppingCart className="size-5" />
-                                কার্টে যোগ করুন
-                            </Button> */}
-                            {/* add to cart */}
-
                               <AddToCart 
                               meal={singleMealData}
                               finalPrice={finalPrice}
+                              showCartText={true}
                               />  
+                            
+                            <BuyNow
+                            meal={singleMealData}
+                            finalPrice={finalPrice}
+                            quantity={quantity}
+                            />
 
-                            <Button className="bg-amber-500 hover:bg-amber-600 text-[#0d0d0d] font-black py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.98] shadow-xl shadow-amber-500/10 cursor-pointer">
-                                <CreditCard className="size-5" />
-                                অর্ডার করুন (৳{totalPrice})
-                            </Button>
                         </div>
 
                         {/* সিকিউরিটি ট্যাগ */}

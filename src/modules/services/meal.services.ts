@@ -26,6 +26,7 @@ export interface MealData {
   description: string;
   image: string | null;       
   orderCount: number;
+  isFeatured: boolean,
   price: string;           
   isDeleted: boolean;
   discount: number | null;
@@ -33,10 +34,24 @@ export interface MealData {
   similarMeals?: MealData[]
 }
 
+interface FilterParams {
+  search?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+}
+
 export const mealServices = {
 
-    getMeals: async (): Promise<MealData[]> => {
-        const res = await baseUrl.get<{ data: MealData[], message: string }>('/api/v1/meal')
+    getMeals: async (filters: FilterParams = {}): Promise<MealData[]> => {
+        const query = new URLSearchParams();
+    
+    if (filters.search) query.set("search", filters.search);
+    if (filters.category) query.set("category", filters.category);
+    if (filters.minPrice) query.set("minPrice", filters.minPrice);
+    if (filters.maxPrice) query.set("maxPrice", filters.maxPrice);
+
+        const res = await baseUrl.get<{ data: MealData[], message: string }>(`/api/v1/meal?${query.toString()}`)
         return res?.data.data
     },
 

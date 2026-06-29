@@ -1,38 +1,55 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "@/store/useCartStore"; // 🎯 ১. আপনার Zustand স্টোরের সঠিক পাথ দিন
+import { useCartStore } from "@/store/useCartStore";
 import { createOrderAction } from "@/modules/actions/order.actions";
 import { authClient } from "@/lib/auth-client";
 
+interface CustomUser {
+  deliveryAddress?: string;
+  phone: string
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
-  
-  // 🎯 Zustand থেকে রিয়াল কার্ট ডাটা এবং ক্লিয়ার ফাংশন নিয়ে আসা
-  const { cart, clearCart } = useCartStore(); 
+  const { cart, clearCart } = useCartStore();
 
+  const { data: session } = authClient.useSession();
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  // for default address and phone
+  const isInitialized = useRef(false);
+  useEffect(() => {
+    const customUser = session?.user as CustomUser | undefined;
+    const address = customUser?.deliveryAddress;
+    const phone = customUser?.phone;
+
+   if ((address || phone) && !isInitialized.current) {
+        isInitialized.current = true; 
+
+        setTimeout(() => {
+            if (address) setAddress(address);
+            if (phone) setPhone(phone);
+        }, 0); 
+    }
+  }, [session]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🎯 ২. অ্যাড্রেস থেকে অটোমেটিক "Dhaka" বা "ঢাকা" ডিটেক্ট করার লজিক
+  // deliveryFee based on location
   const trimmedAddress = address.trim();
-  const isInsideDhaka = 
-    trimmedAddress.toLowerCase().includes("dhaka") || 
+  const isInsideDhaka =
+    trimmedAddress.toLowerCase().includes("dhaka") ||
     trimmedAddress.includes("ঢাকা");
-
-  // যদি অ্যাড্রেস লেখা শুরু না হয় তবে ফি ০, লেখা শুরু হলে ঢাকা হলে ৮০, ঢাকার বাইরে ১২০
   const deliveryFee = trimmedAddress ? (isInsideDhaka ? 80 : 120) : 0;
-
-  // রিয়াল কার্ট ডাটা থেকে সাবটোটাল হিসাব (ডিসকাউন্ট সহ)
+  // subtotal
   const subtotal = cart.reduce((sum, item) => {
-  const price = Number(item.price) || 0;
-  return sum + (price * item.quantity);
-}, 0);
+    const price = Number(item.price) || 0;
+    return sum + (price * item.quantity);
+  }, 0);
 
-  // সর্বমোট বিল
   const totalAmount = subtotal + deliveryFee;
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
@@ -53,7 +70,7 @@ export default function CheckoutPage() {
 
     // Bridge (Server Action)-এ পে-লোড পাঠানো
     const response = await createOrderAction({
-      providerId: cart[0]?.providerId, // কার্টের প্রথম আইটেম থেকে প্রোভাইডার আইডি নেওয়া
+      providerId: cart[0]?.providerId,
       deliveryAddress: address,
       contactNumber: phone,
       deliveryFee: deliveryFee,
@@ -69,11 +86,10 @@ export default function CheckoutPage() {
     setLoading(false);
 
     if (response.success) {
-      // 🎯 ৩. অর্ডার সফল হলে Zustand কার্ট সম্পূর্ণ মুছে ফেলা (Delete)
-      clearCart(); 
-      
-      alert("আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে! 🎉");
-      router.push(`/orders/success?id=${response.data?.id}`);
+      clearCart();
+
+      router.push('/order/success')
+
     } else {
       setError(response.error || "অর্ডার প্লেস করতে সমস্যা হয়েছে।");
     }
@@ -82,18 +98,18 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white p-6 md:p-12 ">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 pt-20">
-        
+
         {/* বাম পাশ: শিপিং ফর্ম */}
         <div className="bg-[#141414] border border-white/5 p-6 rounded-3xl h-fit">
           <h2 className="text-xl font-black mb-6">শিপিং ও ডেলিভারি</h2>
           {error && <p className="text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-sm mb-4">{error}</p>}
-          
+
           <form onSubmit={handlePlaceOrder} className="space-y-4">
             <div>
               <label className="text-xs text-gray-400 block mb-2">কন্টাক্ট নাম্বার</label>
-              <input 
-                type="text" 
-                placeholder="+8801XXXXXXXXX" 
+              <input
+                type="text"
+                placeholder="+8801XXXXXXXXX"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full bg-[#1c1c1c] border border-white/5 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500"
@@ -101,9 +117,9 @@ export default function CheckoutPage() {
             </div>
 
             <div>
-              <label className="text-xs text-gray-400 block mb-2">ডেলিভারি ঠিকানা (অটো-লোকেশন ডিটেকশন)</label>
-              <textarea 
-                placeholder="আপনার ঠিকানা লিখুন (যেমন: Purbachal, Dhaka বা মিরপুর, ঢাকা)" 
+              <label className="text-xs text-gray-400 block mb-2">ডেলিভারি ঠিকানা</label>
+              <textarea
+                placeholder="আপনার ঠিকানা লিখুন (যেমন: Purbachal, Dhaka বা মিরপুর, ঢাকা)"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={4}
@@ -116,7 +132,7 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            <button 
+            <button
               type="submit"
               disabled={loading || cart.length === 0}
               className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-white/5 disabled:text-gray-500 text-black font-black py-4 rounded-xl mt-6 transition duration-200"
@@ -129,14 +145,14 @@ export default function CheckoutPage() {
         {/* ডান পাশ: রিয়াল অর্ডার সামারি */}
         <div className="bg-[#141414] border border-white/5 p-6 rounded-3xl h-fit">
           <h2 className="text-xl font-black mb-4">অর্ডার লিস্ট ({cart.length})</h2>
-          
+
           {cart.length === 0 ? (
             <p className="text-sm text-gray-500 py-6 text-center">আপনার কার্টে কোনো খাবার নেই।</p>
           ) : (
-            <div className="divide-y divide-white/5 max-h-[300px] overflow-y-auto pr-2">
+            <div className="divide-y divide-white/5 max-h-75 overflow-y-auto pr-2">
               {cart.map((item) => {
                 const itemPrice = Number(item.price) || 0;
-                
+
                 return (
                   <div key={item.id} className="py-3 flex justify-between text-sm items-center">
                     <div>
@@ -151,7 +167,7 @@ export default function CheckoutPage() {
               })}
             </div>
           )}
-          
+
           <div className="border-t border-white/5 mt-4 pt-4 space-y-2 text-sm text-gray-400">
             <div className="flex justify-between">
               <span>সাবটোটাল:</span>

@@ -10,7 +10,9 @@ export default async function Providers() {
   const providers = await providerServices.getProviders()
 
   return (
-    <section className="w-full bg-[#0d0d0d] py-20 px-6 sm:px-12 lg:px-24">
+    <section 
+    id='popular-restaurants'
+    className="w-full bg-[#0d0d0d] py-20 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto w-full">
         
         {/* Section Header */}

@@ -5,15 +5,50 @@ import { useCartStore } from '@/store/useCartStore';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
-  // 🚀 জুস্ট্যান্ড থেকে সব ডাটা ও ফাংশন নিয়ে আসলাম
+
   const { cart, updateQuantity, removeFromCart } = useCartStore();
 
-  // 💰 বিল ক্যালকুলেশন
   const subTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // 🛒 কার্ট যদি একদম খালি থাকে
+  const {data: session} = authClient.useSession()
+  const router = useRouter()
+
+  const handleCheckout =()=> {
+    if (!session?.user) {
+            Swal.fire({
+                title: 'লগইন করা নেই! 🔐',
+                text: "অর্ডারটি সম্পন্ন করতে দয়া করে প্রথমে লগইন করুন।",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'লগইন পেজে যান',
+                cancelButtonText: 'পরে করব',
+                background: '#141414',
+                color: '#ffffff',
+                confirmButtonColor: '#f59e0b',
+                cancelButtonColor: '#262626',
+                customClass: {
+                    popup: 'border border-white/5 rounded-3xl',
+                }
+            }).then( (result) => {
+                if (result.isConfirmed) {
+                    // লগইন সাকসেসফুল হলে যেন আবার এই চেকাউট পেজেই ফিরে আসে, তাই query parameter পাঠানো
+                  router.push('/signin?callbackUrl=/checkout');
+                }
+            });
+        } else {
+            // ✅ ইউজার লগইন থাকলে সরাসরি চেকাউট পেজে চলে যাবে
+            router.push('/checkout');
+        }
+  }
+
+
+  // কার্ট যদি একদম খালি থাকে
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col items-center justify-center p-4 pt-24">
@@ -21,7 +56,7 @@ export default function CartPage() {
           <ShoppingBag className="size-12" />
         </div>
         <h2 className="text-xl font-black tracking-tight mb-2">আপনার কার্টটি সম্পূর্ণ খালি!</h2>
-        <p className="text-gray-500 text-sm mb-6 text-center max-w-xs">কুডিলের সুস্বাদু খাবারগুলো এখনো কার্টে যোগ করেননি। জলদি মেনু ঘুরে আসুন!</p>
+        <p className="text-gray-500 text-sm mb-6 text-center max-w-xs">সেই-স্বাদের সুস্বাদু খাবারগুলো এখনো কার্টে যোগ করেননি। জলদি মেনু ঘুরে আসুন!</p>
         <Link href="/meals" className="bg-amber-500 hover:bg-amber-600 text-[#0d0d0d] font-black px-6 py-3 rounded-xl transition duration-300 text-sm shadow-lg shadow-amber-500/10">
           খাবার পছন্দ করুন
         </Link>
@@ -120,16 +155,16 @@ export default function CartPage() {
               </div>
 
               {/* 💳 প্রসিড টু চেকআউট বাটন */}
-              <Link 
-                href="/checkout"
+              <Button 
+                onClick={handleCheckout}
                 className="w-full mt-6 bg-amber-500 hover:bg-amber-600 text-[#0d0d0d] font-black py-3.5 rounded-xl transition duration-300 flex items-center justify-center gap-2 text-sm shadow-lg shadow-amber-500/10 group cursor-pointer"
               >
                 চেকআউট করুন
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </Button>
               
               <p className="text-[11px] text-gray-500 text-center mt-3 leading-tight">
-                চেকআউট বাটনে ক্লিক করার মাধ্যমে আপনি কুডিলের শর্তাবলী মেনে নিচ্ছেন।
+                চেকআউট বাটনে ক্লিক করার মাধ্যমে আপনি সেই-স্বাদের শর্তাবলী মেনে নিচ্ছেন।
               </p>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 
 
@@ -15,6 +15,8 @@ import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 export default function SignInPage() {
 
   const router = useRouter()
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true)
@@ -35,7 +37,7 @@ export default function SignInPage() {
       onSuccess: () => {
         (e.target as HTMLFormElement).reset();
         setLoading(false);
-        router.push("/");
+        router.push(callbackUrl);
       },
       onError: async (ctx) => {
         if (ctx.error.code === "EMAIL_NOT_VERIFIED") {

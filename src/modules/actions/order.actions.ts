@@ -11,17 +11,15 @@ export const createOrderAction = async (payload: CreateOrderPayload) => {
             return { success: false, error: "অর্ডার করতে প্রথমে লগইন করুন।" };
         }
 
-        // ২. ক্লায়েন্টের পাঠানো ডাটার সাথে সিকিউরলি 'customerId' ইনজেক্ট করুন
         const finalPayload: CreateOrderPayload = {
             ...payload,
-            customerId: user.id // 🎯 Better Auth থেকে আসা রিয়াল আইডি এখানে বসে গেল
+            customerId: user.id 
         };
 
         const orderData = await orderServices.createOrder(finalPayload);
         return { 
             success: true, 
             data: orderData ,
-            message: "ifjhoui"
         };
     } catch (error: unknown) {
 

@@ -6,7 +6,6 @@ import { providerServices } from "../services/provider.services";
 
 export function useProviderActions() {
   const queryClient = useQueryClient();
-  // 1️⃣ 🎯 ডেটা ফেচ করার অ্যাকশন (Get Profile)
   const providersQuery = useQuery({
     queryKey: ["userProfile"],             
     queryFn:()=> providerServices.getProviders() 

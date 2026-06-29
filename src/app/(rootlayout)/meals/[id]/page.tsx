@@ -10,6 +10,8 @@ export default async function page({params}: {
 
     const mealData = await mealServices.getMealById(id)
     const singleMeal = Array.isArray(mealData) ? mealData[0] : mealData
+
+    
     // console.log(singleMeal);
   return (
     <div className=' bg-[#0d0d0d]'>
