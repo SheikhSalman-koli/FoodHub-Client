@@ -24,6 +24,8 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useCartStore } from "@/store/useCartStore";
 import AuthButtons from "./navbar/AuthButtons";
+import { usePathname } from "next/navigation";
+import { Roles } from "@/constants/userRole";
 
 interface MenuItem {
   title: string;
@@ -34,21 +36,43 @@ interface NavbarProps {
   className?: string;
 }
 
+interface UserRole {
+  role: string
+}
+
 export default function Navbar({ className }: NavbarProps) {
-  
+
+  const pathname = usePathname()
+  const { data: session } = authClient.useSession();
+  const user = session?.user as UserRole | undefined
+
+   const cart = useCartStore((state) => state.cart)
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  if(!user){
+    return <p>user not found!</p>
+  }
+  // console.log(session?.user)
+
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
     { title: "মেনু", url: "/meals" },
     { title: "অর্ডার ট্র্যাকিং", url: "/track-order" },
+    ...(user.role === Roles.admin ?
+      [
+        { title: "ড্যাশবোর্ড", url: "/meals" }
+      ]
+      :
+      user?.role === Roles.provider ?
+        [
+          { title: "ড্যাশবোর্ড", url: "/provider-dash" }
+        ]
+        :
+        [
+          { title: "ড্যাশবোর্ড", url: "/meals" }
+        ]
+    )
   ];
-
-  // const { data: session } = authClient.useSession();
-  // console.log(session?.user)
-
-
- 
-  const cart = useCartStore((state) => state.cart)
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className={cn("fixed top-0 inset-x-0 h-20 bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white z-50 px-6 sm:px-8 lg:px-16 transition-all duration-300 flex items-center", className)}>
@@ -61,7 +85,7 @@ export default function Navbar({ className }: NavbarProps) {
 
         {/* LOGO (Desktop & Mobile Anchor) */}
         <Link href="/" className="flex items-center gap-2 group">
-         <Utensils className="size-6 text-amber-500" />
+          <Utensils className="size-6 text-amber-500" />
           <span className="text-2xl sm:text-3xl font-black tracking-tight text-white">
             সেই-<span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-orange-500">স্বাদ</span>
           </span>
@@ -72,35 +96,42 @@ export default function Navbar({ className }: NavbarProps) {
         <div className="hidden lg:flex items-center gap-8">
           <NavigationMenu>
             <NavigationMenuList className="flex items-center gap-8">
-              {menu.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuLink
-                    href={item.url}
-                    className="text-xs tracking-widest uppercase font-bold text-gray-400 hover:text-amber-400 transition-colors duration-200 flex items-center gap-2"
-                  >
-                    {item.url === "/track-order" && (
-                      <span className="inline-block w-1.5 h-1.5 bg-green-500 rounded-full animate-ping" />
-                    )}
-                    {item.title}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
+              {menu.map((item) => {
+                const isActive = pathname === item.url;
+
+                return (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuLink
+                      href={item.url}
+                      className={`text-xs uppercase font-bold transition-all duration-200 flex items-center gap-2 pb-1 border-b-2 ${isActive
+                          ? "text-amber-500 border-amber-500"
+                          : "text-gray-400 border-transparent hover:text-amber-500"
+                        }`}
+                    >
+                      {item.url === "/track-order" && (
+                        <span className="inline-block w-1.5 h-1.5 bg-green-500 rounded-full animate-ping" />
+                      )}
+                      {item.title}
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              })}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
         {/* RIGHT ACTION NODE: CART & ACCOUNT GATEWAY */}
         <div className="hidden lg:flex items-center gap-4">
-          <Link 
-          href='/cart'
-          className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
+          <Link
+            href='/cart'
+            className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
             <ShoppingCart className="size-5" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-orange-600 text-white rounded-full text-[9px] font-black flex items-center justify-center">
               {totalItems}
             </span>
           </Link>
 
-{/* auth Actions */}
+          {/* auth Actions */}
           <AuthButtons />
 
         </div>
@@ -108,15 +139,15 @@ export default function Navbar({ className }: NavbarProps) {
         {/* MOBILE VIEWPORT TRIGGER ENGINE */}
         <div className="flex items-center gap-4 lg:hidden">
           {/* Mobile Cart Tracker */}
-          <Link 
-          href='/cart'
-          className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
+          <Link
+            href='/cart'
+            className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
             <ShoppingCart className="size-5" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-orange-600 text-white rounded-full text-[9px] font-black flex items-center justify-center">
               {totalItems}
             </span>
           </Link>
-          
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="border-white/10 bg-[#141414] hover:bg-[#1f1f1f] text-white hover:text-amber-400 size-10 rounded-none cursor-pointer">
@@ -153,7 +184,7 @@ export default function Navbar({ className }: NavbarProps) {
                 </Accordion>
 
                 {/* Mobile Auth Button Frame Stack */}
-                <AuthButtons/>
+                <AuthButtons />
 
               </div>
             </SheetContent>

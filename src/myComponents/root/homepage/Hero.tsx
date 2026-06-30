@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Hero() {
     return (
-        <section className="relative w-full min-h-screen flex items-center justify-center bg-[#0d0d0d] text-white px-6 sm:px-8 lg:px-16 overflow-hidden pt-20">
+        <section className="relative w-full min-h-screen flex items-center justify-center bg-[#0d0d0d] text-white px-6 sm:px-8 lg:px-16 overflow-hidden pt-16 lg:pt-24">
 
             {/* Premium Dark Subtle Overlay & Textures */}
             <div className="absolute inset-0 bg-radial from-transparent via-[#0d0d0d]/80 to-[#0d0d0d] z-10" />
@@ -44,7 +44,7 @@ export default function Hero() {
                     <div className="w-20 h-0.75 bg-amber-500 mx-auto lg:mx-0 rounded-full" />
 
                     <p className="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                        আপনার পছন্দের ফুড প্রোভাইডারদের মেনু ব্রাউজ করুন, সহজেই অর্ডার প্লেস করুন এবং রিয়েল-টাইমে ট্র্যাক করুন আপনার ডেলিভারি স্ট্যাটাস। খাঁটি স্বাদ চলে আসবে সরাসরি আপনার দরজায়।
+                        আপনার পছন্দের রেস্টুরেন্টের মেনু ব্রাউজ করুন, সহজেই অর্ডার প্লেস করুন এবং রিয়েল-টাইমে ট্র্যাক করুন আপনার ডেলিভারি স্ট্যাটাস। খাঁটি স্বাদ চলে আসবে সরাসরি আপনার দরজায়।
                     </p>
 
                     {/* Action Module: Interactive Button Row */}
