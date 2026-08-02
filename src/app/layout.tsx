@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en" suppressHydrationWarning
+      lang="en" 
     >
       <body
         className={`${bangla.className} antialiased`}

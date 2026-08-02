@@ -19,7 +19,7 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // 🚀 ১. সাবমিট শুরু হতেই লোডার চালু করুন
+    setIsLoading(true); 
 
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);

@@ -65,7 +65,6 @@ switch (role) {
       <SidebarContent className="bg-[#0d0d0d] px-4 py-6 scrollbar-none">
         <SidebarMenu className="space-y-2">
           {items.map((item) => {
-            // চেক করা হচ্ছে এই লিংকটি এখন অ্যাক্টিভ কি না
             const isActive = pathname === item.url;
 
             return (
@@ -74,11 +73,11 @@ switch (role) {
                   asChild
                   className={`w-full justify-start px-4 py-6 rounded-xl transition-all duration-200 group border-l-2 ${
                     isActive
-                      ? "bg-white/5 text-amber-500 border-amber-500 font-bold shadow-xl shadow-black/40" // অ্যাক্টিভ স্টেট
-                      : "bg-transparent text-gray-400 border-transparent hover:text-gray-200 hover:bg-white/5" // ইন-অ্যাক্টিভ স্টেট
+                      ? "bg-white/5 text-amber-500 border-amber-500 font-bold shadow-xl shadow-black/40" 
+                      : "bg-transparent text-gray-400 border-transparent hover:text-gray-200 hover:bg-white/5" 
                   }`}
                 >
-                  <Link href={item.url} className="flex items-center gap-4 w-full">
+                  <Link href={item.url} className="flex items-center gap-4 w-full ">
                     {/* আইকন কালার ডাইনামিক হ্যান্ডেল */}
                     <item.icon 
                       size={16} 
@@ -86,7 +85,7 @@ switch (role) {
                         isActive ? "text-amber-500" : "text-gray-400 group-hover:text-gray-200"
                       }`} 
                     />
-                    <span className="text-xs tracking-widest uppercase font-bold">
+                    <span className="text-[14px] tracking-widest uppercase font-bold">
                       {item.name}
                     </span>
                   </Link>

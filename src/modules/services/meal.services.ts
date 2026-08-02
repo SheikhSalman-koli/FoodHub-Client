@@ -27,7 +27,7 @@ export interface MealData {
   image: string | null;       
   orderCount: number;
   isFeatured: boolean,
-  price: string;           
+  price: number;           
   isDeleted: boolean;
   discount: number | null;
   reviews?: Review[]
@@ -58,6 +58,17 @@ export const mealServices = {
     getMealById: async (id: string): Promise<MealData> => {
         const res = await baseUrl.get<{ data: MealData, message: string }>(`/api/v1/meal/single/${id}`)
         return res?.data.data
-    }
+    },
+
+    getProviderMeals: async (providerId: string): Promise<MealData[]> => {
+        const res = await baseUrl.get<{ data: MealData[], message: string }>(`/api/v1/meal/providermeal/${providerId}`)
+        return res?.data.data
+    },
+
+
+    updateMeal: async (id: string, updatedData: Partial<MealData>): Promise<MealData> => {
+        const res = await baseUrl.put<{ data: MealData, message: string }>(`/api/v1/meal/${id}`, updatedData)
+        return res?.data.data
+    },
 
 }

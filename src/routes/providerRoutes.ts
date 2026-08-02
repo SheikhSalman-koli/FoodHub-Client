@@ -1,7 +1,29 @@
-import { HomeIcon } from "lucide-react"
+import { BarChart3, PlusCircle, ShoppingBag, Utensils } from "lucide-react"
 import { RouteType } from "./adminRoutes"
 
 export const providerItems: RouteType[] = [
-    { id: 3, name: "Create Meal", url: "/provider-dash/create-meal", icon: HomeIcon },
-    { id: 4, name: "Manage Meals", url: "manage-meals", icon: HomeIcon }
+   { 
+    id: 1, 
+    name: "পরিসংখ্যান", 
+    url: "/provider-dash/statistic", 
+    icon: BarChart3
+  },
+  { 
+    id: 3, 
+    name: "খাবার যুক্ত করুন", 
+    url: "/provider-dash/create-meal", 
+    icon: PlusCircle 
+  },
+  { 
+    id: 4, 
+    name: "খাবার ম্যানেজ করুন", 
+    url: "/provider-dash/manage-meal", 
+    icon: Utensils 
+  },
+  { 
+    id: 5, 
+    name: "অর্ডার ম্যানেজ করুন", 
+    url: "/provider-dash/manage-orders", 
+    icon: ShoppingBag 
+  }
 ]

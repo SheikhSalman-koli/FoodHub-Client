@@ -49,18 +49,18 @@ export default function Navbar({ className }: NavbarProps) {
    const cart = useCartStore((state) => state.cart)
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  if(!user){
-    return <p>user not found!</p>
-  }
+  // if(!user){
+  //   return <p>user not found!</p>
+  // }
   // console.log(session?.user)
 
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
     { title: "মেনু", url: "/meals" },
     { title: "অর্ডার ট্র্যাকিং", url: "/track-order" },
-    ...(user.role === Roles.admin ?
+    ...(user?.role === Roles.admin ?
       [
-        { title: "ড্যাশবোর্ড", url: "/meals" }
+        { title: "ড্যাশবোর্ড", url: "/admin"}
       ]
       :
       user?.role === Roles.provider ?
@@ -96,14 +96,14 @@ export default function Navbar({ className }: NavbarProps) {
         <div className="hidden lg:flex items-center gap-8">
           <NavigationMenu>
             <NavigationMenuList className="flex items-center gap-8">
-              {menu.map((item) => {
+              {menu?.map((item) => {
                 const isActive = pathname === item.url;
 
                 return (
                   <NavigationMenuItem key={item.title}>
                     <NavigationMenuLink
                       href={item.url}
-                      className={`text-xs uppercase font-bold transition-all duration-200 flex items-center gap-2 pb-1 border-b-2 ${isActive
+                      className={`text-[14px] uppercase font-bold transition-all duration-200 flex items-center gap-2 pb-1 border-b-2 ${isActive
                           ? "text-amber-500 border-amber-500"
                           : "text-gray-400 border-transparent hover:text-amber-500"
                         }`}
@@ -130,7 +130,7 @@ export default function Navbar({ className }: NavbarProps) {
               {totalItems}
             </span>
           </Link>
-
+              <p className="text-white">{user?.role}</p>
           {/* auth Actions */}
           <AuthButtons />
 

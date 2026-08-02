@@ -4,7 +4,8 @@ import React from 'react'
 
 export default function rootlayout({children}:{children: React.ReactNode}) {
   return (
-    <div>
+    // suppressHydrationWarning
+    <div > 
        <Navbar />
         {children}
     </div>
