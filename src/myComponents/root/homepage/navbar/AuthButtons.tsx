@@ -25,9 +25,6 @@ export default function AuthButtons() {
             showCancelButton: true,
             confirmButtonText: 'হ্যাঁ, লগ-আউট করুন',
             cancelButtonText: 'বাতিল',
-            
-            // 🎯 ফিক্স ২: ডেক্সটপ ও মোবাইলের গ্লোবাল সামঞ্জস্যের জন্য ডাইনামিক target বাদ দেওয়া হয়েছে। 
-            // এর বদলে সিএসএস ক্লাসে !pointer-events-auto ব্যবহার করা হয়েছে, যা মোবাইল শীটের ফোকাস ট্র্যাপও ভাঙবে, আবার ডেক্সটপেও ক্র্যাশ করবে না।
             background: '#141414',
             color: '#ffffff',
             confirmButtonColor: '#f59e0b',

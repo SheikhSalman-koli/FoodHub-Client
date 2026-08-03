@@ -70,7 +70,7 @@ export default function MealCard({ meals }: MealCardProps) {
               {/* Order Count / Social Proof */}
               <div className="text-[11px] font-medium text-gray-500 mb-4 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                {meal.orderCount}+ জন অর্ডার করেছেন
+                {meal.orderCount} জন অর্ডার করেছেন
               </div>
 
               {/* Footer: Price & Add to Cart */}

@@ -1,4 +1,6 @@
+
 "use client";
+import dynamic from "next/dynamic";
 
 import { Menu, ShoppingCart, Activity, Utensils } from "lucide-react";
 import {
@@ -23,7 +25,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useCartStore } from "@/store/useCartStore";
-import AuthButtons from "./navbar/AuthButtons";
+// import AuthButtons from "./navbar/AuthButtons";
+const AuthButtons = dynamic(() => import("./navbar/AuthButtons"), {
+  ssr: false,
+});
 import { usePathname } from "next/navigation";
 import { Roles } from "@/constants/userRole";
 

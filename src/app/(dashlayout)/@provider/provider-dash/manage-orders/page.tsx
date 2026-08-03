@@ -1,7 +1,17 @@
+import { orderServices } from '@/modules/services/order.services'
+import OrdersTable from '@/myComponents/dashboard/provider-dash/OrderTable';
 import React from 'react'
 
-export default function ManageOrders() {
+export default async function ManageOrders() {
+
+  const orders = await orderServices.getMyOrders()
+
+  // console.log(res);
   return (
-    <div>ManageOrders</div>
+    <div>
+      <OrdersTable 
+      orders={orders}
+      />
+    </div>
   )
 }

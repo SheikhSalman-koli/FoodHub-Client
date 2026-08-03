@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from "next/cache";
 import { CreateOrderPayload, orderServices } from "../services/order.services";
 import { userServices } from "../services/user.service";
 
@@ -30,4 +31,27 @@ export const createOrderAction = async (payload: CreateOrderPayload) => {
             error: message
         };
     }
+}
+
+
+export async function UpdateOrderStatusAction(orderId: string, status: string) {
+  try {
+    const result = await orderServices.updateOrderStatus(orderId, status)
+
+    revalidatePath("/provider-dash/manage-order");
+
+    return {
+      success: true,
+      data: result,
+      message: "খাবারের তথ্য সফলভাবে আপডেট হয়েছে!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+    };
+  }
 }

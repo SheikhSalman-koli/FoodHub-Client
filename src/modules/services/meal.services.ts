@@ -65,9 +65,18 @@ export const mealServices = {
         return res?.data.data
     },
 
-
     updateMeal: async (id: string, updatedData: Partial<MealData>): Promise<MealData> => {
         const res = await baseUrl.put<{ data: MealData, message: string }>(`/api/v1/meal/${id}`, updatedData)
+        return res?.data.data
+    },
+
+    createMeal: async (mealData: Partial<MealData>): Promise<MealData> => {
+        const res = await baseUrl.post<{ data: MealData, message: string}>(`/api/v1/meal`, mealData)
+        return res?.data.data
+    },
+
+    softDeleteMeal: async (id: string, updatedData: boolean): Promise<MealData> => {
+        const res = await baseUrl.patch<{ data: MealData, message: string }>(`/api/v1/meal/soft-delete/${id}`, { isDeleted: updatedData })
         return res?.data.data
     },
 

@@ -119,7 +119,7 @@ export default function CheckoutPage() {
             <div>
               <label className="text-xs text-gray-400 block mb-2">ডেলিভারি ঠিকানা</label>
               <textarea
-                placeholder="আপনার ঠিকানা লিখুন (যেমন: Purbachal, Dhaka বা মিরপুর, ঢাকা)"
+                placeholder="আপনার ঠিকানা লিখুন (যে ঠিকানায় খাবার ডেলিভারি করতে হবে)"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={4}

@@ -2,6 +2,7 @@ import { baseUrl } from "@/lib/api-client"
 
 // 🎯 ১. ইন্টারফেস এবং টাইপ ডেফিনিশন
 export interface OrderItemInput {
+    id?: string;
     mealId: string;
     name: string;
     price: number;
@@ -18,6 +19,7 @@ export interface CreateOrderPayload {
     orderItems: OrderItemInput[];
 }
 
+
 export interface OrderResponse {
     id: string;
     customerId: string;
@@ -27,8 +29,9 @@ export interface OrderResponse {
     deliveryFee: number;
     deliveryAddress: string;
     contactNumber: string;
-    status: string; 
+    status: string;
     createdAt: string;
+    orderItems: OrderItemInput[];
 }
 
 // 🎯 ২. সেন্ট্রালাইজড এপিআই লজিক
@@ -41,15 +44,15 @@ export const orderServices = {
     },
 
     // ইউজারের নিজের সব অর্ডারগুলো দেখা (হিস্ট্রি পেজের জন্য)
-    // getMyOrders: async (): Promise<OrderResponse[]> => {
-    //     const res = await baseUrl.get<{ data: OrderResponse[], message: string }>('/api/v1/order/my-orders')
-    //     return res?.data.data
-    // },
+    getMyOrders: async (): Promise<OrderResponse[]> => {
+        const res = await baseUrl.get<{ data: OrderResponse[], message: string }>('/api/v1/order')
+        return res?.data.data
+    },
 
-    // নির্দিষ্ট একটি অর্ডারের বিস্তারিত দেখা (সাকসেস বা ডিটেইলস পেজের জন্য)
-    // getOrderById: async (id: string): Promise<OrderResponse> => {
-    //     const res = await baseUrl.get<{ data: OrderResponse, message: string }>(`/api/v1/order/single/${id}`)
-    //     return res?.data.data
-    // }
+    // নির্দিষ্ট একটি অর্ডারের status আপডেট করা
+    updateOrderStatus: async (id: string, status: string): Promise<OrderResponse> => {
+        const res = await baseUrl.patch<{ data: OrderResponse, message: string }>(`/api/v1/update-status/order/${id}`, { status })
+        return res?.data.data
+    }
 
 }

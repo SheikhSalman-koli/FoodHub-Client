@@ -5,7 +5,6 @@ import { MealData, mealServices } from "../services/meal.services";
 
 export async function updateMealAction(mealId: string, updatedData: Partial<MealData>) {
   try {
-    // 🔒 ১. বিজনেস লজিক: প্রাইস নেগেটিভ হতে পারবে না
     if (updatedData.price !== undefined && Number(updatedData.price) < 0) {
       return {
         success: false,
@@ -13,7 +12,6 @@ export async function updateMealAction(mealId: string, updatedData: Partial<Meal
       };
     }
 
-    // 🔒 ২. বিজনেস লজিক: ডিসকাউন্ট ০ থেকে ১০০ এর মধ্যে থাকতে হবে
     if ((updatedData.discount ?? 0) < 0 || (updatedData.discount ?? 0) > 100) {
       return {
         success: false,
@@ -21,10 +19,8 @@ export async function updateMealAction(mealId: string, updatedData: Partial<Meal
       };
     }
 
-    // 🗄️ ৩. ডাটাবেজ আপডেট কল (Service Layer)
     const result = await mealServices.updateMeal(mealId, updatedData);
 
-    // 🔄 ৪. ডাটাবেজ আপডেট হলে পেজের ক্যাশ রিফ্রেশ করা (Next.js Revalidation)
     revalidatePath("/provider-dash/manage-meal");
 
     return {
@@ -39,6 +35,49 @@ export async function updateMealAction(mealId: string, updatedData: Partial<Meal
         error instanceof Error
           ? error.message
           : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+    };
+  }
+}
+
+export async function createMealAction(mealData: Partial<MealData>) {
+  try {
+    const result = await mealServices.createMeal(mealData)
+
+      return {
+      success: true,
+      data: result,
+      message: "খাবারটি সফলভাবে যুক্ত হয়েছে!",
+    };
+
+  } catch (error) {
+     return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+    };
+  }
+}
+
+export async function softDeleteMealAction(mealId: string, isDeleted: boolean) {
+  try {
+    const result = await mealServices.softDeleteMeal(mealId, isDeleted);
+
+    revalidatePath("/provider-dash/manage-meal");
+
+    return {
+      success: true,
+      data: result,
+      message: "খাবারের তথ্য সফলভাবে আপডেট হয়েছে!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
     };
   }
 }

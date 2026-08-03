@@ -11,26 +11,38 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Star } from "lucide-react";
+import { Pencil, Star } from "lucide-react";
 import { MealData } from "@/modules/services/meal.services";
 import EditMealDialog from "./EditMealDialog";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
-import { CategoryData } from "@/modules/services/category.services";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { softDeleteMealAction } from "@/modules/actions/meal.action";
+import { CustomAlert } from "@/lib/helpers/Shei-Shad-Alert";
 
 
 export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
 
-const [selectedMeal, setSelectedMeal] = useState<MealData | null>(null);
+  const [selectedMeal, setSelectedMeal] = useState<MealData | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-const handleOpenEdit = (meal: MealData) => {
+  const handleOpenEdit = (meal: MealData) => {
     setSelectedMeal(meal);
     setIsEditOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete meal with ID:", id);
-    // ডিলেট কনফার্মেশন মোডাল বা এপিআই কল এখানে লিখুন
+  const handleDelete =async (id: string, value: boolean) => {
+
+   try {
+      const res = await softDeleteMealAction(id, value); 
+      if(res.success){
+        CustomAlert.success("পরিবর্তন সফলভাবে সম্পন্ন হয়েছে")
+      } else {
+        CustomAlert.error("পরিবর্তন করতে ব্যর্থ হয়েছে, আবার চেষ্টা করুন।")
+      }
+   } catch (error) {
+     console.log(error);
+   }
+    
   };
 
   return (
@@ -58,7 +70,7 @@ const handleOpenEdit = (meal: MealData) => {
               স্ট্যাটাস
             </TableHead>
             <TableHead className="text-xs uppercase tracking-widest text-gray-400 font-bold text-right pr-6">
-              অ্যাকশন (Actions)
+              ম্যানেজমেন্ট
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -66,76 +78,78 @@ const handleOpenEdit = (meal: MealData) => {
         {/* 🍱 ২. টেবিল বডি */}
         <TableBody>
           {meals?.map((meal, index) => {
-            const {finalPrice} = CalculateDiscount(meal?.price, (meal?.discount ?? 0))
-            return(
-               <TableRow
-              key={meal.id}
-              className="border-b border-white/5 hover:bg-white/2 transition-colors duration-200"
-            >
-                  <TableCell className="text-gray-300 font-semibold text-xs">
-                {index + 1}
-              </TableCell>
-              {/* খাবার ছবি ও নাম */}
-              <TableCell className="py-4">
-                <div className="flex items-center gap-4">
-                  <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-[#0d0d0d]">
-                    <Image
-                      src={meal.image || "/placeholder.png"}
-                      alt={meal.name}
-                      className="w-full h-full object-cover"
-                      width={48}
-                      height={48}
-                      priority
-                    />
+            const { finalPrice } = CalculateDiscount(meal?.price, (meal?.discount ?? 0))
+            return (
+              <TableRow
+                key={meal.id}
+                className="border-b border-white/5 hover:bg-white/2 transition-colors duration-200"
+              >
+                <TableCell className="text-gray-300 font-semibold text-xs">
+                  {index + 1}
+                </TableCell>
+                {/* খাবার ছবি ও নাম */}
+                <TableCell className="py-4">
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-[#0d0d0d]">
+                      <Image
+                        src={meal.image || "/placeholder.png"}
+                        alt={meal.name}
+                        className="w-full h-full object-cover"
+                        width={48}
+                        height={48}
+                        priority
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-gray-200 text-sm">
+                        {meal.name}
+                      </span>
+                      <span className="text-xs text-gray-500 line-clamp-1 max-w-60">
+                        {meal.description}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-gray-200 text-sm">
-                      {meal.name}
-                    </span>
-                    <span className="text-xs text-gray-500 line-clamp-1 max-w-60">
-                      {meal.description}
+                </TableCell>
+
+                {/* প্রাইস ও ডিসকাউন্ট */}
+                <TableCell>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-black text-amber-500 text-sm">
+                      ৳{finalPrice}
                     </span>
                   </div>
-                </div>
-              </TableCell>
+                </TableCell>
 
-              {/* প্রাইস ও ডিসকাউন্ট */}
-              <TableCell>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-black text-amber-500 text-sm">
-                    ৳{finalPrice}
-                  </span>
-                </div>
-              </TableCell>
+                {/* discount */}
+                <TableCell className="text-gray-300 font-semibold text-xs">
+                  {meal?.discount ? `${meal?.discount}%` : "নেই"}
+                </TableCell>
 
-              {/* discount */}
-              <TableCell className="text-gray-300 font-semibold text-xs">
-                {meal?.discount ? `${meal?.discount}%` : "নেই"}
-              </TableCell>
+                {/* অর্ডার কাউন্ট */}
+                <TableCell className="text-gray-300 font-semibold text-xs">
+                  {meal.orderCount} টি
+                </TableCell>
 
-              {/* অর্ডার কাউন্ট */}
-              <TableCell className="text-gray-300 font-semibold text-xs">
-                {meal.orderCount} টি
-              </TableCell>
+                {/* ফিচার্ড ব্যাজ */}
+                <TableCell>
+                  {meal.isFeatured ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full">
+                      <Star size={10} className="fill-amber-400" /> Featured
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-white/5 border border-white/5 px-2.5 py-1 rounded-full">
+                      Regular
+                    </span>
+                  )}
+                </TableCell>
 
-              {/* ফিচার্ড ব্যাজ */}
-              <TableCell>
-                {meal.isFeatured ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full">
-                    <Star size={10} className="fill-amber-400" /> Featured
-                  </span>
-                ) : (
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-white/5 border border-white/5 px-2.5 py-1 rounded-full">
-                    Regular
-                  </span>
-                )}
-              </TableCell>
-
-              {/* 🛠️ ৩. অ্যাকশন বাটন (Edit & Delete) */}
-              <TableCell className="text-right pr-6">
-                <div className="flex items-center justify-end gap-2">
-                  {/* Edit Button */}
-                 <Button
+                {/* 🛠️ ৩. অ্যাকশন বাটন (Edit & Delete) */}
+                <TableCell
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-right pr-6">
+                  <div className="flex items-center justify-end gap-2">
+                    {/* Edit Button */}
+                    <Button
                       onClick={() => handleOpenEdit(meal)}
                       variant="ghost"
                       size="icon"
@@ -145,28 +159,54 @@ const handleOpenEdit = (meal: MealData) => {
                       <Pencil size={15} />
                     </Button>
                     {
-                        isEditOpen && selectedMeal && (
-                            <EditMealDialog
-                                isEditOpen={isEditOpen}   
-                                setIsEditOpen={setIsEditOpen}
-                                selectedMeal={selectedMeal}
-                                
-                            />
-                        )
+                      isEditOpen && selectedMeal && (
+                        <EditMealDialog
+                          isEditOpen={isEditOpen}
+                          setIsEditOpen={setIsEditOpen}
+                          selectedMeal={selectedMeal}
+
+                        />
+                      )
                     }
-                  {/* Delete Button */}
-                  <Button
-                    onClick={() => handleDelete(meal.id)}
-                    variant="ghost"
-                    size="icon"
-                    className="w-8 h-8 rounded-lg bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 hover:border hover:border-red-500/20 transition-all cursor-pointer"
-                    title="খাবার মুছুন"
-                  >
-                    <Trash2 size={14} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
+                    {/* Delete Button */}
+                    <Select
+                      value={meal.isDeleted ? "true" : "false"}
+                      onValueChange={(value) => handleDelete(meal.id, value === "true")}
+                    >
+                      <SelectTrigger
+                        className={`w-28 h-8 text-xs font-bold rounded-xl border focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all ${meal.isDeleted
+                            ? "bg-red-500/10 text-red-400 border-red-500/20 data-[state=open]:bg-red-500/20"
+                            : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 data-[state=open]:bg-emerald-500/20"
+                          }`}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+
+                      <SelectContent className="w-32 bg-[#141414] border border-white/10 text-white rounded-xl shadow-2xl p-1 z-50">
+                        <SelectItem
+                          value="false"
+                          className="text-emerald-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-highlighted:bg-emerald-500/20 data-[highlighted]:text-emerald-300 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                            <span>স্টকে আছে</span>
+                          </div>
+                        </SelectItem>
+
+                        <SelectItem
+                          value="true"
+                          className="text-red-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-[highlighted]:bg-red-500/20 data-[highlighted]:text-red-300 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-400 shrink-0" />
+                            <span>স্টক শেষ</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TableCell>
+              </TableRow>
             )
           })}
         </TableBody>
