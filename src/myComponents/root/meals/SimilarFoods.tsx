@@ -55,7 +55,7 @@ export default function SimilarFoods({ similarMeals }: SimilarFoodProps) {
                                 <div className="flex items-center justify-between mt-auto pt-1 border-t border-white/5">
                                     <div className="flex flex-col">
                                         {hasDiscount && (
-                                            <span className="text-[10px] text-gray-500 line-through font-medium leading-none mb-0.5">
+                                            <span className="text-[10px] text-red-500 line-through font-medium leading-none mb-0.5">
                                                 ৳{originalPrice}
                                             </span>
                                         )}

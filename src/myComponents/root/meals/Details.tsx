@@ -90,7 +90,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                                 <div className="flex items-baseline gap-2 mt-0.5">
                                     <span className="text-3xl font-black text-amber-500">৳{finalPrice}</span>
                                     {hasDiscount && (
-                                        <span className="text-sm text-gray-500 line-through font-medium">৳{originalPrice}</span>
+                                        <span className="text-sm text-red-500 line-through font-medium">৳{originalPrice}</span>
                                     )}
                                 </div>
                             </div>
@@ -117,13 +117,11 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                               <AddToCart 
                               meal={singleMealData}
-                              finalPrice={finalPrice}
                               showCartText={true}
                               />  
                             
                             <BuyNow
                             meal={singleMealData}
-                            finalPrice={finalPrice}
                             quantity={quantity}
                             />
 

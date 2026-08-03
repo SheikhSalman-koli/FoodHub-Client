@@ -77,7 +77,7 @@ export default function MealCard({ meals }: MealCardProps) {
               <div className="pt-4 border-t border-white/5 flex items-end justify-between gap-2 mt-auto">
                 <div className="flex flex-col">
                   {hasDiscount && (
-                    <span className="text-xs text-gray-500 line-through font-medium">
+                    <span className="text-xs text-red-500 line-through font-medium">
                       ৳ {originalPrice}
                     </span>
                   )}
@@ -88,7 +88,7 @@ export default function MealCard({ meals }: MealCardProps) {
                   {/* add To Cart */}
                   <AddToCart 
                   meal={meal}
-                  finalPrice={finalPrice}
+                  // finalPrice={finalPrice}
                   />
               </div>
             </div>

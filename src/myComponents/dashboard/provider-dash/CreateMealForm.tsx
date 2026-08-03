@@ -3,19 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
-import {Loader2,Sparkles,Image as ImageIcon,PlusCircle,ArrowLeft,Upload,X,} from "lucide-react";
+import {Loader2,Sparkles,Image as ImageIcon,PlusCircle,Upload,X,} from "lucide-react";
 import Image from "next/image";
 import { CategoryData } from "@/modules/services/category.services";
 import { getAllCategories } from "@/modules/actions/category.actions";
 import { uploadToCloudinary } from "@/lib/helpers/uploadImage";
 import { createMealAction } from "@/modules/actions/meal.action";
 import Swal from "sweetalert2";
-
-
-// interface CreateMealFormProps {
-//   onSuccess?: () => void;
-//   onCancel?: () => void;
-// }
 
 export default function CreateMealForm() {
   const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -158,24 +152,13 @@ export default function CreateMealForm() {
             আপনার রেস্টুরেন্ট বা কিচেন মেন্যুতে একটি নতুন আইটেম অন্তর্ভুক্ত করুন।
           </p>
         </div>
-
-        {/* {onCancel && (
-          <Button
-            type="button"
-            onClick={onCancel}
-            variant="outline"
-            className="bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 rounded-xl text-xs flex items-center gap-1.5"
-          >
-            <ArrowLeft size={14} /> ফিরে যান
-          </Button>
-        )} */}
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
         {/* এরর মেসেজ */}
         {errorMessage && (
           <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-xs font-semibold">
-            ⚠️ {errorMessage}
+            {errorMessage}
           </div>
         )}
 
@@ -187,7 +170,7 @@ export default function CreateMealForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             {/* 1️⃣ বাম পাশ: ফাইল ড্রপ/সিলেক্ট ইনপুট */}
-            <div className="relative border-2 border-dashed border-white/10 hover:border-amber-500/50 rounded-2xl bg-[#141414] transition-all p-5 flex flex-col items-center justify-center text-center group cursor-pointer min-h-[160px]">
+            <div className="relative border-2 border-dashed border-white/10 hover:border-amber-500/50 rounded-2xl bg-[#141414] transition-all p-5 flex flex-col items-center justify-center text-center group cursor-pointer min-h-40">
               <input
                 type="file"
                 accept="image/*"
@@ -221,7 +204,7 @@ export default function CreateMealForm() {
             </div>
 
             {/* 2️⃣ ডান পাশ: লাইভ ইমেজ প্রিভিউ */}
-            <div className="relative border border-white/10 rounded-2xl bg-[#141414] overflow-hidden flex items-center justify-center min-h-[160px]">
+            <div className="relative border border-white/10 rounded-2xl bg-[#141414] overflow-hidden flex items-center justify-center min-h-40">
               {formData.image ? (
                 <>
                   <Image

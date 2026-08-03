@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { authClient } from '@/lib/auth-client'
+import { CalculateDiscount } from '@/lib/helpers/CalculateDiscount'
 import { MealData } from '@/modules/services/meal.services'
 import { useCartStore } from '@/store/useCartStore'
 import { CreditCard } from 'lucide-react'
@@ -10,16 +11,17 @@ import Swal from 'sweetalert2'
 
 interface BuyNowProps {
     meal: MealData,
-    finalPrice: number,
     quantity: number
 }
 
-export default function BuyNow({meal, finalPrice, quantity}: BuyNowProps) {
+export default function BuyNow({meal, quantity}: BuyNowProps) {
 
     const {addToCart} = useCartStore()
     const router = useRouter()
 
     const {data: session} = authClient.useSession()
+
+    const {finalPrice} = CalculateDiscount(meal.price, meal.discount ?? 0)
     
     const totalPrice = finalPrice * quantity;
 
@@ -28,7 +30,7 @@ export default function BuyNow({meal, finalPrice, quantity}: BuyNowProps) {
     addToCart({
       id: meal.id,
             name: meal.name,
-            price: finalPrice,
+            price: meal.price,
             image: meal.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
             discount: meal.discount ?? 0,
             providerId: meal.providerId 

@@ -25,6 +25,7 @@ export interface OrderResponse {
     customerId: string;
     providerId: string;
     totalAmount: number;
+    discountedAmount: number;
     subtotal: number;
     deliveryFee: number;
     deliveryAddress: string;

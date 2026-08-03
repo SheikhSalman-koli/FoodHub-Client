@@ -7,11 +7,10 @@ import Swal from 'sweetalert2';
 
 interface AddToCartProps {
     meal: MealData,
-    finalPrice: number
     showCartText?: boolean
 }
 
-export default function AddToCart({ meal, finalPrice, showCartText = false }: AddToCartProps) {
+export default function AddToCart({ meal,  showCartText = false }: AddToCartProps) {
 
     const { addToCart, replaceCart } = useCartStore();
 
@@ -22,13 +21,13 @@ export default function AddToCart({ meal, finalPrice, showCartText = false }: Ad
         const res = addToCart({
             id: meal.id,
             name: meal.name,
-            price: finalPrice,
+            price: meal.price,
             image: meal.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
             discount: meal.discount ?? 0,
             providerId: meal.providerId // ডাটাবেজ থেকে আসা প্রোভাইডার আইডি
         }, 1);
 
-        // ⚠️ যদি আলাদা রেস্তোরাঁর খাবার হয়
+        // যদি আলাদা রেস্তোরাঁর খাবার হয়
         if (!res.success && res.errorType === 'DIFFERENT_PROVIDER') {
             Swal.fire({
                 title: 'কার্ট খালি করতে চান? 🛒',
@@ -50,7 +49,7 @@ export default function AddToCart({ meal, finalPrice, showCartText = false }: Ad
                     replaceCart({
                         id: meal.id,
                         name: meal.name,
-                        price: finalPrice,
+                        price: meal.price,
                         image: meal.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
                         discount: meal.discount ?? 0,
                         providerId: meal.providerId

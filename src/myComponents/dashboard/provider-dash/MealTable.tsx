@@ -185,7 +185,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                       <SelectContent className="w-32 bg-[#141414] border border-white/10 text-white rounded-xl shadow-2xl p-1 z-50">
                         <SelectItem
                           value="false"
-                          className="text-emerald-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-highlighted:bg-emerald-500/20 data-[highlighted]:text-emerald-300 transition-colors"
+                          className="text-emerald-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-highlighted:bg-emerald-500/20 data-highlighted:text-emerald-300 transition-colors"
                         >
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
@@ -195,7 +195,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
 
                         <SelectItem
                           value="true"
-                          className="text-red-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-[highlighted]:bg-red-500/20 data-[highlighted]:text-red-300 transition-colors"
+                          className="text-red-400 font-semibold text-xs rounded-lg my-0.5 cursor-pointer data-highlighted:bg-red-500/20 data-highlighted:text-red-300 transition-colors"
                         >
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-red-400 shrink-0" />
