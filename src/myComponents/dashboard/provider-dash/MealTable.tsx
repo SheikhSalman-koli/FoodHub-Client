@@ -161,6 +161,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                     {
                       isEditOpen && selectedMeal && (
                         <EditMealDialog
+                        key={selectedMeal?.id}
                           isEditOpen={isEditOpen}
                           setIsEditOpen={setIsEditOpen}
                           selectedMeal={selectedMeal}

@@ -51,9 +51,8 @@ export default function OrdersTable({ orders }: { orders: OrderResponse[] }) {
         CustomAlert.error(res?.message || "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে!");
       }
 
-
     } catch (error) {
-      CustomAlert.error("স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে!");
+      CustomAlert.error("স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে!",);
     }
   };
 

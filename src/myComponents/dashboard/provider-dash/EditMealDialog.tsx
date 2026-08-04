@@ -1,43 +1,42 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
 import { MealData } from "@/modules/services/meal.services";
-import { Star, Loader2, Sparkles, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
+import { Loader2, Sparkles } from "lucide-react";
 import { CategoryData } from "@/modules/services/category.services";
 import { getAllCategories } from "@/modules/actions/category.actions";
 import { updateMealAction } from "@/modules/actions/meal.action";
 import Swal from "sweetalert2";
 
+import MealImagePrev from "./MealImagePrev";
+
+
 export default function EditMealDialog({
   isEditOpen,
   setIsEditOpen,
   selectedMeal,
+  onSave,
 }: {
   isEditOpen: boolean;
   setIsEditOpen: (open: boolean) => void;
   selectedMeal: MealData | null;
-  onSave?: (updatedData: Partial<MealData>) => Promise<void> | void;
+  onSave?: () => void;
 }) {
-  // ১. ক্যাটেগরি ও লোডিং স্টেট
-  const [categories, setCategories] = useState<CategoryData[]>([]);
+ const [categories, setCategories] = useState<CategoryData[]>([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
-
-  const getFormDataFromMeal = (meal: MealData | null) => ({
-    name: meal?.name ?? "",
-    description: meal?.description ?? "",
-    image: meal?.image ?? "",
-    price: meal?.price ? String(meal.price) : "",
-    discount: meal?.discount ?? 0,
-    categoryId: meal?.categoryId ?? "",
-  });
-
-  const [formData, setFormData] = useState(() => getFormDataFromMeal(selectedMeal));
-
   const [isLoading, setIsLoading] = useState(false);
+
+  // 📝 শুধু ফর্ম টেক্সট স্টেট
+  const [formData, setFormData] = useState({
+    name: selectedMeal?.name ?? "",
+    description: selectedMeal?.description ?? "",
+    price: selectedMeal?.price ? String(selectedMeal.price) : "",
+    discount: selectedMeal?.discount ?? 0,
+    categoryId: selectedMeal?.categoryId ?? "",
+  });
 
   // ক্যাটেগরি লোড করা
   useEffect(() => {
@@ -45,17 +44,15 @@ export default function EditMealDialog({
       if (isEditOpen && categories.length === 0) {
         setIsCategoryLoading(true);
         const response = await getAllCategories();
-        
         if (response.success) {
           setCategories(response.data);
         }
         setIsCategoryLoading(false);
       }
     }
-
     fetchCategories();
   }, [isEditOpen, categories.length]);
-
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -63,40 +60,36 @@ export default function EditMealDialog({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const { finalPrice } = CalculateDiscount(formData.price, formData.discount);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedMeal?.id) return;
+    setIsLoading(true);
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  if (!selectedMeal?.id) return;
-  setIsLoading(true);
+    try {
+      const payload = {
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        categoryId: formData.categoryId,
+        discount: Number(formData.discount) || 0,
+      };
 
-  try {
-    const payload = {
-      ...(formData.name && { name: formData.name }),
-      ...(formData.description && { description: formData.description }),
-      ...(formData.image && { image: formData.image }),
-      ...(formData.price && { price: Number(formData.price) }),
-      ...(formData.categoryId && { categoryId: formData.categoryId }),
-      discount: Number(formData.discount) || 0,
-    };
+      const res = await updateMealAction(selectedMeal.id, payload);
 
-    // console.log(payload);
-
-    // Server Action কল
-    const res = await updateMealAction(selectedMeal.id, payload);
-
-    if (res.success) {
-      setIsEditOpen(false);
-    } else {
-      Swal.fire(res.message)
+      if (res.success) {
+        if (onSave) onSave();
+        setIsEditOpen(false);
+      } else {
+        Swal.fire(res.message);
+      }
+    } catch (error) {
+      console.error("Client Submit Error:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Client Submit Error:", error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
+
+  const { finalPrice } = CalculateDiscount(formData.price, formData.discount);
 
   return (
     <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
@@ -106,34 +99,17 @@ export default function EditMealDialog({
         </DialogHeader>
 
         {selectedMeal && (
-          <form onSubmit={handleSubmit}>
-            {/* ইমেজ প্রিভিউ */}
-            <div className="relative w-full h-48 bg-[#141414] border-b border-white/5">
-              {formData.image ? (
-                <Image
-                  src={formData.image}
-                  alt={formData.name || "Meal Preview"}
-                  className="w-full h-full object-cover"
-                  width={500}
-                  height={300}
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 gap-2">
-                  <ImageIcon size={32} />
-                  <span className="text-xs">ছবির URL ইনপুট দিন</span>
-                </div>
-              )}
-              
-              <div className="absolute inset-0 bg-liner-to-t from-[#0d0d0d] via-transparent to-black/40 pointer-events-none" />
+          <div>
+            {/* 📸 ১. সম্পূর্ণ আলাদা ইমেজ সেকশন */}
+          <MealImagePrev 
+          mealId={selectedMeal.id}
+              currentImage={selectedMeal.image}
+              isFeatured={selectedMeal.isFeatured}
+              onImageSaved={() => onSave?.()}
+          />
 
-              {selectedMeal.isFeatured && (
-                <span className="absolute top-4 left-4 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-[#0d0d0d]/80 backdrop-blur-md border border-amber-500/30 px-3 py-1 rounded-full shadow-lg">
-                  <Star size={12} className="fill-amber-400" /> Featured Meal
-                </span>
-              )}
-            </div>
-
-            <div className="p-6 space-y-4">
+            {/* 📝 ২. সাধারণ ডাটা ফর্ম */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {/* খাবারের নাম */}
               <div>
                 <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-1.5 block">
@@ -148,7 +124,7 @@ export default function EditMealDialog({
                 />
               </div>
 
-              {/* 🏷️ ক্যাটেগরি ড্রপডাউন (অটো সার্ভার অ্যাকশন লোড) */}
+              {/* ক্যাটেগরি */}
               <div>
                 <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-1.5 block">
                   ক্যাটেগরি (Category)
@@ -169,20 +145,6 @@ export default function EditMealDialog({
                     </option>
                   ))}
                 </select>
-              </div>
-
-              {/* ইমেজ URL */}
-              <div>
-                <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-1.5 block">
-                  ইমেজ URL
-                </label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleChange}
-                  className="w-full bg-[#141414] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-all"
-                />
               </div>
 
               {/* বিবরণ */}
@@ -216,7 +178,7 @@ export default function EditMealDialog({
 
                 <div>
                   <label className="text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1.5 block">
-                    ছাড় (%)
+                    ছাড় (%)
                   </label>
                   <input
                     type="number"
@@ -263,9 +225,8 @@ export default function EditMealDialog({
                   )}
                 </Button>
               </div>
-
-            </div>
-          </form>
+            </form>
+          </div>
         )}
       </DialogContent>
     </Dialog>
