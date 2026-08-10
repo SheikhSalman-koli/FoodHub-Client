@@ -38,7 +38,7 @@ export class CustomAlert {
       text,
       icon: "error",
       iconColor: "#ef4444",
-      confirmButtonText: "চেষ্টা করুন",
+      confirmButtonText: "আবার চেষ্টা করুন",
       customClass: {
         ...baseConfig.customClass,
         confirmButton:
