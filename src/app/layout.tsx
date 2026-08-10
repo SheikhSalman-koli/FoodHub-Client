@@ -1,3 +1,19 @@
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+  const originalMeasure = performance.measure;
+  performance.measure = function (
+    this: Performance,
+    measureName: string,
+    startOrMeasureOptions?: string | PerformanceMeasureOptions,
+    endMark?: string
+  ): PerformanceMeasure {
+    try {
+      return originalMeasure.call(this, measureName, startOrMeasureOptions, endMark);
+    } catch (e) {
+      return null as unknown as PerformanceMeasure;
+    }
+  } as typeof performance.measure;
+}
+
 import type { Metadata } from "next";
 import { Geist_Mono, Geist, Tiro_Bangla } from "next/font/google";
 import "./globals.css";
@@ -31,16 +47,15 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en" 
+      lang="en"
     >
       <body
         className={`${bangla.className} antialiased`}
       >
-        
-                <QueryProvider>
+        <QueryProvider>
           {children}
         </QueryProvider>
-    
+
       </body>
 
 

@@ -1,32 +1,27 @@
-"use client";
+'use server'
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { providerServices } from "../services/provider.services";
-
-
-export function useProviderActions() {
-  const queryClient = useQueryClient();
-  const providersQuery = useQuery({
-    queryKey: ["userProfile"],             
-    queryFn:()=> providerServices.getProviders() 
-  });
+import { revalidatePath } from "next/cache";
+import { providerServices, providerUpdatedData } from "../services/provider.services";
 
 
-//   const updateProfileMutation = useMutation({
-//     mutationFn: userService.updateProfile, // আপনার সার্ভিস লেয়ারের মেথড
-//     onSuccess: () => {
-    
-//       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-//     },
-//     onError: (error: any) => {
-//       console.error("Update failed:", error);
-//     }
-//   });
+export async function updateProviderAction(provId: string, updatedData: Partial<providerUpdatedData>) {
+  try {
+    const result = await providerServices.updateProviders(provId, updatedData);
 
- 
-  return {
-    providers: providersQuery.data,
-    isLoading: providersQuery.isLoading,
-   
-  };
+    revalidatePath("/provider-dash/profile");
+
+    return {
+      success: true,
+      data: result,
+      message: "প্রোভাইডারের তথ্য সফলভাবে আপডেট হয়েছে!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+    };
+  }
 }

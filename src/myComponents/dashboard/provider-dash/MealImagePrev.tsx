@@ -7,6 +7,7 @@ import { uploadToCloudinary } from "@/lib/helpers/uploadImage";
 import { updateMealAction } from "@/modules/actions/meal.action";
 import { compressImage } from "@/lib/helpers/compressImage";
 import { getPublicIdFromUrl } from "@/lib/helpers/GetPublicIdFromUrl";
+import { CustomAlert } from "@/lib/helpers/Shei-Shad-Alert";
 
 interface MealImageUploaderProps {
   mealId: string;
@@ -50,75 +51,19 @@ export default function MealImagePrev({
     fileInputRef.current?.click();
   };
 
-  // // শুধু ইমেজ সেভ করা
-  // const handleSaveImage = async () => {
-  //   if (!selectedFile || !mealId) return;
-
-  //   setIsUploading(true);
-  //   try {
-  //     //compress image
-
-
-  //     const CompressdImage = await compressImage(selectedFile)
-  //     const uploadedUrl = await uploadToCloudinary(CompressdImage);
-
-  //     if (currentImage && currentImage.includes("cloudinary")) {
-  //       const publicId = getPublicIdFromUrl(currentImage);
-
-  //       // আপনার তৈরি করা API রুটে কল করুন
-  //       await fetch("/api/cloudinary/delete", {
-  //         method: "POST",
-  //         body: JSON.stringify({ publicId }),
-  //       });
-  //     }
-
-  //     if (uploadedUrl) {
-  //       // Step B: ডাটাবেজ আপডেট অ্যাকশন
-  //       const res = await updateMealAction(mealId, { image: uploadedUrl });
-
-  //       if (res.success) {
-  //         setSavedImageUrl(uploadedUrl);
-  //         setSelectedFile(null);
-  //         setPreviewUrl(null);
-
-  //         if (onImageSaved) onImageSaved(uploadedUrl);
-
-  //         Swal.fire({
-  //           icon: "success",
-  //           title: "ছবি সফলভাবে আপডেট হয়েছে!",
-  //           toast: true,
-  //           position: "top-end",
-  //           showConfirmButton: false,
-  //           timer: 2000,
-  //         });
-  //       } else {
-  //         Swal.fire(res.message);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     // console.error("Image upload error:", error);
-  //     Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
-  //   } finally {
-  //     setIsUploading(false);
-  //   }
-  // };
-
   const handleSaveImage = async () => {
-  if (!selectedFile || !mealId) return;
+    if (!selectedFile || !mealId) return;
 
-  setIsUploading(true);
-  try {
-    const compressedImage = await compressImage(selectedFile);
-    const uploadedUrl = await uploadToCloudinary(compressedImage);
+    setIsUploading(true);
+    try {
+      const compressedImage = await compressImage(selectedFile);
+      const uploadedUrl = await uploadToCloudinary(compressedImage);
 
-    if (!uploadedUrl) {
-      Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
-      return;
-    }
+      if (!uploadedUrl) {
+        CustomAlert.error("ছবি আপলোড করতে সমস্যা হয়েছে!")
+        return;
+      }
 
-    const res = await updateMealAction(mealId, { image: uploadedUrl });
-
-    if (res.success) {
       if (currentImage && currentImage.includes("cloudinary")) {
         const publicId = getPublicIdFromUrl(currentImage);
 
@@ -133,29 +78,33 @@ export default function MealImagePrev({
         }
       }
 
-      setSavedImageUrl(uploadedUrl);
-      setSelectedFile(null);
-      setPreviewUrl(null);
+      const res = await updateMealAction(mealId, { image: uploadedUrl });
 
-      if (onImageSaved) onImageSaved(uploadedUrl);
+      if (res.success) {
 
-      Swal.fire({
-        icon: "success",
-        title: "ছবি সফলভাবে আপডেট হয়েছে!",
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    } else {
-      Swal.fire(res.message);
+        setSavedImageUrl(uploadedUrl);
+        setSelectedFile(null);
+        setPreviewUrl(null);
+
+        if (onImageSaved) onImageSaved(uploadedUrl);
+
+        Swal.fire({
+          icon: "success",
+          title: "ছবি সফলভাবে আপডেট হয়েছে!",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        Swal.fire(res.message);
+      }
+    } catch (error) {
+      Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
+    } finally {
+      setIsUploading(false);
     }
-  } catch (error) {
-    Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
-  } finally {
-    setIsUploading(false);
-  }
-};
+  };
 
 
   const displayImage = previewUrl || savedImageUrl || currentImage;

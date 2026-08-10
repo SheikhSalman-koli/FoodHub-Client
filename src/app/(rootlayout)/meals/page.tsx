@@ -27,7 +27,7 @@ export default async function MealPage({ searchParams }: PageProps) {
   ]);
 
   return (
-    <div className='pt-28 bg-[#0d0d0d] pb-10'>
+    <div className='pt-28 pb-10'>
 
       <SearchFilterControls
         categories={categories}

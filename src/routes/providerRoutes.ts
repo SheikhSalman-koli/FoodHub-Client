@@ -1,4 +1,4 @@
-import { BarChart3, PlusCircle, ShoppingBag, User2Icon, Utensils } from "lucide-react"
+import { BarChart3, CookingPot, PlusCircle, ShoppingBag, Utensils } from "lucide-react"
 import { RouteType } from "./adminRoutes"
 
 export const providerItems: RouteType[] = [
@@ -10,9 +10,9 @@ export const providerItems: RouteType[] = [
   },
   { 
     id: 2, 
-    name: "প্রোফাইল", 
+    name: "কিচেন-রুম", 
     url: "/provider-dash/profile", 
-    icon: User2Icon
+    icon: CookingPot
   },
   { 
     id: 3, 

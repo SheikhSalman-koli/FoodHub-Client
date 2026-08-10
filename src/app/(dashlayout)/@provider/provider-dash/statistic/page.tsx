@@ -4,8 +4,8 @@ import ProviderStatsDashboard from '@/myComponents/dashboard/provider-dash/Stats
 import React from 'react'
 
 export default async function Statistic() {
-    const user = await userServices.getSessionUser()
-  const providerStats = await statsService.getProviderStats(user?.email);
+    const {email} = await userServices.getSessionUser()
+  const providerStats = await statsService.getProviderStats(email);
 
   return (
     <div>

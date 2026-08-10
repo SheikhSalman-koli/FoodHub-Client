@@ -5,9 +5,9 @@ import ProviderMealsTable from '@/myComponents/dashboard/provider-dash/MealTable
 
 
 export default async function ManageMeal() {
-    const user = await userServices.getSessionUser()
+    const {email} = await userServices.getSessionUser()
     // console.log(user);
-    const meals = await mealServices.getProviderMeals(user?.email)
+    const meals = await mealServices.getProviderMeals(email)
     // console.log(meals);
 
     // const categories = await categoryService.getCategories()
