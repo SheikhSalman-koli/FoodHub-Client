@@ -19,6 +19,11 @@ export interface CreateOrderPayload {
     orderItems: OrderItemInput[];
 }
 
+interface ProviderData {
+    id: string;
+    restaurantName: string
+}
+
 
 export interface OrderResponse {
     id: string;
@@ -33,6 +38,7 @@ export interface OrderResponse {
     status: string;
     createdAt: string;
     orderItems: OrderItemInput[];
+    provider: ProviderData
 }
 
 // 🎯 ২. সেন্ট্রালাইজড এপিআই লজিক

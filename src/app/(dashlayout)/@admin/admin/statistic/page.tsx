@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function AdminStats() {
   return (
-    <div>AdminStats</div>
+    <div>Today Finish it, Insha-Allah</div>
   )
 }

@@ -261,7 +261,6 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                     </table>
                 </div>
             </div>
-
         </div>
     );
 }

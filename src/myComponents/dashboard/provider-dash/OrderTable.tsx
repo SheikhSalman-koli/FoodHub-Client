@@ -23,7 +23,7 @@ import { UpdateOrderStatusAction } from "@/modules/actions/order.actions";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
 
 // স্ট্যাটাস অনুযায়ী ডাইনামিক স্টাইলিং ম্যাপ
-const statusStyles: Record<string, string> = {
+export const statusStyles: Record<string, string> = {
   PLACED: "bg-amber-500/10 text-amber-400 border-amber-500/20",
   PREPARING: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   READY: "bg-purple-500/10 text-purple-400 border-purple-500/20",

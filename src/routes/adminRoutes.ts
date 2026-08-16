@@ -28,7 +28,7 @@ export const adminItems: RouteType[] = [
   },
   { 
     id: 5, 
-    name: "অর্ডার ম্যানেজমেন্ট", 
+    name: "সব অর্ডার দেখুন", 
     url: "/admin/manage-orders", 
     icon: ClipboardList 
   }
