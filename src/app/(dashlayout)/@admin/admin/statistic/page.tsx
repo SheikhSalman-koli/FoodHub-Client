@@ -1,7 +1,17 @@
-import React from 'react'
 
-export default function AdminStats() {
+
+import { statsService } from '@/modules/services/stats.service'
+import AdminStatsView from '@/myComponents/dashboard/admin-dash/AdminStats'
+
+export default async function AdminStats() {
+
+  const adminStats = await statsService.getAdminDashboardStats()
+  // console.log(adminStats);
   return (
-    <div>Today Finish it, Insha-Allah</div>
+    <div>
+      <AdminStatsView 
+      stats={adminStats}
+      />
+    </div>
   )
 }

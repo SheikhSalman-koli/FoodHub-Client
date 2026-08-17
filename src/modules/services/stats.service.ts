@@ -59,12 +59,81 @@ export type ProviderStatsResponse =
         message: string;
     };
 
+// =================================
+// getAdminDashboardStats data typs
+// =================================
+export interface RecentOrderItem {
+  id: string;
+  orderId: string;
+  mealId: string;
+  quantity: number;
+  price: number;
+}
+
+export interface RecentOrder {
+  id: string;
+  providerId: string;
+  status: string;
+  totalAmount: number;
+  createdAt: Date;
+  provider: {
+    restaurantName: string;
+  } | null;
+  orderItems: RecentOrderItem[];
+}
+
+export interface GrowthChartData {
+  label: string;
+  revenue: number;
+  orders: number;
+}
+
+export interface AdminDashboardStatsResponse {
+  kpis: {
+    totalRevenue: number;
+    totalOrders: number;
+    deliveredOrders: number;
+    cancelledOrders: number;
+    totalCustomers: number;
+    totalProviders: number;
+    averageOrderValue: number;
+    cancellationRate: number;
+  };
+  statusBreakdown: {
+    name: string;
+    value: number;
+    color: string;
+  }[];
+  growthData: {
+    daily: GrowthChartData[];
+    weekly: GrowthChartData[];
+    monthly: GrowthChartData[];
+  };
+  recentOrders: RecentOrder[];
+  bestProvider: {
+    id: string;
+    name: string;
+    totalRevenue: number;
+    ordersCount: number;
+  } | null;
+  topMeals: {
+    mealId: string;
+    name: string;
+    totalSold: number;
+  }[];
+}
 
 export const statsService = {
 
     getProviderStats: async (email: string): Promise<ProviderStatsData> => {
-        const res = await baseUrl.get<{data: ProviderStatsData, message: string}>(`/api/v1/stats-provider/${email}`);
+        const res = await baseUrl.get<{ data: ProviderStatsData, message: string }>(`/api/v1/stats-provider/${email}`);
         return res.data.data;
     },
+
+
+    getAdminDashboardStats: async(): Promise<AdminDashboardStatsResponse> => {
+         const res = await baseUrl.get<{ data: AdminDashboardStatsResponse, message: string }>(`/api/v1/admin/dashboard/stats`);
+        return res.data.data
+    }
 
 };

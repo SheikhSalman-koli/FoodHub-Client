@@ -4,6 +4,22 @@ import React, { useState } from "react";
 import { Search, Filter, Calendar, Phone, ShoppingBag, Store } from "lucide-react";
 import { OrderResponse } from "@/modules/services/order.services";
 
+  // স্টেটাস ব্যাজ কালার
+ export const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "PLACED":
+        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">PLACED</span>;
+      case "PREPARING":
+        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">PREPARING</span>;
+      case "DELIVERED":
+        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">DELIVERED</span>;
+      case "CANCELLED":
+        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">CANCELLED</span>;
+      default:
+        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20">{status}</span>;
+    }
+  };
+
 export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -20,21 +36,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
     return matchesSearch && matchesStatus;
   });
 
-  // স্টেটাস ব্যাজ কালার
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "PLACED":
-        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">PLACED</span>;
-      case "PREPARING":
-        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">PREPARING</span>;
-      case "DELIVERED":
-        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">DELIVERED</span>;
-      case "CANCELLED":
-        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">CANCELLED</span>;
-      default:
-        return <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20">{status}</span>;
-    }
-  };
+
 
   return (
     <div className="space-y-5 w-full max-w-6xl mx-auto">
