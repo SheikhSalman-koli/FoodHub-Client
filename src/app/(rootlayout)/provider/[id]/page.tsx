@@ -38,22 +38,23 @@ export default async function page({ params, searchParams }: {
   const activeCategoryObj = (categories || []).find((cat: CategoryData) => cat.slug === category);
   const activeCategoryId = activeCategoryObj?.id;
 
-  const { restaurantName, tagline, location, logo, meals }: DynamicProviderData = provider || {
+  const providerData = (provider || {
     restaurantName: '',
     location: '',
     tagline: '',
     logo: '',
     meals: []
-  }
-  
+  }) as DynamicProviderData;
+
+  const { restaurantName, tagline, location, logo, meals } = providerData;
+
   const logoSrc = logo ?? 'https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg'
 
-  const filteredMeals = (meals || []).filter((meal: MealData) => {
-  
+  const filteredMeals: MealData[] = (meals || []).filter((meal: MealData) => {
     if (search) {
       const searchTerm = search.toLowerCase();
-      const nameMatch = meal.name?.toLowerCase().includes(searchTerm);
-      const descMatch = meal.description?.toLowerCase().includes(searchTerm);
+      const nameMatch = meal.name?.toLowerCase().includes(searchTerm) ?? false;
+      const descMatch = meal.description?.toLowerCase().includes(searchTerm) ?? false;
       if (!nameMatch && !descMatch) return false;
     }
 

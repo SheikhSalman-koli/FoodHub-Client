@@ -1,9 +1,18 @@
-import { HomeIcon } from "lucide-react";
+import { Route, UserCircle2 } from "lucide-react";
 import { RouteType } from "./adminRoutes";
 
 export const customerItems: RouteType[] = [
-    { id: 1, name: "Orders History", url: "/customer/order-history", icon: HomeIcon },
-    { id: 2, name: "Statistic", url: "stats", icon: HomeIcon },
-    { id: 3, name: "Manage Category", url: "manage-catagory", icon: HomeIcon },
-    { id: 4, name: "Manage Meals", url: "manage-meals", icon: HomeIcon }
+     { 
+        id: 1, 
+        name: "প্রোফাইল", 
+        url: "/customer/profile", 
+        icon: UserCircle2 
+    },
+    { 
+        id: 2, 
+        name: "অর্ডার ট্রাকিং", 
+        url: "/customer/track-order", 
+        icon: Route 
+    },
+   
 ]

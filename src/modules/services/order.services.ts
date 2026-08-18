@@ -8,6 +8,11 @@ export interface OrderItemInput {
     price: number;
     quantity: number;
     discount?: number;
+    review?: {
+    id: string;
+    starCount: number;
+    comment: string;
+  } | null;
 }
 
 export interface CreateOrderPayload {
@@ -41,7 +46,7 @@ export interface OrderResponse {
     provider: ProviderData
 }
 
-// 🎯 ২. সেন্ট্রালাইজড এপিআই লজিক
+//  সেন্ট্রালাইজড এপিআই লজিক
 export const orderServices = {
 
     // নতুন অর্ডার ক্রিয়েট করা
@@ -53,6 +58,12 @@ export const orderServices = {
     // ইউজারের নিজের সব অর্ডারগুলো দেখা (হিস্ট্রি পেজের জন্য)
     getMyOrders: async (): Promise<OrderResponse[]> => {
         const res = await baseUrl.get<{ data: OrderResponse[], message: string }>('/api/v1/order')
+        return res?.data.data
+    },
+
+    // ইউজারের নিজের সব অর্ডারগুলো দেখা (হিস্ট্রি পেজের জন্য)
+    getsingleOrder: async (id:string): Promise<OrderResponse> => {
+        const res = await baseUrl.get<{ data: OrderResponse, message: string }>(`/api/v1/order/${id}`)
         return res?.data.data
     },
 

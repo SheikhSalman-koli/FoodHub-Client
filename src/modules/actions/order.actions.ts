@@ -39,6 +39,7 @@ export async function UpdateOrderStatusAction(orderId: string, status: string) {
     const result = await orderServices.updateOrderStatus(orderId, status)
 
     revalidatePath("/provider-dash/manage-order");
+    revalidatePath("/customer/track-order");
 
     return {
       success: true,

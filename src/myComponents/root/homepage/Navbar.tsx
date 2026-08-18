@@ -57,12 +57,10 @@ export default function Navbar({ className }: NavbarProps) {
   // if(!user){
   //   return <p>user not found!</p>
   // }
-  // console.log(session?.user)
 
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
     { title: "মেনু", url: "/meals" },
-    { title: "অর্ডার ট্র্যাকিং", url: "/track-order" },
     ...(user?.role === Roles.admin ?
       [
         { title: "ড্যাশবোর্ড", url: "/admin"}
@@ -74,7 +72,8 @@ export default function Navbar({ className }: NavbarProps) {
         ]
         :
         [
-          { title: "ড্যাশবোর্ড", url: "/meals" }
+          { title: "অর্ডার ট্র্যাকিং", url: "/customer/track-order" },
+          { title: "ড্যাশবোর্ড", url: "/customer/profile" }
         ]
     )
   ];

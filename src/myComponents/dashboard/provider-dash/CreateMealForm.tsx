@@ -10,6 +10,7 @@ import { getAllCategories } from "@/modules/actions/category.actions";
 import { uploadToCloudinary } from "@/lib/helpers/uploadImage";
 import { createMealAction } from "@/modules/actions/meal.action";
 import Swal from "sweetalert2";
+import { compressImage } from "@/lib/helpers/compressImage";
 
 export default function CreateMealForm() {
   const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -50,7 +51,7 @@ export default function CreateMealForm() {
     if (errorMessage) setErrorMessage(null);
   };
 
-  // 🖼️ ইমেজ আপলোড হ্যান্ডলার
+  // ইমেজ আপলোড হ্যান্ডলার
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -59,8 +60,9 @@ export default function CreateMealForm() {
       setIsUploading(true);
       setErrorMessage(null);
 
-      // 🚀 আপনার Image Hoster ফাংশন কল
-      const imageUrl = await uploadToCloudinary(file);
+      // আপনার Image Hoster ফাংশন কল
+      const compressedImage = await compressImage(file)
+      const imageUrl = await uploadToCloudinary(compressedImage);
 
       if (imageUrl) {
         setFormData((prev) => ({ ...prev, image: imageUrl }));
@@ -162,14 +164,14 @@ export default function CreateMealForm() {
           </div>
         )}
 
-        {/* 📸 ইমেজ আপলোড এবং সাইড-বাই-সাইড প্রিভিউ সেকশন */}
+        {/* ইমেজ আপলোড এবং সাইড-বাই-সাইড প্রিভিউ সেকশন */}
         <div>
           <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-2 block">
             খাবারের ছবি (Meal Image)
           </label>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
-            {/* 1️⃣ বাম পাশ: ফাইল ড্রপ/সিলেক্ট ইনপুট */}
+            {/* বাম পাশ: ফাইল ড্রপ/সিলেক্ট ইনপুট */}
             <div className="relative border-2 border-dashed border-white/10 hover:border-amber-500/50 rounded-2xl bg-[#141414] transition-all p-5 flex flex-col items-center justify-center text-center group cursor-pointer min-h-40">
               <input
                 type="file"
@@ -312,7 +314,7 @@ export default function CreateMealForm() {
               min={0}
               value={formData.price}
               onChange={handleChange}
-              placeholder="350"
+              placeholder="ইংরেজি সংখ্যা"
               className="w-full bg-[#141414] border border-white/10 rounded-xl px-4 py-2.5 text-sm font-bold text-amber-500 focus:outline-none focus:border-amber-500 transition-all placeholder:text-gray-600"
             />
           </div>

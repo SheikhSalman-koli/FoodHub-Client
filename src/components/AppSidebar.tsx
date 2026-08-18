@@ -10,7 +10,6 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Roles } from "@/constants/userRole"
-import { authClient } from "@/lib/auth-client"
 import { adminItems, RouteType } from "@/routes/adminRoutes"
 import { customerItems } from "@/routes/customerRoutes"
 import { providerItems } from "@/routes/providerRoutes"
