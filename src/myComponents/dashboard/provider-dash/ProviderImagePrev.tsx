@@ -86,7 +86,6 @@ export default function ProviderImagePrev({
         const res = await updateProviderAction(id, {logo: newUploadedUrl})
 
         if (res.success) {
-
          Swal.fire({
             icon: "success",
             title: "লোগো সফলভাবে আপডেট হয়েছে!",

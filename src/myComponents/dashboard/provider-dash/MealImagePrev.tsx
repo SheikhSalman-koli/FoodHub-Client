@@ -52,6 +52,7 @@ export default function MealImagePrev({
   };
 
   const handleSaveImage = async () => {
+    
     if (!selectedFile || !mealId) return;
 
     setIsUploading(true);
