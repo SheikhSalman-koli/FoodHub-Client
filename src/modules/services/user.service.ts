@@ -1,6 +1,5 @@
 import { baseUrl } from "@/lib/api-client";
 import { headers } from "next/headers";
-import { OrderStats } from "./stats.service";
 
 export interface UserData {
     id: string;
@@ -62,7 +61,11 @@ export interface UserProfile {
     reviews: Review[];
 }
 // ==========================================
-
+export interface UpdatedPassword {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string
+}
 
 export const userServices = {
 
@@ -112,6 +115,11 @@ export const userServices = {
 
     updateProfileInfo: async (id: string, updatedInfo: Partial<UserData>): Promise<UserData> => {
         const res = await baseUrl.put<{ data: UserData, message: string }>(`/api/v1/user/update-profile/${id}`, updatedInfo)
+        return res.data.data
+    },
+
+    changePassword: async (id: string, updatedPassword: UpdatedPassword): Promise<UserData> => {
+        const res = await baseUrl.patch<{ data: UserData, message: string }>(`/api/v1/change-password/${id}`, updatedPassword)
         return res.data.data
     },
 }

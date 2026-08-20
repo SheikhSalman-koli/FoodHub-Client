@@ -8,7 +8,7 @@ import {
     DialogTitle,
     DialogFooter,
 } from "@/components/ui/dialog";
-import { Camera, Check, Loader2, Upload, User } from 'lucide-react';
+import { Camera, Check, Loader2, Upload, User, X } from 'lucide-react';
 import { CustomAlert } from '@/lib/helpers/Shei-Shad-Alert';
 import { compressImage } from '@/lib/helpers/compressImage';
 import { uploadToCloudinary } from '@/lib/helpers/uploadImage';
@@ -45,6 +45,13 @@ export default function ChangeProfileImage({
         }
     };
 
+    // cancel 
+    const handleCancel = () => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        setSelectedFile(null);
+        setPreviewUrl(null);
+    };
+
     // Save new Avatar picture from Dialog
     const handleSaveAvatar = async () => {
         if (!selectedFile) return;
@@ -72,12 +79,12 @@ export default function ChangeProfileImage({
                 }
             }
 
-            const res = await updateProfileInfo(id, {image: uploadedUrl})
-            if(res.success){
+            const res = await updateProfileInfo(id, { image: uploadedUrl })
+            if (res.success) {
                 console.log(res.data);
-                 CustomAlert.success('Profile picture updated successfully!');
-            }else{
-                  CustomAlert.error(res.message);
+                CustomAlert.success('Profile picture updated successfully!');
+            } else {
+                CustomAlert.error(res.message);
             }
 
             setSavedImageUrl(uploadedUrl);
@@ -86,7 +93,7 @@ export default function ChangeProfileImage({
             setIsAvatarDialogOpen(false);
 
             // Toast notification
-           
+
         } catch (error) {
             CustomAlert.error('Failed to update profile picture.');
         } finally {
@@ -99,7 +106,7 @@ export default function ChangeProfileImage({
     return (
         <div>
             <Dialog open={isAvatarDialogOpen} onOpenChange={setIsAvatarDialogOpen}>
-                <DialogContent className="bg-[#14161d] border-zinc-800 text-zinc-100 sm:max-w-md">
+                <DialogContent className="bg-[#14161d] border border-amber-400/30 text-zinc-100 sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-lg font-bold text-zinc-100 flex items-center gap-2">
                             <Camera size={18} className="text-amber-500" />
@@ -107,15 +114,28 @@ export default function ChangeProfileImage({
                         </DialogTitle>
                     </DialogHeader>
 
-                    <div className="flex flex-col items-center justify-center py-4 space-y-5">
+                    <div className="flex flex-col items-center justify-center py-2 space-y-3">
 
                         {/* Image Preview Window */}
-                        <div className="w-full h-48 rounded-2xl bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center shadow-inner relative group">
+                        <div className="relative w-full h-48 rounded-2xl bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center shadow-inner group">
                             {displayImage ? (
                                 <img src={displayImage} alt="Avatar Preview" className="w-full h-full object-cover" />
                             ) : (
                                 <User size={48} className="text-zinc-600" />
                             )}
+
+                           {
+                            selectedFile && 
+                             <button
+                                type="button"
+                                onClick={handleCancel}
+                                disabled={isUploading}
+                                className="absolute top-2 right-2 p-2 rounded-xl bg-black/80 hover:bg-black text-gray-300 border border-white/20 transition cursor-pointer"
+                                title="বাতিল করুন"
+                            >
+                                <X size={16} />
+                            </button>
+                           }
                         </div>
 
                         {/* Hidden File Input */}
@@ -138,7 +158,7 @@ export default function ChangeProfileImage({
                         </button>
                     </div>
 
-                    <DialogFooter className="flex items-center justify-end gap-2 border-t border-zinc-800/80 pt-3">
+                    <DialogFooter className="bg-[#14161d] flex items-center justify-end gap-2 border-t border-t-amber-400/30 pt-3">
                         <button
                             type="button"
                             onClick={() => setIsAvatarDialogOpen(false)}

@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache";
-import { UserData, userServices } from "../services/user.service";
+import { UpdatedPassword, UserData, userServices } from "../services/user.service";
 
 
 export async function updateUserStatus(id: string, newStatus: string) {
@@ -41,6 +41,28 @@ export async function updateProfileInfo(id: string, UpdatedInfo: Partial<UserDat
         const errorMessage = error instanceof Error 
             ? error.message 
             : "প্রোফাইল আপডেট হতে সমস্যা হয়েছে, আবার চেষ্টা করুন";
+
+            return {
+            success: false,
+            data: [],
+            message: errorMessage
+        };
+    }
+}
+
+export async function changePassword(id: string, updatedPassword: UpdatedPassword) {
+    try {
+        const result = await userServices.changePassword(id, updatedPassword);
+          revalidatePath("/customer/profile");
+        return {
+            success: true,
+            data: result,
+            message: "ইউজারের পাসওয়ার্ড সফলভাবে আপডেট হয়েছে!"
+        };
+    } catch (error) {
+        const errorMessage = error instanceof Error 
+            ? error.message 
+            : "পাসওয়ার্ড আপডেট হতে সমস্যা হয়েছে, আবার চেষ্টা করুন";
 
             return {
             success: false,
