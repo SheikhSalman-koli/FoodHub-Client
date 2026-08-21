@@ -79,7 +79,7 @@ export default function Navbar({ className }: NavbarProps) {
   ];
 
   return (
-    <nav className={cn("fixed top-0 inset-x-0 h-20 bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white z-50 px-6 sm:px-8 lg:px-16 transition-all duration-300 flex items-center", className)}>
+    <nav className={cn("fixed top-0 inset-x-0 h-20 bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white/20 z-50 px-6 sm:px-8 lg:px-16 transition-all duration-300 flex items-center", className)}>
 
       {/* Decorative Architecture Lines Matching Hero Grid */}
       <div className="absolute inset-y-0 left-12 w-px bg-white/5 hidden lg:block pointer-events-none" />

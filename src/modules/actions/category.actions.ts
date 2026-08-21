@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { CategoryData, categoryService } from "../services/category.services";
 
+
+// this is for only available gategories, 
 export async function getAllCategories() {
     try {
         const categories = await categoryService.getCategories();
@@ -12,11 +14,11 @@ export async function getAllCategories() {
             message: "Categories fetched successfully"
         };
     } catch (error) {
-        const errorMessage = error instanceof Error 
-            ? error.message 
+        const errorMessage = error instanceof Error
+            ? error.message
             : "Something went wrong while fetching categories";
 
-            return {
+        return {
             success: false,
             data: [],
             message: errorMessage
@@ -24,10 +26,10 @@ export async function getAllCategories() {
     }
 }
 
-export async function updateCategory(id: string, updatedData: Partial< CategoryData>) {
+export async function updateCategory(id: string, updatedData: Partial<CategoryData>) {
     try {
         const categories = await categoryService.updateCategories(id, updatedData)
-revalidatePath('/admin/manage-categories')
+        revalidatePath('/admin/manage-categories')
 
         return {
             success: true,
@@ -35,11 +37,11 @@ revalidatePath('/admin/manage-categories')
             message: "Categories updated successfully"
         };
     } catch (error) {
-        const errorMessage = error instanceof Error 
-            ? error.message 
+        const errorMessage = error instanceof Error
+            ? error.message
             : "Something went wrong while updating categories";
 
-            return {
+        return {
             success: false,
             data: [],
             message: errorMessage
@@ -58,11 +60,11 @@ export async function createCategory(newCategory: Partial<CategoryData>) {
             message: "Categories created successfully"
         };
     } catch (error) {
-        const errorMessage = error instanceof Error 
-            ? error.message 
+        const errorMessage = error instanceof Error
+            ? error.message
             : "Something went wrong while creating categories";
 
-            return {
+        return {
             success: false,
             data: [],
             message: errorMessage

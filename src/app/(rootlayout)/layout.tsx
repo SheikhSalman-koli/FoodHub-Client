@@ -1,4 +1,5 @@
 
+import Footer from '@/myComponents/root/homepage/Footer'
 import Navbar from '@/myComponents/root/homepage/Navbar'
 import React from 'react'
 
@@ -8,6 +9,7 @@ export default function rootlayout({children}:{children: React.ReactNode}) {
     <div className='bg-[#0d0d0d]'> 
        <Navbar />
         {children}
+        <Footer />
     </div>
   )
 }

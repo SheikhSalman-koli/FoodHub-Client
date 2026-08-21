@@ -49,7 +49,7 @@ export default function ChangePasswordDialog({
             return
         }
 
-        if (formData.newPassword.length < 6) {
+        if (formData.newPassword.length < 8) {
               CustomAlert.errorToast("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে!")
             return
         }

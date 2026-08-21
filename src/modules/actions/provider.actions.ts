@@ -25,3 +25,25 @@ export async function updateProviderAction(provId: string, updatedData: Partial<
     };
   }
 }
+
+
+
+export async function getProvidersAction() {
+  try {
+    const result = await providerServices.getProviders()
+
+    return {
+      success: true,
+      data: result,
+      message: "প্রোভাইডারের তথ্য সফলভাবে আনা হয়েছে!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "সার্ভারে সমস্যা হয়েছে, আবার চেষ্টা করুন।",
+    };
+  }
+}

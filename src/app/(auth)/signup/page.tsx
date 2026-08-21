@@ -42,7 +42,7 @@ export default function SignUpPage() {
         };
 
         // Create Provider
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/provider/api/v1`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/provider`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(providerData),
@@ -70,7 +70,7 @@ export default function SignUpPage() {
       }
 
     } catch (error) {
-      console.error("Frontend submit error:", error);
+      // console.error("Frontend submit error:", error);
       alert(error || "কোথাও কোনো সমস্যা হয়েছে, আবার চেষ্টা করুন।");
     } finally {
       setIsLoading(false);

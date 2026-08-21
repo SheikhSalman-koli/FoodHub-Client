@@ -12,7 +12,9 @@ export default async function PopularMeals() {
  const meals = await mealServices.getMeals()
 
   return (
-    <section className="w-full bg-[#0d0d0d] py-12 px-6 sm:px-12 lg:px-24">
+    <section 
+    id='popular-meals'
+    className="w-full bg-[#0d0d0d] py-12 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto w-full">
         
         {/* Section Header */}
@@ -20,13 +22,6 @@ export default async function PopularMeals() {
           <h2 className="text-2xl sm:text-3xl font-light text-white tracking-tight">
             জনপ্রিয় <span className="font-extrabold text-amber-500">খাবারসমূহ</span>
           </h2>
-
-           <Link
-            href="/meals" 
-            className="text-sm font-bold text-gray-400 hover:text-amber-500 transition-colors uppercase border-b border-gray-800 hover:border-amber-500"
-          >
-            সবগুলো দেখুন &rarr;
-          </Link>
         </div>
 
         {/* Meals Grid */}
