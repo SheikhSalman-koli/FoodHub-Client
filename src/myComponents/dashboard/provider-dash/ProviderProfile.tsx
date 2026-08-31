@@ -47,7 +47,7 @@ interface Props {
 export default function KitchenRoomDisplay({
   data,
 }: Props) {
- 
+
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,10 +69,10 @@ export default function KitchenRoomDisplay({
     Math.max(0, totalMeals - activeMeals);
 
 
-  // লোগো ফর্মের স্টেট
+
   const [logoUrl, setLogoUrl] = useState(data.logo || "");
 
-  // ইনফো আপডেট 
+
   const updatedData: providerUpdatedData = {
     id: data?.id,
     restaurantName: data?.restaurantName,
@@ -120,7 +120,7 @@ export default function KitchenRoomDisplay({
             }
           </div>
 
-          {/* লোগো ফ্রেম */}
+          {/* লোগো */}
           <div className="relative w-full aspect-square max-w-55 rounded-2xl bg-[#14161D] border-2 border-[#2B2F3D] overflow-hidden shadow-2xl flex items-center justify-center group-hover:border-amber-500/50 transition-colors">
             {data.logo ? (
               <img

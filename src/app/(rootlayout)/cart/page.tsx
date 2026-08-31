@@ -56,13 +56,11 @@ const discountedAmount = originalSubTotal - subTotal;
                 }
             });
         } else {
-            // ✅ ইউজার লগইন থাকলে সরাসরি চেকাউট পেজে চলে যাবে
             router.push('/checkout');
         }
   }
 
 
-  // কার্ট যদি একদম খালি থাকে
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col items-center justify-center p-4 pt-24">
@@ -88,10 +86,9 @@ const discountedAmount = originalSubTotal - subTotal;
       আপনার কার্টে ({cart.length}) টি খাবার আছে
     </h1>
 
-    {/* grid লেআউট: ২ কলাম */}
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
-      {/* বামপাশের সেকশন: খাবারের লিস্ট */}
+      {/* খাবারের লিস্ট */}
       <div className="lg:col-span-2 space-y-4">
         {cart.map((item) => {
           const discountPercent = item.discount ?? 0;
@@ -103,7 +100,6 @@ const discountedAmount = originalSubTotal - subTotal;
               key={item.id} 
               className="bg-[#141414] border border-white/5 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 hover:border-white/10"
             >
-              {/* খাবার ইমেজ */}
               <Image 
                 width={150}
                 height={200}
@@ -112,11 +108,10 @@ const discountedAmount = originalSubTotal - subTotal;
                 className="w-20 h-20 rounded-xl object-cover bg-gray-900 border border-white/5 shrink-0"
               />
 
-              {/* ইনফো ও কন্ট্রোল */}
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-base text-white truncate">{item.name}</h3>
                 
-                {/* 🏷️ প্রাইস ও ডিসকাউন্ট ব্যাজ */}
+                {/* প্রাইস ও ডিসকাউন্ট ব্যাজ */}
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
                   <span className="text-amber-400 font-extrabold text-base">
                     ৳{finalPrice}
@@ -154,7 +149,7 @@ const discountedAmount = originalSubTotal - subTotal;
                 </div>
               </div>
 
-              {/* ডানপাশের অংশ: টোটাল দাম ও ডিলেট বাটন */}
+              {/* right side */}
               <div className="flex flex-col items-end justify-between h-20 pl-2 shrink-0">
                 <button 
                   onClick={() => removeFromCart(item.id)}
@@ -175,19 +170,18 @@ const discountedAmount = originalSubTotal - subTotal;
         })}
       </div>
 
-      {/* ➡️ ডানপাশের সেকশন: অর্ডার সামারি */}
+      {/* অর্ডার সামারি */}
       <div className="lg:col-span-1">
         <div className="bg-[#141414] border border-white/5 rounded-2xl p-6 sticky top-6">
           <h2 className="text-lg font-black mb-4 pb-3 border-b border-white/5 text-white">অর্ডার সামারি</h2>
           
           <div className="space-y-3 text-sm">
-            {/* মূল সাবটোটাল */}
+      
             <div className="flex justify-between text-gray-400">
               <span>মূল সাবটোটাল</span>
               <span className="text-white font-medium">৳{originalSubTotal}</span>
             </div>
 
-            {/* মোট ডিসকাউন্ট (যদি থাকে) */}
             {discountedAmount > 0 && (
               <div className="flex justify-between text-emerald-400 font-medium">
                 <span>মোট ছাড় (Savings)</span>
@@ -197,14 +191,12 @@ const discountedAmount = originalSubTotal - subTotal;
 
             <div className="h-px bg-white/5 my-3" />
 
-            {/* চূড়ান্ত সাবটোটাল */}
             <div className="flex justify-between items-center text-base font-black">
               <span className="text-white">সর্বমোট বিল</span>
               <span className="text-amber-400 text-xl">৳{subTotal}</span>
             </div>
           </div>
 
-          {/* চেকআউট বাটন */}
           <Button 
             onClick={handleCheckout}
             className="w-full mt-6 bg-amber-500 hover:bg-amber-600 text-[#0d0d0d] font-black py-3.5 rounded-xl transition duration-300 flex items-center justify-center gap-2 text-sm shadow-lg shadow-amber-500/10 group cursor-pointer"

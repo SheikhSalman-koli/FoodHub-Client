@@ -26,13 +26,13 @@ export default function CheckoutPage() {
     const address = customUser?.deliveryAddress;
     const phone = customUser?.phone;
 
-   if ((address || phone) && !isInitialized.current) {
-        isInitialized.current = true; 
+    if ((address || phone) && !isInitialized.current) {
+      isInitialized.current = true;
 
-        setTimeout(() => {
-            if (address) setAddress(address);
-            if (phone) setPhone(phone);
-        }, 0); 
+      setTimeout(() => {
+        if (address) setAddress(address);
+        if (phone) setPhone(phone);
+      }, 0);
     }
   }, [session]);
 
@@ -46,19 +46,13 @@ export default function CheckoutPage() {
     trimmedAddress.includes("ঢাকা");
   const deliveryFee = trimmedAddress ? (isInsideDhaka ? 80 : 120) : 0;
 
-  // subtotal
-  // const subtotal = cart.reduce((sum, item) => {
-  //   const price = Number(item.price) || 0;
-  //   return sum + (price * item.quantity);
-  // }, 0);
-
-   const { originalSubTotal, subTotal } = cart.reduce(
+  const { originalSubTotal, subTotal } = cart.reduce(
     (acc, item) => {
       const { finalPrice } = CalculateDiscount(item.price, item.discount ?? 0);
-  
-      acc.originalSubTotal += item.price * item.quantity; 
-      acc.subTotal += finalPrice * item.quantity; 
-  
+
+      acc.originalSubTotal += item.price * item.quantity;
+      acc.subTotal += finalPrice * item.quantity;
+
       return acc;
     },
     { originalSubTotal: 0, subTotal: 0 }
@@ -142,7 +136,7 @@ export default function CheckoutPage() {
               />
               {trimmedAddress && (
                 <p className="text-xs mt-2 font-semibold text-amber-500 bg-amber-500/5 px-3 py-1.5 rounded-lg border border-amber-500/10 w-fit">
-                  📍 লোকেশন ডিটেক্টেড: {isInsideDhaka ? "ঢাকার ভেতরে (ডেলিভারি ফি ৳৮০)" : "ঢাকার বাইরে (ডেলিভারি ফি ৳১২০)"}
+                  লোকেশন ডিটেক্টেড: {isInsideDhaka ? "ঢাকার ভেতরে (ডেলিভারি ফি ৳৮০)" : "ঢাকার বাইরে (ডেলিভারি ফি ৳১২০)"}
                 </p>
               )}
             </div>
@@ -157,83 +151,79 @@ export default function CheckoutPage() {
           </form>
         </div>
 
-        {/* ডান পাশ: রিয়াল অর্ডার সামারি */}
+        {/* ডান পাশ: অর্ডার সামারি */}
         <div className="bg-[#141414] border border-white/5 p-6 rounded-3xl h-fit">
-  <h2 className="text-xl font-black mb-4 text-white">অর্ডার লিস্ট ({cart.length})</h2>
+          <h2 className="text-xl font-black mb-4 text-white">অর্ডার লিস্ট ({cart.length})</h2>
 
-  {cart.length === 0 ? (
-    <p className="text-sm text-gray-500 py-6 text-center">আপনার কার্টে কোনো খাবার নেই।</p>
-  ) : (
-    <div className="divide-y divide-white/5 max-h-75 overflow-y-auto pr-2">
-      {cart.map((item) => {
-        const discountPercent = item.discount ?? 0;
-        const hasDiscount = discountPercent > 0;
-        const { finalPrice } = CalculateDiscount(item.price, discountPercent);
+          {cart.length === 0 ? (
+            <p className="text-sm text-gray-500 py-6 text-center">আপনার কার্টে কোনো খাবার নেই।</p>
+          ) : (
+            <div className="divide-y divide-white/5 max-h-75 overflow-y-auto pr-2">
+              {cart.map((item) => {
+                const discountPercent = item.discount ?? 0;
+                const hasDiscount = discountPercent > 0;
+                const { finalPrice } = CalculateDiscount(item.price, discountPercent);
 
-        return (
-          <div key={item.id} className="py-3 flex justify-between text-sm items-center">
-            <div>
-              <p className="font-bold text-white">{item.name}</p>
-              
-              {/* 🏷️ অরিজিনাল এবং ডিসকাউন্টেড ইউনিট প্রাইজ */}
-              <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-0.5">
-                <span className="text-amber-400 font-semibold">৳{finalPrice}</span>
-                
-                {hasDiscount && (
-                  <span className="line-through text-red-500 text-[11px]">
-                    ৳{item.price}
-                  </span>
-                )}
-                
-                <span className="text-gray-500">x {item.quantity}</span>
-              </div>
+                return (
+                  <div key={item.id} className="py-3 flex justify-between text-sm items-center">
+                    <div>
+                      <p className="font-bold text-white">{item.name}</p>
+
+                      {/* অরিজিনাল এবং ডিসকাউন্টেড প্রাইজ */}
+                      <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-0.5">
+                        <span className="text-amber-400 font-semibold">৳{finalPrice}</span>
+
+                        {hasDiscount && (
+                          <span className="line-through text-red-500 text-[11px]">
+                            ৳{item.price}
+                          </span>
+                        )}
+
+                        <span className="text-gray-500">x {item.quantity}</span>
+                      </div>
+                    </div>
+
+                    <p className="font-bold text-amber-500">৳{finalPrice * item.quantity}</p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* সামারি */}
+          <div className="border-t border-white/5 mt-4 pt-4 space-y-2.5 text-sm">
+            <div className="flex justify-between text-gray-400">
+              <span>মূল সাবটোটাল:</span>
+              <span className="text-white">৳{originalSubTotal}</span>
             </div>
 
-            {/* আইটেমের ফাইনাল টোটাল */}
-            <p className="font-bold text-amber-500">৳{finalPrice * item.quantity}</p>
+            {discountedAmount > 0 && (
+              <div className="flex justify-between text-emerald-400 font-medium">
+                <span>মোট ছাড় (Savings):</span>
+                <span>- ৳{discountedAmount}</span>
+              </div>
+            )}
+
+            <div className="border-t-2 border-dashed border-white/10 pt-2 flex justify-between text-gray-300 font-medium">
+              <span>খাবারের সাবটোটাল:</span>
+              <span className="text-white font-bold">৳{subTotal}</span>
+            </div>
+
+            {/* ডেলিভারি ফি */}
+            <div className="flex justify-between text-gray-400">
+              <span>ডেলিভারি ফি:</span>
+              <span className="text-white">
+                {trimmedAddress ? `৳${deliveryFee}` : "৳০ (ঠিকানা লিখুন)"}
+              </span>
+            </div>
+
+            {/* সর্বমোট পরিমাণ */}
+            <div className="flex justify-between font-black text-base text-white pt-3 border-t border-white/5">
+              <span>সর্বমোট পরিমাণ:</span>
+              <span className="text-amber-500 text-lg">৳{totalAmount}</span>
+            </div>
           </div>
-        );
-      })}
-    </div>
-  )}
-
-  {/* ➡️ সামারি সেকশন */}
-  <div className="border-t border-white/5 mt-4 pt-4 space-y-2.5 text-sm">
-    {/* মূল সাবটোটাল */}
-    <div className="flex justify-between text-gray-400">
-      <span>মূল সাবটোটাল:</span>
-      <span className="text-white">৳{originalSubTotal}</span>
-    </div>
-
-    {/* মোট ছাড় (যদি ডিসকাউন্ট থাকে) */}
-    {discountedAmount > 0 && (
-      <div className="flex justify-between text-emerald-400 font-medium">
-        <span>মোট ছাড় (Savings):</span>
-        <span>- ৳{discountedAmount}</span>
-      </div>
-    )}
-
-    {/* ✂️ ড্যাশড বর্ডার এবং ছাড়-পরবর্তী খাবারের সাবটোটাল */}
-  <div className="border-t-2 border-dashed border-white/10 pt-2 flex justify-between text-gray-300 font-medium">
-    <span>খাবারের সাবটোটাল:</span>
-    <span className="text-white font-bold">৳{subTotal}</span>
-  </div>
-
-    {/* ডেলিভারি ফি */}
-    <div className="flex justify-between text-gray-400">
-      <span>ডেলিভারি ফি:</span>
-      <span className="text-white">
-        {trimmedAddress ? `৳${deliveryFee}` : "৳০ (ঠিকানা লিখুন)"}
-      </span>
-    </div>
-
-    {/* সর্বমোট পরিমাণ */}
-    <div className="flex justify-between font-black text-base text-white pt-3 border-t border-white/5">
-      <span>সর্বমোট পরিমাণ:</span>
-      <span className="text-amber-500 text-lg">৳{totalAmount}</span>
-    </div>
-  </div>
-</div>
+        </div>
 
       </div>
     </div>

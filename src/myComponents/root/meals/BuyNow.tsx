@@ -53,12 +53,10 @@ export default function BuyNow({meal, quantity}: BuyNowProps) {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // লগইন সাকসেসফুল হলে যেন আবার এই চেকাউট পেজেই ফিরে আসে, তাই query parameter পাঠানো
                     router.push('/signin?callbackUrl=/checkout');
                 }
             });
         } else {
-            // ✅ ইউজার লগইন থাকলে সরাসরি চেকাউট পেজে চলে যাবে
             router.push('/checkout');
         }
   };

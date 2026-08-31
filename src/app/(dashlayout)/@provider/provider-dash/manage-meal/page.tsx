@@ -1,16 +1,28 @@
-import { categoryService } from '@/modules/services/category.services'
+
 import { mealServices } from '@/modules/services/meal.services'
 import { userServices } from '@/modules/services/user.service'
 import ProviderMealsTable from '@/myComponents/dashboard/provider-dash/MealTable'
 
 
 export default async function ManageMeal() {
-    const {email} = await userServices.getSessionUser()
+    const sessionUser = await userServices.getSessionUser()
+
+    if (!sessionUser) {
+    return (
+      <div className="p-6">
+        <h2 className="text-xl font-semibold">Please sign in</h2>
+        <p className="text-gray-500">
+          You need to be logged in to view your profile.
+        </p>
+      </div>
+    );
+  }
+
+  const { email } = sessionUser;
+
     // console.log(user);
     const meals = await mealServices.getProviderMeals(email)
     // console.log(meals);
-
-    // const categories = await categoryService.getCategories()
   return (
     <div>
       <ProviderMealsTable 

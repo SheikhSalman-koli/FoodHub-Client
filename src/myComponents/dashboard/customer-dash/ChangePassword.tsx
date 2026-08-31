@@ -50,7 +50,7 @@ export default function ChangePasswordDialog({
         }
 
         if (formData.newPassword.length < 8) {
-              CustomAlert.errorToast("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে!")
+              CustomAlert.errorToast("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে!")
             return
         }
 
@@ -83,7 +83,7 @@ export default function ChangePasswordDialog({
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-4 pt-1">
-                    {/* 1. Current Password */}
+                    {/* Current Password */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-medium text-zinc-400">
                             বর্তমান পাসওয়ার্ড
@@ -109,7 +109,7 @@ export default function ChangePasswordDialog({
                         </div>
                     </div>
 
-                    {/* 2. New Password */}
+                    {/* New Password */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-medium text-zinc-400">
                             নতুন পাসওয়ার্ড
@@ -135,7 +135,7 @@ export default function ChangePasswordDialog({
                         </div>
                     </div>
 
-                    {/* 3. Confirm New Password */}
+                    {/* Confirm New Password */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-medium text-zinc-400">
                             নতুন পাসওয়ার্ড পুনরায় লিখুন
@@ -161,7 +161,7 @@ export default function ChangePasswordDialog({
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
+                    
                     <div className="flex items-center justify-end gap-3 pt-3">
                         <button
                             type="button"

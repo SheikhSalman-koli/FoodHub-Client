@@ -5,9 +5,7 @@ import React from 'react'
 export default async function Categories() {
 
   const categories = await categoryService.getAllCategories()
-
   // console.log(categories);
-
   return (
     <div>
       <ManageCategoriesTable 

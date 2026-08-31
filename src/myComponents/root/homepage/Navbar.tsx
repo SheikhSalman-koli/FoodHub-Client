@@ -51,12 +51,10 @@ export default function Navbar({ className }: NavbarProps) {
   const { data: session } = authClient.useSession();
   const user = session?.user as UserRole | undefined
 
+    // console.log(user?.role);
+
    const cart = useCartStore((state) => state.cart)
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  // if(!user){
-  //   return <p>user not found!</p>
-  // }
 
   const menu: MenuItem[] = [
     { title: "হোম", url: "/" },
@@ -71,10 +69,13 @@ export default function Navbar({ className }: NavbarProps) {
           { title: "ড্যাশবোর্ড", url: "/provider-dash" }
         ]
         :
+        user?.role === Roles.customer ?
         [
           { title: "অর্ডার ট্র্যাকিং", url: "/customer/track-order" },
           { title: "ড্যাশবোর্ড", url: "/customer/profile" }
         ]
+        :
+        []
     )
   ];
 
@@ -126,7 +127,9 @@ export default function Navbar({ className }: NavbarProps) {
 
         {/* RIGHT ACTION NODE: CART & ACCOUNT GATEWAY */}
         <div className="hidden lg:flex items-center gap-4">
-          <Link
+          {
+            totalItems > 0 &&
+             <Link
             href='/cart'
             className="p-2.5 text-gray-400 hover:text-amber-400 transition-colors relative cursor-pointer active:scale-95 bg-transparent border-0">
             <ShoppingCart className="size-5" />
@@ -134,6 +137,7 @@ export default function Navbar({ className }: NavbarProps) {
               {totalItems}
             </span>
           </Link>
+          }
               <p className="text-white">{user?.role}</p>
           {/* auth Actions */}
           <AuthButtons />

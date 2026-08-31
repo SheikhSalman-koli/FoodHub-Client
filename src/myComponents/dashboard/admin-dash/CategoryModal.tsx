@@ -39,21 +39,6 @@ export default function CategoryModal({
 
   const [modalLoading, setModalLoading] = useState(false);
 
-  // ✏️ এডিট মডাল ওপেন হ্যান্ডলার
-
-
-  // 🔄 নাম থেকে অটো-স্লেগ জেনারেট
-  // const handleNameChange = (name: string) => {
-  //   const slug = name
-  //     .toLowerCase()
-  //     .trim()
-  //     .replace(/[^\w\s-]/g, "")
-  //     .replace(/[\s_-]+/g, "-")
-  //     .replace(/^-+|-+$/g, "");
-
-  //   setForm((prev) => ({ ...prev, name, slug }));
-  // };
-
   const handleNameChange = (name: string) => {
   const slug = name
     .toLowerCase()
@@ -94,9 +79,6 @@ export default function CategoryModal({
           CustomAlert.error(res.message)
         }
 
-        // if (onUpdateCategory) {
-        //   await onUpdateCategory(editingCategory.id, form);
-        // }
       } else {
         const res = await createCategory(form)
         if (res.success) {
@@ -139,7 +121,7 @@ export default function CategoryModal({
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
 
-          {/* ১. নাম */}
+          {/* নাম */}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               ক্যাটাগরির নাম <span className="text-amber-500">*</span>
@@ -154,7 +136,7 @@ export default function CategoryModal({
             />
           </div>
 
-          {/* ২. স্লেগ (Auto-generated) */}
+          {/* স্লেগ (Auto-generated) */}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1.5">
               স্লাগ (URL Slug) <span className="text-amber-500">*</span>
@@ -169,10 +151,9 @@ export default function CategoryModal({
             />
           </div>
 
-          {/* ৩. Availability Toggle */}
+          {/* Availability Toggle */}
           <div className="flex items-center justify-between p-3.5 bg-[#14161D] border border-[#2B2F3D] rounded-xl">
             <div>
-              {/* <p className="text-[10px] text-slate-400">কাস্টমার প্যানেলে প্রদর্শিত হবে কিনা</p> */}
               <p className="text-xs font-semibold text-slate-200">{form.isAvailable ? 'Available' : 'Not-Available'}</p>
             </div>
             <Switch

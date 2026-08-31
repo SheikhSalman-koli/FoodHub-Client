@@ -1,6 +1,5 @@
 import { baseUrl } from "@/lib/api-client"
 
-// 🎯 ১. ইন্টারফেস এবং টাইপ ডেফিনিশন
 export interface OrderItemInput {
     id?: string;
     mealId: string;
@@ -46,28 +45,23 @@ export interface OrderResponse {
     provider: ProviderData
 }
 
-//  সেন্ট্রালাইজড এপিআই লজিক
 export const orderServices = {
 
-    // নতুন অর্ডার ক্রিয়েট করা
     createOrder: async (payload: CreateOrderPayload): Promise<OrderResponse> => {
         const res = await baseUrl.post<{ data: OrderResponse, message: string }>('/api/v1/order', payload)
         return res?.data.data
     },
 
-    // ইউজারের নিজের সব অর্ডারগুলো দেখা (হিস্ট্রি পেজের জন্য)
     getMyOrders: async (): Promise<OrderResponse[]> => {
         const res = await baseUrl.get<{ data: OrderResponse[], message: string }>('/api/v1/order')
         return res?.data.data
     },
 
-    // ইউজারের নিজের সব অর্ডারগুলো দেখা (হিস্ট্রি পেজের জন্য)
     getsingleOrder: async (id:string): Promise<OrderResponse> => {
         const res = await baseUrl.get<{ data: OrderResponse, message: string }>(`/api/v1/order/${id}`)
         return res?.data.data
     },
 
-    // নির্দিষ্ট একটি অর্ডারের status আপডেট করা
     updateOrderStatus: async (id: string, status: string): Promise<OrderResponse> => {
         const res = await baseUrl.patch<{ data: OrderResponse, message: string }>(`/api/v1/update-status/order/${id}`, { status })
         return res?.data.data

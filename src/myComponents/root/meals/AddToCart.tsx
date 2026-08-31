@@ -24,7 +24,7 @@ export default function AddToCart({ meal,  showCartText = false }: AddToCartProp
             price: meal.price,
             image: meal.image || "https://i.ibb.co.com/fVyR9Dk6/shourav-sheikh-j9low-Ncnl04-unsplash.jpg",
             discount: meal.discount ?? 0,
-            providerId: meal.providerId // ডাটাবেজ থেকে আসা প্রোভাইডার আইডি
+            providerId: meal.providerId 
         }, 1);
 
         // যদি আলাদা রেস্তোরাঁর খাবার হয়

@@ -39,7 +39,7 @@ export default function Providers() {
               </span>
             </div>
             <h2 className="text-xl sm:text-4xl font-light text-white tracking-tight">
-              জনপ্রিয় <span className="font-extrabold">রেস্টুরেন্টসমূহ</span>
+              জনপ্রিয় <span className="font-extrabold text-amber-500">রেস্টুরেন্টসমূহ</span>
             </h2>
           </div>
         </div>

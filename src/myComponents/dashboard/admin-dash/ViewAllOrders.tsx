@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Search, Filter, Calendar, Phone, ShoppingBag, Store } from "lucide-react";
 import { OrderResponse } from "@/modules/services/order.services";
 
-  // স্টেটাস ব্যাজ কালার
+
  export const getStatusBadge = (status: string) => {
     switch (status) {
       case "PLACED":
@@ -24,7 +24,6 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
-  // সার্চ ও ফিল্টারিং
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -41,7 +40,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
   return (
     <div className="space-y-5 w-full max-w-6xl mx-auto">
       
-      {/* 🔍 সার্চ ও ফিল্টার বার */}
+      {/*সার্চ ও ফিল্টার বার */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0F1015] border border-[#232630] p-4 rounded-2xl shadow-lg">
         <div className="relative w-full sm:w-80">
           <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -70,7 +69,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
         </div>
       </div>
 
-      {/* 📊 শুধু টেবিল (No Modal Needed) */}
+      {/* টেবিল  */}
       <div className="bg-[#0F1015] border border-[#232630] rounded-3xl overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-slate-300">
@@ -91,12 +90,12 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
                 filteredOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-white/2 transition-colors">
                     
-                    {/* ১. অর্ডার আইডি */}
+                    {/* অর্ডার আইডি */}
                     <td className="px-6 py-4 font-mono text-amber-400 font-bold">
                       #{order.id.slice(0, 8)}...
                     </td>
 
-                    {/* ২. তারিখ */}
+                    {/* তারিখ */}
                     <td className="px-6 py-4 text-slate-400">
                       <span className="flex items-center gap-1.5">
                         <Calendar size={12} className="text-slate-500" />
@@ -108,7 +107,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
                       </span>
                     </td>
 
-                    {/* ৩. প্রোভাইডার আইডি */}
+                    {/*প্রোভাইডার আইডি */}
                     <td className="px-6 py-4 font-mono text-slate-400">
                       <span className="flex items-center gap-1">
                         <Store size={12} className="text-slate-500" />
@@ -117,7 +116,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
                       </span>
                     </td>
 
-                    {/* ৪. যোগাযোগ */}
+                    {/* যোগাযোগ */}
                     <td className="px-6 py-4 font-mono text-slate-300">
                       <span className="flex items-center gap-1">
                         <Phone size={12} className="text-slate-500" />
@@ -125,7 +124,7 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
                       </span>
                     </td>
 
-                    {/* ৫. আইটেম সংখ্যা */}
+                    {/* আইটেম সংখ্যা */}
                     <td className="px-6 py-4 text-center font-bold text-slate-200">
                       <span className="inline-flex items-center gap-1 bg-[#14161D] px-2.5 py-1 rounded-lg border border-[#2B2F3D]">
                         <ShoppingBag size={12} className="text-amber-500" />
@@ -133,12 +132,12 @@ export default function ViewAllOrders({ orders }: { orders: OrderResponse[] }) {
                       </span>
                     </td>
 
-                    {/* ৬. মোট টাকা */}
+                    {/* মোট টাকা */}
                     <td className="px-6 py-4 font-bold text-emerald-400 text-sm">
                       ৳{order.totalAmount}
                     </td>
 
-                    {/* ৭. স্টেটাস */}
+                    {/* স্টেটাস */}
                     <td className="px-6 py-4 text-right">
                       {getStatusBadge(order.status)}
                     </td>

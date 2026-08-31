@@ -30,25 +30,25 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
     setIsEditOpen(true);
   };
 
-  const handleDelete =async (id: string, value: boolean) => {
+  const handleDelete = async (id: string, value: boolean) => {
 
-   try {
-      const res = await softDeleteMealAction(id, value); 
-      if(res.success){
+    try {
+      const res = await softDeleteMealAction(id, value);
+      if (res.success) {
         CustomAlert.success("পরিবর্তন সফলভাবে সম্পন্ন হয়েছে")
       } else {
         CustomAlert.error("পরিবর্তন করতে ব্যর্থ হয়েছে, আবার চেষ্টা করুন।")
       }
-   } catch (error) {
-     console.log(error);
-   }
-    
+    } catch (error) {
+      console.log(error);
+    }
+
   };
 
   return (
     <div className="w-full bg-[#141414] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
       <Table>
-        {/* 🥞 ১. হেডার সেকশন */}
+
         <TableHeader className="bg-white/2 border-b border-white/5">
           <TableRow className="border-white/5 hover:bg-transparent">
             <TableHead className="text-xs uppercase tracking-widest text-gray-400 font-bold py-4">
@@ -75,7 +75,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
           </TableRow>
         </TableHeader>
 
-        {/* 🍱 ২. টেবিল বডি */}
+
         <TableBody>
           {meals?.map((meal, index) => {
             const { finalPrice } = CalculateDiscount(meal?.price, (meal?.discount ?? 0))
@@ -87,7 +87,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                 <TableCell className="text-gray-300 font-semibold text-xs">
                   {index + 1}
                 </TableCell>
-                {/* খাবার ছবি ও নাম */}
+                {/* ছবি ও নাম */}
                 <TableCell className="py-4">
                   <div className="flex items-center gap-4">
                     <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-[#0d0d0d]">
@@ -143,7 +143,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                   )}
                 </TableCell>
 
-                {/* 🛠️ ৩. অ্যাকশন বাটন (Edit & Delete) */}
+                {/* অ্যাকশন বাটন*/}
                 <TableCell
                   onClick={(e) => e.stopPropagation()}
                   className="text-right pr-6">
@@ -161,7 +161,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                     {
                       isEditOpen && selectedMeal && (
                         <EditMealDialog
-                        key={selectedMeal?.id}
+                          key={selectedMeal?.id}
                           isEditOpen={isEditOpen}
                           setIsEditOpen={setIsEditOpen}
                           selectedMeal={selectedMeal}
@@ -176,8 +176,8 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
                     >
                       <SelectTrigger
                         className={`w-28 h-8 text-xs font-bold rounded-xl border focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all ${meal.isDeleted
-                            ? "bg-red-500/10 text-red-400 border-red-500/20 data-[state=open]:bg-red-500/20"
-                            : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 data-[state=open]:bg-emerald-500/20"
+                          ? "bg-red-500/10 text-red-400 border-red-500/20 data-[state=open]:bg-red-500/20"
+                          : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 data-[state=open]:bg-emerald-500/20"
                           }`}
                       >
                         <SelectValue />

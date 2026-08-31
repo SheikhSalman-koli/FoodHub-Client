@@ -31,14 +31,12 @@ export default function UpdateUserInfo({
 
     const [isLoading, setIsLoading] = useState(false)
 
-
     const [formData, setFormData] = useState({
         name: name,
         phone: phone,
         deliveryAddress: deliveryAddress,
     })
 
-    // Handle Profile Text Updates
     const handleProfileSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)

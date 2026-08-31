@@ -33,20 +33,10 @@ function SuccessContent() {
         আপনার অর্ডারটি আমরা সফলভাবে গ্রহণ করেছি। আমাদের শেফ ইতিমধ্যেই আপনার পছন্দের খাবারটি প্রস্তুত করা শুরু করে দিয়েছেন।
       </p>
 
-      {/* ডাটাবেজ থেকে আসা রিয়াল অর্ডার আইডি বক্স */}
-      {/* {orderId ? (
-        <div className="bg-[#1c1c1c] border border-white/5 rounded-2xl p-4 mb-8">
-          <span className="text-xs text-gray-500 block mb-1 font-mono uppercase tracking-wider">Order ID</span>
-          <span className="text-sm font-bold text-amber-500 font-mono break-all">{orderId}</span>
-        </div>
-      ) : (
-        <div className="h-4"></div>
-      )} */}
-
       {/* অ্যাকশন বাটনস */}
       <div className="flex justify-between gap-3">
         <Link
-          href="/orders"
+          href="/customer/track-order"
           className="block w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl transition duration-200 text-sm text-center"
         >
           অর্ডার ট্র্যাক করুন 🗺️

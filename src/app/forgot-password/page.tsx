@@ -7,14 +7,13 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [isSent, setIsSent] = useState(false); // 🚀 লিঙ্ক পাঠানো হয়েছে কিনা ট্র্যাক করার জন্য
+  const [isSent, setIsSent] = useState(false); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMsg("");
 
-    // 🚀 আপনার কোডের মেইল পাঠানোর মেথডটি (যা মেইল পাঠাতে সফল হচ্ছে)
     const { error } = await authClient.requestPasswordReset({ 
       email: email,
       redirectTo: "/reset-password", 
@@ -25,12 +24,11 @@ export default function ForgotPasswordPage() {
     if (error) {
       setErrorMsg(error.message || "কোনো সমস্যা হয়েছে, আবার চেষ্টা করুন।");
     } else {
-      // ➔ সফল হলে রিডাইরেক্ট না করে সাকসেস স্টেট ট্রু করে দেব
       setIsSent(true);
     }
   };
 
-  // 🎯 জিমেইলে যাওয়ার বাটনসহ সাকসেস স্ক্রিন
+  // জিমেইলে যাওয়ার বাটনসহ সাকসেস স্ক্রিন
   if (isSent) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
@@ -41,7 +39,7 @@ export default function ForgotPasswordPage() {
             আমরা <span className="font-semibold text-black">{email}</span> ঠিকানায় একটি পাসওয়ার্ড রিসেট লিঙ্ক পাঠিয়েছি। দয়া করে আপনার ইনবক্স বা স্প্যাম ফোল্ডার চেক করুন।
           </p>
           
-          {/* 🚀 ইউজারকে সরাসরি জিমেইলে নিয়ে যাওয়ার বাটন */}
+          {/* ইউজারকে সরাসরি জিমেইলে নিয়ে যাওয়ার বাটন */}
           <a
             href="https://mail.google.com"
             rel="noopener noreferrer"

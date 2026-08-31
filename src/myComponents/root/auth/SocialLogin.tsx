@@ -12,7 +12,8 @@ export default function SocialLogin() {
     const GoogleSing =async ()=> {
         await authClient.signIn.social({
             provider: "google",
-            callbackURL: 'http://localhost:3000'
+            callbackURL: 'https://shei-shad-client.vercel.app'
+            // callbackURL: 'http://localhost:3000'
         })
     }
 

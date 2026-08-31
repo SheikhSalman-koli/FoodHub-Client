@@ -22,7 +22,6 @@ import { OrderStatus } from "@/constants/OrderStatus";
 import { UpdateOrderStatusAction } from "@/modules/actions/order.actions";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
 
-// স্ট্যাটাস অনুযায়ী ডাইনামিক স্টাইলিং ম্যাপ
 export const statusStyles: Record<string, string> = {
   PLACED: "bg-amber-500/10 text-amber-400 border-amber-500/20",
   PREPARING: "bg-blue-500/10 text-blue-400 border-blue-500/20",
@@ -108,21 +107,20 @@ export default function OrdersTable({ orders }: { orders: OrderResponse[] }) {
 
               <td className="py-4 px-5" onClick={(e) => e.stopPropagation()}>
                 {order.status === OrderStatus.CANCELLED ? (
-                  /*  ১. অর্ডার ক্যানসেলড হলে শুধু রিড-অনলি ব্যাজ দেখাবে */
+                  
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
                     বাতিল (Cancelled)
                   </span>
                 ) :
                   order.status === OrderStatus.DELIVERED ? (
-                    /* 🔒 ১. অর্ডার ডেলিভার্ড হলে শুধু রিড-অনলি ব্যাজ দেখাবে */
+      
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-green-500/10 text-green-400 border border-green-500/20">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                       ডেলিভার্ড (Delivered)
                     </span>
                   )
                     : (
-                      /* ২. অন্য স্ট্যাটাসের জন্য প্রোভাইডার চেঞ্জ করতে পারবে (ক্যানসেল অপশন ছাড়া) */
                       <Select
                         value={order.status}
                         onValueChange={(value) => handleStatusChange(order.id, value)}

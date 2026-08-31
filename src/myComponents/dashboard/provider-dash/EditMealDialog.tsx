@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
@@ -25,11 +25,10 @@ export default function EditMealDialog({
   selectedMeal: MealData | null;
   onSave?: () => void;
 }) {
- const [categories, setCategories] = useState<CategoryData[]>([]);
+  const [categories, setCategories] = useState<CategoryData[]>([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 📝 শুধু ফর্ম টেক্সট স্টেট
   const [formData, setFormData] = useState({
     name: selectedMeal?.name ?? "",
     description: selectedMeal?.description ?? "",
@@ -38,7 +37,7 @@ export default function EditMealDialog({
     categoryId: selectedMeal?.categoryId ?? "",
   });
 
-  // ক্যাটেগরি লোড করা
+
   useEffect(() => {
     async function fetchCategories() {
       if (isEditOpen && categories.length === 0) {
@@ -52,7 +51,7 @@ export default function EditMealDialog({
     }
     fetchCategories();
   }, [isEditOpen, categories.length]);
-  
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -100,17 +99,17 @@ export default function EditMealDialog({
 
         {selectedMeal && (
           <div>
-            {/* 📸 ১. সম্পূর্ণ আলাদা ইমেজ সেকশন */}
-          <MealImagePrev 
-          mealId={selectedMeal.id}
+
+            <MealImagePrev
+              mealId={selectedMeal.id}
               currentImage={selectedMeal.image}
               isFeatured={selectedMeal.isFeatured}
               onImageSaved={() => onSave?.()}
-          />
+            />
 
-            {/* 📝 ২. সাধারণ ডাটা ফর্ম */}
+
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {/* খাবারের নাম */}
+              {/* নাম */}
               <div>
                 <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-1.5 block">
                   খাবারের নাম
@@ -197,7 +196,7 @@ export default function EditMealDialog({
                 </div>
               </div>
 
-              {/* বাটনসমূহ */}
+
               <div className="flex items-center justify-end gap-3 pt-5 border-t border-white/5">
                 <Button
                   type="button"

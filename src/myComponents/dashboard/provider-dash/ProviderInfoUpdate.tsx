@@ -5,7 +5,6 @@ import { CustomAlert } from '@/lib/helpers/Shei-Shad-Alert';
 import { updateProviderAction } from '@/modules/actions/provider.actions';
 import { Loader2, Pencil, Save } from 'lucide-react'
 import React, { useState } from 'react'
-import Swal from 'sweetalert2';
 
 export interface providerUpdatedData {
     id: string;
@@ -43,14 +42,7 @@ export default function ProviderInfoUpdate({
 
             const res = await updateProviderAction(data.id, infoForm)
             if (res.success) {
-                Swal.fire({
-                    icon: "success",
-                    title: "তথ্য সফলভাবে আপডেট হয়েছে!",
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
+                CustomAlert.success("তথ্য সফলভাবে আপডেট হয়েছে!")
             } else {
                 CustomAlert.error(res.message);
             }

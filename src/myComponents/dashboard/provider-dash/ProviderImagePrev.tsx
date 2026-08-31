@@ -17,7 +17,6 @@ import {
 } from 'lucide-react'
 import { compressImage } from '@/lib/helpers/compressImage'
 import { uploadToCloudinary } from '@/lib/helpers/uploadImage'
-import Swal from 'sweetalert2'
 import { updateProviderAction } from '@/modules/actions/provider.actions'
 import { getPublicIdFromUrl } from '@/lib/helpers/GetPublicIdFromUrl'
 import { CustomAlert } from '@/lib/helpers/Shei-Shad-Alert'
@@ -66,7 +65,7 @@ export default function ProviderImagePrev({
         const newUploadedUrl = await uploadToCloudinary(compressedImage)
 
         if (!newUploadedUrl) {
-          Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
+          CustomAlert.error("ছবি আপলোড করতে সমস্যা হয়েছে!");
           return;
         }
 
@@ -83,17 +82,10 @@ export default function ProviderImagePrev({
           }
         }
 
-        const res = await updateProviderAction(id, {logo: newUploadedUrl})
+        const res = await updateProviderAction(id, { logo: newUploadedUrl })
 
         if (res.success) {
-         Swal.fire({
-            icon: "success",
-            title: "লোগো সফলভাবে আপডেট হয়েছে!",
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-          });
+          CustomAlert.errorToast("লোগো সফলভাবে আপডেট হয়েছে!")
         } else {
           CustomAlert.error(res.message);
         }
@@ -133,7 +125,7 @@ export default function ProviderImagePrev({
 
         <form onSubmit={handleLogoSubmit} className="space-y-4 pt-2">
 
-          {/* 🖼️ FULL-BLEED IMAGE PREVIEW (নো প্যাডিং, ফুল সাইজ) */}
+          {/* IMAGE PREVIEW */}
           <div className="relative w-full h-52 sm:h-60 rounded-2xl overflow-hidden border-2 border-[#2B2F3D] bg-[#14161D] group shadow-inner flex items-center justify-center">
             {logoUrl ? (
               <>
@@ -143,7 +135,6 @@ export default function ProviderImagePrev({
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* ক্লিয়ার বাটন */}
                 <button
                   type="button"
                   onClick={handleRemoveImage}
@@ -169,7 +160,7 @@ export default function ProviderImagePrev({
             )}
           </div>
 
-          {/* 📂 হিডেন ফাইল ইনপুট */}
+          {/* হিডেন ফাইল ইনপুট */}
           <input
             ref={fileInputRef}
             type="file"
@@ -178,7 +169,7 @@ export default function ProviderImagePrev({
             className="hidden"
           />
 
-          {/* 📤 ১. ডিভাইস ফাইল আপলোড বাটন */}
+          {/* ডিভাইস ফাইল আপলোড বাটন */}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -189,7 +180,6 @@ export default function ProviderImagePrev({
           </button>
 
 
-          {/* 🛠️ একশন বাটনসমূহ */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#232630]">
             <button
               type="button"

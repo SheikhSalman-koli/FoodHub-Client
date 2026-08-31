@@ -36,7 +36,7 @@ export default function ChangeProfileImage({
 
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    // Handle local file selection inside the Avatar Dialog
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -52,7 +52,7 @@ export default function ChangeProfileImage({
         setPreviewUrl(null);
     };
 
-    // Save new Avatar picture from Dialog
+    // Save new Avatar 
     const handleSaveAvatar = async () => {
         if (!selectedFile) return;
         setIsUploading(true)
@@ -119,7 +119,11 @@ export default function ChangeProfileImage({
                         {/* Image Preview Window */}
                         <div className="relative w-full h-48 rounded-2xl bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center shadow-inner group">
                             {displayImage ? (
-                                <img src={displayImage} alt="Avatar Preview" className="w-full h-full object-cover" />
+                                <img 
+                                src={displayImage} 
+                                alt="Avatar Preview" 
+                                className="w-full h-full object-cover"
+                                />
                             ) : (
                                 <User size={48} className="text-zinc-600" />
                             )}
@@ -167,7 +171,7 @@ export default function ChangeProfileImage({
                             Cancel
                         </button>
 
-                        {/* Save button appears only when a new file has been picked */}
+                        {/*conditional Save button */}
                         {selectedFile && (
                             <button
                                 type="button"

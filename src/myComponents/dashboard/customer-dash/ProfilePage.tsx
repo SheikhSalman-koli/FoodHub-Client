@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  User, Phone, MapPin, Lock, Edit3, ShoppingBag, 
-  Star, Camera, Check, X, Mail, PackageCheck
+import {
+  User, Phone, MapPin, Lock, Edit3, ShoppingBag,
+  Star, Camera, Mail, PackageCheck
 } from 'lucide-react';
 
 import { UserProfile } from '@/modules/services/user.service';
-import { CustomAlert } from '@/lib/helpers/Shei-Shad-Alert';
 import ChangeProfileImage from './ChangeImage';
 import UpdateUserInfo from './UpdateUserInfo';
 import { getStatusBadge } from '../admin-dash/ViewAllOrders';
@@ -19,238 +18,130 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
   const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  // Handle Password Reset Request
-  // const handleResetPassword = async () => {
-  //   setIsResettingPassword(true);
-  //   try {
-  //     // await requestPasswordReset(user.email);
-  //     CustomAlert.success(`Password reset link sent to ${user.email}`);
-  //   } catch (error) {
-  //     CustomAlert.error('Failed to send password reset request.');
-  //   } finally {
-  //     setIsResettingPassword(false);
-  //   }
-  // };
 
   return (
     <div className="min-h-screen bg-[#0d0e12] text-zinc-200 p-4 sm:p-6 md:p-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* ================= USER PROFILE CARD ================= */}
-        {/* <div className="bg-[#14161d] border border-zinc-800/80 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+        <div className="bg-[#14161d] border border-zinc-800/80 rounded-2xl p-0 shadow-xl relative overflow-hidden min-h-[250px] flex flex-col justify-center">
           <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 items-stretch gap-0 relative z-10 h-full">
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full sm:w-auto">
-              
-
+            {/* column 1 */}
+            <div className="flex items-center justify-center p-4 border-b md:border-b-0 md:border-r border-dashed border-zinc-800/80">
               <div className="relative group shrink-0">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center text-zinc-500 shadow-inner">
+                <div className="w-36 h-36 sm:w-60 sm:h-60 rounded-full bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center text-zinc-500 shadow-inner">
                   {user?.image ? (
-                    <img src={user?.image} alt={user.name} className="w-full h-full object-cover" />
+                    <img
+                      src={user?.image}
+                      alt={user.name}
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
-                    <User size={40} />
+                    <User size={52} />
                   )}
                 </div>
 
-     
+                {/* Small Camera Button */}
                 <button
                   type="button"
-                  onClick={()=> setIsAvatarDialogOpen(true)}
-                  className="absolute -bottom-1 -right-1 p-2 bg-amber-500 hover:bg-amber-400 text-black rounded-xl shadow-md transition-transform active:scale-95 border-2 border-[#14161d]"
+                  onClick={() => setIsAvatarDialogOpen(true)}
+                  className="absolute bottom-4 right-4 p-2 bg-amber-500 hover:bg-amber-400 text-black rounded-xl shadow-md transition-transform active:scale-95 border-2 border-[#14161d]"
                   title="Change profile picture"
                 >
-                  <Camera size={14} />
+                  <Camera size={15} />
                 </button>
 
-                {
-                    isAvatarDialogOpen && 
-                     <ChangeProfileImage 
-                     id={user?.id}
-                      currentImage={user?.image || ''}
-                      isAvatarDialogOpen={isAvatarDialogOpen}
-                      setIsAvatarDialogOpen={setIsAvatarDialogOpen}
-                     />
-                }
+                {isAvatarDialogOpen && (
+                  <ChangeProfileImage
+                    id={user?.id}
+                    currentImage={user?.image || ''}
+                    isAvatarDialogOpen={isAvatarDialogOpen}
+                    setIsAvatarDialogOpen={setIsAvatarDialogOpen}
+                  />
+                )}
               </div>
+            </div>
 
-    
-              <div className="space-y-1.5">
+            {/* column 2 */}
+            <div className="flex flex-col justify-between h-full">
+
+              <div className="p-5 md:p-6 flex flex-col justify-center flex-1 space-y-2 text-center md:text-left">
                 <h1 className="text-xl sm:text-2xl font-bold text-zinc-100 tracking-wide">
                   {user.name}
                 </h1>
-                
-                <div className="flex flex-col gap-1 text-xs sm:text-sm text-zinc-400">
-                  <div className="flex items-center gap-2">
-                    <Mail size={14} className="text-amber-500" />
-                    <span>{user.email}</span>
+
+                <div className="flex flex-col gap-1.5 text-xs sm:text-sm text-zinc-400">
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <Mail size={14} className="text-amber-500 shrink-0" />
+                    <span className="truncate">{user.email}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Phone size={14} className="text-amber-500" />
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <Phone size={14} className="text-amber-500 shrink-0" />
                     <span>{user.phone || 'No phone number added'}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin size={14} className="text-amber-500" />
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <MapPin size={14} className="text-amber-500 shrink-0" />
                     <span className="line-clamp-1">{user.deliveryAddress || 'No delivery address added'}</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-  
-            <div className="flex sm:flex-col items-center gap-2.5 w-full sm:w-auto">
-              <button
-                onClick={() => setIsEditModalOpen(true)}
-                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-xs sm:text-sm rounded-xl transition-all active:scale-95"
-              >
-                <Edit3 size={15} />
-                <span>তথ্য আপডেট করুন</span>
-              </button>
 
-              <button
-                onClick={handleResetPassword}
-                disabled={isResettingPassword}
-                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-medium text-xs sm:text-sm border border-zinc-800 rounded-xl transition-all active:scale-95 disabled:opacity-50"
-              >
-                <Lock size={15} />
-                <span>{isResettingPassword ? 'পরিবর্ত করুন...' : 'পাসওয়ার্ড পরিবর্ত করুন'}</span>
-              </button>
+              <div className="border-t border-dashed border-zinc-800/80 p-4 md:px-6 flex flex-row items-center gap-3 bg-zinc-900/20">
+                <button
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="w-full flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-xs sm:text-sm rounded-xl transition-all active:scale-95"
+                >
+                  <Edit3 size={15} />
+                  <span>তথ্য আপডেট</span>
+                </button>
+
+                <button
+                  onClick={() => setIsChangingPassword(true)}
+                  disabled={isChangingPassword}
+                  className="w-full flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-medium text-xs sm:text-sm border border-zinc-800 rounded-xl transition-all active:scale-95 disabled:opacity-50"
+                >
+                  <Lock size={15} />
+                  <span>{isChangingPassword ? 'পরিবর্তন হচ্ছে...' : 'পাসওয়ার্ড পরিবর্তন'}</span>
+                </button>
+              </div>
+
+              {isEditModalOpen && (
+                <UpdateUserInfo
+                  id={user?.id}
+                  name={user?.name}
+                  phone={user?.phone || ''}
+                  deliveryAddress={user?.deliveryAddress || ''}
+                  isEditModalOpen={isEditModalOpen}
+                  setIsEditModalOpen={setIsEditModalOpen}
+                />
+              )}
 
               {
-                isEditModalOpen && 
-
-                <UpdateUserInfo 
-                id={user?.id}
-                 name={user?.name}
-                 phone={user?.phone || ''}
-                deliveryAddress={user?.deliveryAddress || ''}
-                isEditModalOpen={isEditModalOpen}
-                setIsEditModalOpen={setIsEditModalOpen}
+                isChangingPassword &&
+                <ChangePasswordDialog
+                  id={user?.id}
+                  isChangingPassword={isChangingPassword}
+                  setIsChangingPassword={setIsChangingPassword}
                 />
               }
             </div>
-          </div>
-        </div> */}
-   <div className="bg-[#14161d] border border-zinc-800/80 rounded-2xl p-0 shadow-xl relative overflow-hidden min-h-[250px] flex flex-col justify-center">
-  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
 
-  {/* Changed grid columns to equal width (md:grid-cols-2) */}
-  <div className="grid grid-cols-1 md:grid-cols-2 items-stretch gap-0 relative z-10 h-full">
-    
-    {/* COLUMN 1: Profile Image (50% Width) */}
-    <div className="flex items-center justify-center p-4 border-b md:border-b-0 md:border-r border-dashed border-zinc-800/80">
-      <div className="relative group shrink-0">
-        <div className="w-36 h-36 sm:w-60 sm:h-60 rounded-full bg-zinc-900 border-2 border-zinc-800 overflow-hidden flex items-center justify-center text-zinc-500 shadow-inner">
-          {user?.image ? (
-            <img src={user?.image} alt={user.name} className="w-full h-full object-cover" />
-          ) : (
-            <User size={52} />
-          )}
-        </div>
-
-        {/* Small Camera Button Badge */}
-        <button
-          type="button"
-          onClick={() => setIsAvatarDialogOpen(true)}
-          className="absolute bottom-4 right-4 p-2 bg-amber-500 hover:bg-amber-400 text-black rounded-xl shadow-md transition-transform active:scale-95 border-2 border-[#14161d]"
-          title="Change profile picture"
-        >
-          <Camera size={15} />
-        </button>
-
-        {isAvatarDialogOpen && (
-          <ChangeProfileImage 
-            id={user?.id}
-            currentImage={user?.image || ''}
-            isAvatarDialogOpen={isAvatarDialogOpen}
-            setIsAvatarDialogOpen={setIsAvatarDialogOpen}
-          />
-        )}
-      </div>
-    </div>
-
-    {/* COLUMN 2: Info (Top) & Action (Bottom) (50% Width) */}
-    <div className="flex flex-col justify-between h-full">
-      
-      {/* TOP SECTION: Info */}
-      <div className="p-5 md:p-6 flex flex-col justify-center flex-1 space-y-2 text-center md:text-left">
-        <h1 className="text-xl sm:text-2xl font-bold text-zinc-100 tracking-wide">
-          {user.name}
-        </h1>
-        
-        <div className="flex flex-col gap-1.5 text-xs sm:text-sm text-zinc-400">
-          <div className="flex items-center justify-center md:justify-start gap-2">
-            <Mail size={14} className="text-amber-500 shrink-0" />
-            <span className="truncate">{user.email}</span>
-          </div>
-          <div className="flex items-center justify-center md:justify-start gap-2">
-            <Phone size={14} className="text-amber-500 shrink-0" />
-            <span>{user.phone || 'No phone number added'}</span>
-          </div>
-          <div className="flex items-center justify-center md:justify-start gap-2">
-            <MapPin size={14} className="text-amber-500 shrink-0" />
-            <span className="line-clamp-1">{user.deliveryAddress || 'No delivery address added'}</span>
           </div>
         </div>
-      </div>
 
-      {/* BOTTOM SECTION: Action */}
-      <div className="border-t border-dashed border-zinc-800/80 p-4 md:px-6 flex flex-row items-center gap-3 bg-zinc-900/20">
-        <button
-          onClick={() => setIsEditModalOpen(true)}
-          className="w-full flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-xs sm:text-sm rounded-xl transition-all active:scale-95"
-        >
-          <Edit3 size={15} />
-          <span>তথ্য আপডেট</span>
-        </button>
-
-        <button
-          onClick={()=> setIsChangingPassword(true)}
-          disabled={isChangingPassword}
-          className="w-full flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-medium text-xs sm:text-sm border border-zinc-800 rounded-xl transition-all active:scale-95 disabled:opacity-50"
-        >
-          <Lock size={15} />
-          <span>{isChangingPassword ? 'পরিবর্তন হচ্ছে...' : 'পাসওয়ার্ড পরিবর্তন'}</span>
-        </button>
-      </div>
-
-      {isEditModalOpen && (
-        <UpdateUserInfo 
-          id={user?.id}
-          name={user?.name}
-          phone={user?.phone || ''}
-          deliveryAddress={user?.deliveryAddress || ''}
-          isEditModalOpen={isEditModalOpen}
-          setIsEditModalOpen={setIsEditModalOpen}
-        />
-      )}
-
-      {
-        isChangingPassword && 
-        <ChangePasswordDialog 
-        id={user?.id}
-        isChangingPassword={isChangingPassword}
-        setIsChangingPassword={setIsChangingPassword}
-        />
-      }
-    </div>
-
-  </div>
-</div>
-
-        {/* ================= BOTTOM SECTION: TABS & DATA ================= */}
+        {/* tabs */}
         <div className="space-y-4">
-          {/* Navigation Tabs */}
+
           <div className="flex items-center gap-2 border-b border-zinc-800 pb-2">
             <button
               onClick={() => setActiveTab('orders')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all ${
-                activeTab === 'orders'
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all ${activeTab === 'orders'
                   ? 'bg-[#14161d] text-amber-400 border border-zinc-800 shadow-sm'
                   : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50'
-              }`}
+                }`}
             >
               <ShoppingBag size={16} />
               <span>অর্ডার সমূহ ({user._count.orders})</span>
@@ -258,18 +149,16 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
 
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all ${
-                activeTab === 'reviews'
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all ${activeTab === 'reviews'
                   ? 'bg-[#14161d] text-amber-400 border border-zinc-800 shadow-sm'
                   : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50'
-              }`}
+                }`}
             >
               <Star size={16} />
               <span>আমার মতামত ({user._count.reviews})</span>
             </button>
           </div>
 
-          {/* TAB CONTENT: ORDERS */}
           {activeTab === 'orders' && (
             <div className="space-y-4">
               {user.orders.length === 0 ? (
@@ -280,7 +169,7 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
               ) : (
                 user.orders.map((order) => (
                   <div key={order.id} className="bg-[#14161d] border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-md">
-                    
+
                     {/* Order Header */}
                     <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3 text-xs sm:text-sm">
                       <div className="space-y-0.5">
@@ -291,9 +180,9 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
                         <span className="text-zinc-500 hidden sm:inline">
                           {new Date(order.createdAt).toLocaleDateString()}
                         </span>
-                        {/* className="px-6 py-4 text-right" */}
+
                         <span className="px-2.5 py-1  uppercase tracking-wider">
-                        {getStatusBadge(order?.status)}
+                          {getStatusBadge(order?.status)}
                         </span>
                       </div>
                     </div>
@@ -304,7 +193,11 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
                         <div key={item.id} className="flex items-center gap-3">
                           <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 overflow-hidden flex-shrink-0">
                             {item.meal.image ? (
-                              <img src={item.meal.image} alt={item.meal.name} className="w-full h-full object-cover" />
+                              <img
+                                src={item.meal.image}
+                                alt={item.meal.name}
+                                className="w-full h-full object-cover"
+                              />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-zinc-600">
                                 <ShoppingBag size={18} />
@@ -329,7 +222,6 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
             </div>
           )}
 
-          {/* TAB CONTENT: REVIEWS */}
           {activeTab === 'reviews' && (
             <div className="space-y-4">
               {user.reviews.length === 0 ? (
@@ -341,11 +233,15 @@ export default function ProfilePage({ user }: { user: UserProfile }) {
                 user.reviews.map((review) => (
                   <div key={review.id} className="bg-[#14161d] border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3 shadow-md">
                     <div className="flex items-start justify-between gap-3">
-                      
+
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 overflow-hidden flex-shrink-0">
                           {review.meal.image ? (
-                            <img src={review.meal.image} alt={review.meal.name} className="w-full h-full object-cover" />
+                            <img
+                              src={review.meal.image}
+                              alt={review.meal.name}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-zinc-600">
                               <Star size={16} />

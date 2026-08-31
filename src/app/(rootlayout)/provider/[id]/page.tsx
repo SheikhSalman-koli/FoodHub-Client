@@ -1,5 +1,5 @@
 import React from 'react'
-import { MapPin, ShoppingBag, Flame } from "lucide-react";
+import { MapPin, ShoppingBag, Flame, Search } from "lucide-react";
 import MealCard from '@/myComponents/root/homepage/cards/MealCard';
 import { providerServices } from '@/modules/services/provider.services';
 import { MealData } from '@/modules/services/meal.services';
@@ -29,7 +29,6 @@ export default async function page({ params, searchParams }: {
   const minPrice = p.minPrice || "";
   const maxPrice = p.maxPrice || "";
 
-  // রেস্তোরাঁ এবং অল-ক্যাটাগরি ডাটা প্যারালালে ফেচ 
   const [provider, categories] = await Promise.all([
     providerServices.getProvidersById(id),
     categoryService.getCategories() 
@@ -110,7 +109,7 @@ export default async function page({ params, searchParams }: {
         </div>
       </div>
 
-      {/* মেনু ও ফিল্টার সেকশন */}
+      {/* মেনু ও ফিল্টার */}
       <div className=" mt-12 relative z-10">
       
           <SearchFilterControls categories={categories || []} />
@@ -121,7 +120,6 @@ export default async function page({ params, searchParams }: {
           আজকের <span className="font-black text-transparent bg-clip-text bg-linear-to-r from-white to-amber-500">বিশেষ আয়োজন</span>
         </h2>
 
-        {/* কন্ডিশনাল রেন্ডারিং */}
         {meals?.length === 0 ? (
           <div className="text-center py-16 px-6 text-gray-400 bg-[#141414] border border-white/5 rounded-3xl shadow-xl max-w-xl mx-auto animate-in fade-in zoom-in-95 duration-300">
             <div className="text-4xl mb-4 bg-[#0d0d0d] w-16 h-16 flex items-center justify-center rounded-2xl mx-auto border border-white/5 text-amber-500">
@@ -141,7 +139,7 @@ export default async function page({ params, searchParams }: {
         ) : filteredMeals.length === 0 ? (
           <div className="text-center py-16 px-6 text-gray-400 bg-[#141414] border border-white/5 rounded-3xl shadow-xl max-w-xl mx-auto animate-in fade-in zoom-in-95 duration-300">
             <div className="text-4xl mb-4 bg-[#0d0d0d] w-16 h-16 flex items-center justify-center rounded-2xl mx-auto border border-white/5 text-amber-500">
-              🔍
+              <Search size={18}/>
             </div>
             <h3 className="font-black text-white text-lg mb-1">কোনো সুস্বাদু পদ মেলেনি!</h3>
             <p className="text-xs text-gray-500 max-w-sm mx-auto">

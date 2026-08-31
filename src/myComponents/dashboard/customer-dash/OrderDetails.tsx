@@ -87,7 +87,7 @@ export default function OrderDetailsPage({
         }));
     };
 
-    // Review submit handler with API integration
+    // Review submit
     const handleSingleItemReviewSubmit = async (e: React.FormEvent, item: OrderItemInput) => {
         e.preventDefault();
         const itemId = item?.id;
@@ -154,7 +154,7 @@ export default function OrderDetailsPage({
 
     return (
         <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 space-y-6 text-slate-200">
-            {/* Header & Back Button */}
+            {/* Header */}
             <div className="flex items-center justify-between">
                 <button
                     onClick={onBack || (() => window.history.back())}
@@ -188,7 +188,7 @@ export default function OrderDetailsPage({
 
             {/* Main Content */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Left Side: Items & Review */}
+                {/* Left Side*/}
                 <div className="md:col-span-2 space-y-4">
                     <div className="bg-[#0F1015] border border-[#232630] rounded-3xl overflow-hidden shadow-xl">
                         <div className="bg-[#14161D] border-b border-[#232630] px-5 py-3.5 flex items-center gap-2">
@@ -202,11 +202,9 @@ export default function OrderDetailsPage({
                             {order?.orderItems?.map((item: OrderItemInput, index: number) => {
                                 const itemKey = item.id ?? `item-${index}`;
 
-                                // Check if review exists in the database OR if it was just submitted in this session
                                 const hasExistingReview = !!item.review;
                                 const isSubmittedNow = itemReviews[itemKey]?.submitted;
 
-                                // Determine the rating to show (from DB or from local state)
                                 const displayRating = item.review?.starCount || itemReviews[itemKey]?.rating;
 
                                 const currentReview = itemReviews[itemKey] || {
@@ -215,7 +213,7 @@ export default function OrderDetailsPage({
 
                                 return (
                                     <div key={itemKey} className="py-4 first:pt-0 last:pb-0 space-y-3">
-                                        {/* Item Info */}
+                                      
                                         <div className="flex items-center justify-between text-xs">
                                             <div>
                                                 <h4 className="font-semibold text-slate-200 text-sm">{item.name}</h4>
@@ -228,11 +226,11 @@ export default function OrderDetailsPage({
                                             </div>
                                         </div>
 
-                                        {/* Review Section (Only if DELIVERED) */}
+                                        {/* Review Section if DELIVERE*/}
                                         {order?.status === 'DELIVERED' && (
                                             <div className="bg-[#14161D] border border-[#2B2F3D] p-3.5 rounded-2xl space-y-3">
 
-                                                {/* IF ALREADY REVIEWED (From DB or Just Now) */}
+                                              
                                                 {(hasExistingReview || isSubmittedNow) ? (
                                                     <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium">
                                                         <CheckCircle2 size={14} />
@@ -240,7 +238,7 @@ export default function OrderDetailsPage({
                                                             রিভিউ প্রদান করা হয়েছে ({displayRating} স্টার)
                                                         </span>
 
-                                                        {/* Optional: Show their previous comment */}
+                                                      
                                                         {item.review?.comment && (
                                                             <span className="text-slate-500 italic ml-2 border-l border-slate-700 pl-2">
                                                                 {item.review.comment}
@@ -311,9 +309,9 @@ export default function OrderDetailsPage({
                     </div>
                 </div>
 
-                {/* Right Side: Billing & Address */}
+                {/* Right Side*/}
                 <div className="space-y-6">
-                    {/* Payment Details */}
+                    
                     <div className="bg-[#0F1015] border border-[#232630] p-5 rounded-3xl shadow-xl space-y-3.5">
                         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-[#232630] pb-2.5">
                             পেমেন্ট বিস্তারিত

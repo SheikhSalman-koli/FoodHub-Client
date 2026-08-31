@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { CategoryData, categoryService } from "../services/category.services";
 
-
 // this is for only available gategories, 
 export async function getAllCategories() {
     try {

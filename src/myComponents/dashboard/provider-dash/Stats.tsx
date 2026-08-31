@@ -26,7 +26,6 @@ type TimeFrame = "daily" | "weekly" | "monthly";
 
 export default function ProviderStatsDashboard({stats}: {stats: ProviderStatsData}) {
   
-  // চার্ট ট্যাবের জন্য স্টেট
   const [orderTimeframe, setOrderTimeframe] = useState<TimeFrame>("daily");
   const [earnTimeframe, setEarnTimeframe] = useState<TimeFrame>("daily");
 

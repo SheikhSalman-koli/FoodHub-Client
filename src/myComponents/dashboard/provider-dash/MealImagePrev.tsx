@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from "react";
 import { ImageIcon, Star, Loader2, Pencil, Check, X } from "lucide-react";
-import Swal from "sweetalert2";
 import { uploadToCloudinary } from "@/lib/helpers/uploadImage";
 import { updateMealAction } from "@/modules/actions/meal.action";
 import { compressImage } from "@/lib/helpers/compressImage";
@@ -89,19 +88,13 @@ export default function MealImagePrev({
 
         if (onImageSaved) onImageSaved(uploadedUrl);
 
-        Swal.fire({
-          icon: "success",
-          title: "ছবি সফলভাবে আপডেট হয়েছে!",
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+
+        CustomAlert.successToast("ছবি সফলভাবে আপডেট হয়েছে!")
       } else {
-        Swal.fire(res.message);
+        CustomAlert.error(res?.message);
       }
     } catch (error) {
-      Swal.fire("ছবি আপলোড করতে সমস্যা হয়েছে!");
+      CustomAlert.error("ছবি আপলোড করতে সমস্যা হয়েছে!")
     } finally {
       setIsUploading(false);
     }
@@ -133,7 +126,7 @@ export default function MealImagePrev({
         </span>
       )}
 
-      {/* 🔘 কন্ট্রোল বাটন */}
+      {/*কন্ট্রোল বাটন */}
       <div className="absolute bottom-3 right-3 flex items-center gap-2 z-30">
         {selectedFile ? (
           <>

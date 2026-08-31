@@ -29,7 +29,7 @@ export const useCartStore = create<CartState>()(
         let result: { success: boolean; errorType?: 'DIFFERENT_PROVIDER' } = { success: true };
 
         set((state) => {
-          // ১. চেক করছি কার্টে অলরেডি অন্য কোনো প্রোভাইডারের খাবার আছে কিনা
+          // চেক করছি কার্টে অলরেডি অন্য কোনো প্রোভাইডারের খাবার আছে কিনা
           const currentProviderId = state.cart[0]?.providerId;
 
           if (currentProviderId && currentProviderId !== newItem.providerId) {
@@ -37,7 +37,7 @@ export const useCartStore = create<CartState>()(
             return { cart: state.cart }; // কার্ট অপরিবর্তিত থাকবে
           }
 
-          // ২. যদি প্রোভাইডার মিলে যায় বা কার্ট খালি থাকে, তবে নরমাল অ্যাড হবে
+          // যদি প্রোভাইডার মিলে যায় বা কার্ট খালি থাকে, তবে নরমাল অ্যাড হবে
           const existingItem = state.cart.find((item) => item.id === newItem.id);
           if (existingItem) {
             return {
@@ -52,7 +52,7 @@ export const useCartStore = create<CartState>()(
         return result;
       },
 
-      // 🔄 পুরানো কার্ট মুছে নতুন রেস্তোরাঁর খাবার এক ক্লিকে সেট করার ফাংশন
+      // পুরানো কার্ট মুছে নতুন রেস্তোরাঁর খাবার এক ক্লিকে সেট করার ফাংশন
       replaceCart: (newItem, quantityToAdd) => set(() => ({
         cart: [{ ...newItem, quantity: quantityToAdd }]
       })),

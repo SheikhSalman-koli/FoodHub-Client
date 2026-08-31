@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 
 export default function SignUpPage() {
   const [role, setRole] = useState<"CUSTOMER" | "PROVIDER">("CUSTOMER");
@@ -29,7 +28,7 @@ export default function SignUpPage() {
         email: String(formData.get("email") ?? ""),
         password: String(formData.get("password") ?? ""),
         phone: formData.get("phone") ? String(formData.get("phone")) : undefined,
-        address: formData.get("address") ? String(formData.get("address")) : undefined, // 🛠️ ফিক্সড: phone এর বদলে address হবে
+        address: formData.get("address") ? String(formData.get("address")) : undefined,
         role: role as "CUSTOMER" | "PROVIDER",
       };
 
@@ -70,7 +69,6 @@ export default function SignUpPage() {
       }
 
     } catch (error) {
-      // console.error("Frontend submit error:", error);
       alert(error || "কোথাও কোনো সমস্যা হয়েছে, আবার চেষ্টা করুন।");
     } finally {
       setIsLoading(false);
@@ -80,7 +78,7 @@ export default function SignUpPage() {
   return (
     <main className="min-h-screen w-full bg-[#0d0d0d] grid grid-cols-1 lg:grid-cols-2">
 
-      {/* LEFT SIDE: Brand Visuals (Hidden on Mobile) */}
+      {/* left side */}
       <div className="hidden lg:flex relative flex-col justify-between p-12 overflow-hidden bg-zinc-900">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity scale-105"
@@ -109,7 +107,7 @@ export default function SignUpPage() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Multi-role Form Wrapper */}
+      {/* right side */}
       <div className="flex items-center justify-center p-6 sm:p-12 md:p-16 relative">
         <div className="w-full max-w-xl space-y-6 relative z-10">
 
@@ -118,7 +116,7 @@ export default function SignUpPage() {
             <p className="text-sm text-gray-400">নিচের অপশন থেকে আপনার অ্যাকাউন্টের ধরণ নির্বাচন করুন</p>
           </div>
 
-          {/* Role Choice Buttons */}
+          {/* Role select Buttons */}
           <div className="flex gap-3">
             <button
               type="button"
@@ -136,10 +134,10 @@ export default function SignUpPage() {
             </button>
           </div>
 
-          {/* Form Starts */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 custom-scrollbar pb-2">
 
-            {/* Account Info Container */}
+            {/* Account Info */}
             <div className="space-y-4 bg-[#141414] p-5 rounded-2xl border border-white/5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
@@ -196,7 +194,7 @@ export default function SignUpPage() {
 
             </div>
 
-            {/* Conditional Provider Section */}
+            {/* Provider Section */}
             {role === "PROVIDER" && (
               <div className="space-y-4 bg-amber-500/5 p-5 rounded-2xl border border-amber-500/20 animate-in fade-in slide-in-from-top-4 duration-300">
                 <h3 className="text-xs font-black text-amber-500 uppercase tracking-wider flex items-center gap-2 border-b border-amber-500/10 pb-2">
@@ -227,7 +225,6 @@ export default function SignUpPage() {
 
               </div>
             )}
-
 
             <Button
               type="submit"

@@ -52,7 +52,7 @@ export default function Hero() {
                         <Link href='/meals' className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] font-bold tracking-wider text-sm uppercase px-10 py-4.5 transition-all duration-300 cursor-pointer shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20 active:scale-98">
                             খাবার খুঁজুন
                         </Link>
-                        <Link href='/' className="w-full sm:w-auto bg-transparent hover:bg-white/5 text-white border border-white/20 hover:border-white/40 font-bold tracking-wider text-sm uppercase px-10 py-4.5 transition-all duration-300 cursor-pointer active:scale-98">
+                        <Link href='/#popular-restaurants' className="w-full sm:w-auto bg-transparent hover:bg-white/5 text-white border border-white/20 hover:border-white/40 font-bold tracking-wider text-sm uppercase px-10 py-4.5 transition-all duration-300 cursor-pointer active:scale-98">
                             রেস্টুরেন্ট খুঁজুন
                         </Link>
                     </div>
@@ -90,10 +90,15 @@ export default function Hero() {
 
             {/* Bottom Floating Scroll Anchor */}
             <div className='hidden lg:block'>
+                <Link
+                 href='/#popular-meals'
+                 replace={false}
+                >
                 <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">
                 <span className="text-[10px] tracking-widest uppercase font-bold text-gray-400">Scroll Down</span>
                 <div className="w-px h-10 bg-linear-to-b from-amber-500 to-transparent" />
             </div>
+                </Link>
             </div>
         </section>
     );

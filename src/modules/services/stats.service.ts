@@ -2,7 +2,7 @@ import { baseUrl } from "@/lib/api-client";
 
 // চাট ডাটা আইটেম টাইপ (Daily, Weekly, Monthly এর জন্য)
 export interface ChartDataItem {
-    label: string; // e.g., "2026-08-01", "2026-W30", "2026-08"
+    label: string;
     orders: number;
     earn: number;
 }

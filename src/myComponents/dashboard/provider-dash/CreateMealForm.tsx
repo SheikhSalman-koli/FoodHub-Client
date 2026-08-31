@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { CalculateDiscount } from "@/lib/helpers/CalculateDiscount";
-import {Loader2,Sparkles,Image as ImageIcon,PlusCircle,Upload,X,} from "lucide-react";
+import { Loader2, Sparkles, Image as ImageIcon, PlusCircle, Upload, X, } from "lucide-react";
 import Image from "next/image";
 import { CategoryData } from "@/modules/services/category.services";
 import { getAllCategories } from "@/modules/actions/category.actions";
@@ -16,7 +16,7 @@ export default function CreateMealForm() {
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // 👈 ইমেজ আপলোড লোডার স্টেট
+  const [isUploading, setIsUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ export default function CreateMealForm() {
     categoryId: "",
   });
 
-  // ক্যাটেগরি লোড করা
+
   useEffect(() => {
     async function loadCategories() {
       setIsCategoryLoading(true);
@@ -51,7 +51,7 @@ export default function CreateMealForm() {
     if (errorMessage) setErrorMessage(null);
   };
 
-  // ইমেজ আপলোড হ্যান্ডলার
+  // ইমেজ আপলোড 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -60,7 +60,6 @@ export default function CreateMealForm() {
       setIsUploading(true);
       setErrorMessage(null);
 
-      // আপনার Image Hoster ফাংশন কল
       const compressedImage = await compressImage(file)
       const imageUrl = await uploadToCloudinary(compressedImage);
 
@@ -77,7 +76,7 @@ export default function CreateMealForm() {
     }
   };
 
-  // ছবি রিমুভ করার হ্যান্ডলার
+  // ছবি রিমুভ করা
   const handleRemoveImage = () => {
     setFormData((prev) => ({ ...prev, image: "" }));
   };
@@ -129,7 +128,7 @@ export default function CreateMealForm() {
           text: res.message || "নতুন খাবার সফলভাবে যুক্ত হয়েছে।",
           confirmButtonText: "ঠিক আছে",
         });
-       
+
       } else {
         setErrorMessage(res.message || "খাবার তৈরি করতে সমস্যা হয়েছে।");
       }
@@ -143,7 +142,7 @@ export default function CreateMealForm() {
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-[#0d0d0d] border border-white/10 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden">
-      {/* 🏷️ কার্ড হেডার */}
+
       <div className="p-6 md:p-8 border-b border-white/5 flex items-center justify-between">
         <div>
           <h2 className="text-xl md:text-2xl font-black text-white flex items-center gap-2.5">
@@ -157,21 +156,21 @@ export default function CreateMealForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
-        {/* এরর মেসেজ */}
+
         {errorMessage && (
           <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl text-xs font-semibold">
             {errorMessage}
           </div>
         )}
 
-        {/* ইমেজ আপলোড এবং সাইড-বাই-সাইড প্রিভিউ সেকশন */}
+
         <div>
           <label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-2 block">
             খাবারের ছবি (Meal Image)
           </label>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
-            {/* বাম পাশ: ফাইল ড্রপ/সিলেক্ট ইনপুট */}
+            {/*  */}
             <div className="relative border-2 border-dashed border-white/10 hover:border-amber-500/50 rounded-2xl bg-[#141414] transition-all p-5 flex flex-col items-center justify-center text-center group cursor-pointer min-h-40">
               <input
                 type="file"
@@ -205,7 +204,7 @@ export default function CreateMealForm() {
               )}
             </div>
 
-            {/* 2️⃣ ডান পাশ: লাইভ ইমেজ প্রিভিউ */}
+            {/* ইমেজ প্রিভিউ */}
             <div className="relative border border-white/10 rounded-2xl bg-[#141414] overflow-hidden flex items-center justify-center min-h-40">
               {formData.image ? (
                 <>
@@ -215,7 +214,7 @@ export default function CreateMealForm() {
                     fill
                     className="object-cover"
                   />
-                  {/* ছবি রিমুভ বাটন */}
+
                   <button
                     type="button"
                     onClick={handleRemoveImage}
@@ -237,7 +236,7 @@ export default function CreateMealForm() {
           </div>
         </div>
 
-        {/* 📝 বাকি ইনপুট ফিল্ডসমূহ */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* খাবারের নাম */}
           <div>
@@ -346,19 +345,7 @@ export default function CreateMealForm() {
           </div>
         </div>
 
-        {/* 🛠️ বাটন সেকশন */}
         <div className="flex items-center justify-end gap-3 pt-6 border-t border-white/5">
-          {/* {onCancel && (
-            <Button
-              type="button"
-              onClick={onCancel}
-              variant="outline"
-              disabled={isLoading || isUploading}
-              className="bg-transparent border-white/10 text-gray-400 hover:bg-white/5 hover:text-white rounded-xl text-xs uppercase tracking-widest font-bold px-6 py-3 transition-all"
-            >
-              বাতিল
-            </Button>
-          )} */}
 
           <Button
             type="submit"

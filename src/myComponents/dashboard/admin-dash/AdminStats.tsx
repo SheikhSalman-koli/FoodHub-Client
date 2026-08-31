@@ -45,7 +45,7 @@ export default function AdminDashboardView({ stats }: { stats: AdminDashboardSta
     return (
         <div className="space-y-8 w-full max-w-7xl mx-auto pb-10">
 
-            {/* KPI HIGHLIGHT CARDS                                 */}
+            {/* top cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                 {/* Total Revenue */}
@@ -81,7 +81,7 @@ export default function AdminDashboardView({ stats }: { stats: AdminDashboardSta
                     </div>
                 </div>
 
-                {/* Avg Order Value (AOV) */}
+                {/* Avg Order Value */}
                 <div className="bg-[#0F1015] border border-[#232630] p-5 rounded-3xl shadow-lg">
                     <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold text-slate-400">গড় অর্ডার মান (AOV)</span>
@@ -118,10 +118,10 @@ export default function AdminDashboardView({ stats }: { stats: AdminDashboardSta
 
             </div>
 
-            {/* 📊 ২. CHARTS SECTION (BAR & PIE CHARTS)                    */}
+            {/*  CHARTS SECTION (BAR & PIE CHARTS)                    */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {/* 📊 1. Bar Chart: দৈনিক, সাপ্তাহিক, মাসিক Growth (2 Cols) */}
+                {/* Bar Chart: দৈনিক, সাপ্তাহিক, মাসিক Growth (2 Cols) */}
                 <div className="lg:col-span-2 bg-[#0F1015] border border-[#232630] p-6 rounded-3xl shadow-lg flex flex-col justify-between">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>

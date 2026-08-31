@@ -19,7 +19,7 @@ export default function SimilarFoods({ similarMeals }: SimilarFoodProps) {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {similarMeals.map((meal) => {
-                    // 🚀 আমাদের হেল্পার ফাংশনটি এখানে ম্যাজিক দেখাবে
+        
                     const { originalPrice, finalPrice, hasDiscount } = CalculateDiscount(meal.price, meal.discount ?? 0);
 
                     return (
@@ -29,10 +29,15 @@ export default function SimilarFoods({ similarMeals }: SimilarFoodProps) {
                             className="group bg-[#141414] border border-white/5 rounded-xl overflow-hidden transition-all duration-300 hover:border-amber-500/30 flex flex-col cursor-pointer"
                         >
                             {/* ইমেজ সেকশন */}
-                            <div className="relative aspect-[16/11] bg-gray-900 overflow-hidden">
-                                <img src={meal.image ?? undefined} alt={meal.name} className="w-full h-full object-cover" />
+                            <div className="relative aspect-16/11 bg-gray-900 overflow-hidden">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img 
+                                src={meal.image ?? undefined} 
+                                alt={meal.name} 
+                                className="w-full h-full object-cover" 
+                                />
 
-                                {/* 🏷️ ডিসকাউন্ট ব্যাজ: এখন আমরা ডাটাবেজের পার্সেন্টেজটাই (%) সরাসরি দেখাবো */}
+                               
                                 {hasDiscount && (
                                     <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md shadow-md">
                                         {meal.discount}% ছাড়
@@ -41,7 +46,7 @@ export default function SimilarFoods({ similarMeals }: SimilarFoodProps) {
                             </div>
 
                             {/* কন্টেন্ট সেকশন */}
-                            <div className="p-3 flex flex-col justify-between h-[115px] md:h-[125px] grow">
+                            <div className="p-3 flex flex-col justify-between h-28.75 md:h-31.25 grow">
                                 <div>
                                     <h3 className="font-bold text-xs md:text-sm text-white group-hover:text-amber-400 transition line-clamp-1">
                                         {meal.name}

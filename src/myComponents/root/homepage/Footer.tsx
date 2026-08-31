@@ -8,7 +8,7 @@ import {
     ArrowUpRight,
     Utensils,
 } from 'lucide-react'
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { FaFacebookF, FaLinkedin, FaWhatsapp,  } from 'react-icons/fa'
 import { startTransition, useEffect, useState } from 'react'
 import { CategoryData } from '@/modules/services/category.services'
 import { getAllCategories } from '@/modules/actions/category.actions'
@@ -61,8 +61,8 @@ export default function Footer() {
                         <div className="flex items-center gap-3 pt-2">
                             {[
                                 { icon: FaFacebookF, href: '#' },
-                                { icon: FaInstagram, href: '#' },
-                                { icon: FaTwitter, href: '#' },
+                                { icon: FaWhatsapp, href: '#' },
+                                { icon: FaLinkedin, href: '#' },
                             ].map((social, idx) => (
                                 <a
                                     key={idx}
@@ -93,6 +93,7 @@ export default function Footer() {
                                     {item.href ? (
                                         <Link
                                             href={item.href}
+                                            replace={false}
                                             className="hover:text-amber-400 transition-colors flex items-center gap-1 group text-zinc-400 hover:text-amber-400"
                                         >
                                             <span>{item.label}</span>

@@ -7,7 +7,6 @@ export default async function ManageOrders() {
   const AllOrders = await orderServices.getMyOrders()
 
   // console.log(AllOrders);
-
   return (
     <div>
        <ViewAllOrders 

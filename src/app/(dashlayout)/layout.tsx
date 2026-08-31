@@ -16,6 +16,9 @@ export default async function DashboardLayout({
 }) {
   const user = await userServices.getSessionUser();
 
+  // if(!user)return
+
+console.log(user);
   return (
     <SidebarProvider>
       <AppSidebar role={user?.role} />

@@ -52,7 +52,7 @@ export default function AuthButtons() {
                     });
 
                     router.push('/');
-                    router.refresh(); // সেশন স্টেট রিফ্রেশ করার জন্য
+                    router.refresh(); 
                 } catch (error) {
                     console.error("Logout error: ", error);
                 }

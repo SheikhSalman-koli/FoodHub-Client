@@ -8,7 +8,7 @@ import Link from 'next/link';
 export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
     return (
         <div className="space-y-5 w-full max-w-5xl mx-auto">
-            {/* হেডার */}
+            {/* heading */}
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-slate-100 tracking-tight">অর্ডারসমূহ</h2>
@@ -19,7 +19,7 @@ export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
                 </span>
             </div>
 
-            {/* টেবিল কন্টেইনার */}
+
             <div className="bg-[#0F1015] border border-[#232630] rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-300">
@@ -45,7 +45,7 @@ export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
 
                                     return (
                                         <tr key={order.id} className="hover:bg-white/2 transition-colors">
-                                            {/* অর্ডার আইডি ও সময় */}
+
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="font-mono font-bold text-amber-400 text-xs">
                                                     #{order.id.slice(0, 8)}...
@@ -56,10 +56,9 @@ export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
                                                 </div>
                                             </td>
 
-                                            {/* গ্রাহকের তথ্য */}
+
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="font-medium text-slate-200">
-                                                    {/* {order.customerId ? order.customerId.slice(0, 4) : 'গ্রাহক'} */}
                                                 </div>
                                                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5 font-mono">
                                                     <Phone size={12} className="text-slate-500" />
@@ -67,7 +66,7 @@ export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
                                                 </div>
                                             </td>
 
-                                            {/* আইটেম বিবরণ */}
+
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-start gap-2">
                                                     <ShoppingBag size={14} className="text-amber-500 shrink-0 mt-0.5" />
@@ -88,17 +87,17 @@ export default function AllOrders({ orders }: { orders: OrderResponse[] }) {
                                                 </div>
                                             </td>
 
-                                            {/* মোট বিল */}
+
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="font-bold text-emerald-400 text-sm">৳{order.totalAmount}</div>
                                             </td>
 
-                                            {/* স্টেটাস ব্যাজ */}
+
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
                                                 {getStatusBadge(order.status)}
                                             </td>
 
-                                            {/* অ্যাকশন (বিস্তারিত বাটন) */}
+
                                             <td className="px-6 py-4 whitespace-nowrap text-right">
                                                 <Link
                                                     href={`/customer/track-order/${order?.id}`}

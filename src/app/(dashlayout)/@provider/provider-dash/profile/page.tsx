@@ -1,19 +1,30 @@
-import { providerServices } from '@/modules/services/provider.services'
-import { userServices } from '@/modules/services/user.service'
-import KitchenRoomProfile from '@/myComponents/dashboard/provider-dash/ProviderProfile'
-import React from 'react'
+import { providerServices } from "@/modules/services/provider.services";
+import { userServices } from "@/modules/services/user.service";
+import KitchenRoomProfile from "@/myComponents/dashboard/provider-dash/ProviderProfile";
 
-export default async function page() {
+export const dynamic = "force-dynamic";
 
-  const {email} = await userServices.getSessionUser()
-  
-  const provider = await providerServices.getProvidersByemail(email)
-// console.log(provider);
+export default async function Page() {
+  const sessionUser = await userServices.getSessionUser();
+
+  if (!sessionUser) {
+    return (
+      <div className="p-6">
+        <h2 className="text-xl font-semibold">Please sign in</h2>
+        <p className="text-gray-500">
+          You need to be logged in to view your profile.
+        </p>
+      </div>
+    );
+  }
+
+  const { email } = sessionUser;
+
+  const provider = await providerServices.getProvidersByemail(email);
+
   return (
     <div>
-      <KitchenRoomProfile 
-       data={provider}
-      />
+      <KitchenRoomProfile data={provider} />
     </div>
-  )
+  );
 }

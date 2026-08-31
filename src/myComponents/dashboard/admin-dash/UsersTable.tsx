@@ -15,7 +15,6 @@ import {
     Calendar,
 } from "lucide-react";
 
-// Shadcn UI (যদি আপনার প্রজেক্টে ইনস্টল থাকে, নতুবা কাস্টম এচটিএমএল ব্যবহার করতে পারেন)
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
@@ -25,9 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserData } from "@/modules/services/user.service";
 import { updateUserStatus } from "@/modules/actions/user.action";
-import Swal from "sweetalert2";
 import { CustomAlert } from "@/lib/helpers/Shei-Shad-Alert";
-
 
 interface ManageUsersProps {
     users: UserData[];
@@ -37,7 +34,6 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [roleFilter, setRoleFilter] = useState<string>("ALL");
 
-    // সার্চ এবং ফিল্টারিং লজিক
     const filteredUsers = users.filter((user) => {
         const matchesSearch =
             user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -49,21 +45,14 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
         return matchesSearch && matchesRole;
     });
 
-    // স্টেটাস চেঞ্জ হ্যান্ডলার
+
     const handleToggleStatus = async (user: UserData) => {
         const newStatus = user.status === "ACTIVATE" ? "SUSPENDE" : "ACTIVATE";
         try {
             const res = await updateUserStatus(user.id, newStatus)
 
             if (res.success) {
-                Swal.fire({
-                    icon: "success",
-                    title: `ইউজার সফলভাবে ${newStatus} হয়েছে!`,
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
+                CustomAlert.successToast(`ইউজার সফলভাবে ${newStatus} হয়েছে!`)
             } else {
                 CustomAlert.error(res.message);
             }
@@ -72,7 +61,6 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
         } 
     };
 
-    // রোল অনুযায়ী ব্যাজ কালার
     const getRoleBadge = (role: string) => {
         switch (role) {
             case "PROVIDER":
@@ -92,8 +80,6 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
 
     return (
         <div className="space-y-5 w-full">
-
-            {/* সার্চ ও ফিল্টার বার */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0F1015] border border-[#232630] p-4 rounded-2xl shadow-lg">
 
                 {/* সার্চ বক্স */}
@@ -124,12 +110,11 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
 
             </div>
 
-            {/* ইউজার ডেটা টেবিল */}
+
             <div className="bg-[#0F1015] border border-[#232630] rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-300">
 
-                        {/* টেবিল হেডার */}
                         <thead className="bg-[#14161D] text-slate-400 border-b border-[#232630] uppercase text-[10px] tracking-wider font-bold">
                             <tr>
                                 <th className="px-6 py-4">ইউজার তথ্য</th>
@@ -141,7 +126,6 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                             </tr>
                         </thead>
 
-                        {/* টেবিল বডি */}
                         <tbody className="divide-y divide-[#232630]/60">
                             {filteredUsers.length > 0 ? (
                                 filteredUsers.map((user) => {
@@ -152,12 +136,11 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                             key={user.id}
                                             className="hover:bg-white/2 transition-colors group"
                                         >
-                                            {/* ১. ইউজার নাম, ইমেজ */}
+                                            {/* ইউজার নাম, ইমেজ */}
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
                                                     <Avatar className="h-10 w-10 border border-[#2B2F3D] shadow-md shrink-0">
                                                         <AvatarImage src={user.image || undefined} alt={user.name} />
-                                                        {/* ছবি না থাকলে নামের প্রথম অক্ষরের ডিফল্ট ফলব্যাক */}
                                                         <AvatarFallback className="bg-amber-500/10 text-amber-500 font-bold uppercase text-xs">
                                                             {user.name ? user.name.substring(0, 2) : <User size={16} />}
                                                         </AvatarFallback>
@@ -175,10 +158,10 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                                 </div>
                                             </td>
 
-                                            {/* ২. রোল ব্যাজ */}
+                                            {/* রোল */}
                                             <td className="px-6 py-4">{getRoleBadge(user.role)}</td>
 
-                                            {/* ৩. ফোন নম্বর */}
+                                            {/* ফোন নম্বর */}
                                             <td className="px-6 py-4">
                                                 {user.phone ? (
                                                     <span className="flex items-center gap-1.5 text-slate-300 font-mono">
@@ -190,7 +173,7 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                                 )}
                                             </td>
 
-                                            {/* ৪. ক্রিয়েশনের তারিখ */}
+                                            {/* তারিখ */}
                                             <td className="px-6 py-4 text-slate-400">
                                                 <span className="flex items-center gap-1.5">
                                                     <Calendar size={12} className="text-slate-500" />
@@ -202,7 +185,7 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                                 </span>
                                             </td>
 
-                                            {/* ৫. অ্যাক্টিভ/ইনঅ্যাক্টিভ টগল সুইচ */}
+                                            {/* অ্যাক্টিভ/ইনঅ্যাক্টিভ সুইচ */}
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col items-center justify-center gap-1.5">
                                                     <div className="flex items-center gap-2">
@@ -220,7 +203,7 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                                 </div>
                                             </td>
 
-                                            {/* ৬. ড্রপডাউন অ্যাকশন */}
+                                            {/* ড্রপডাউন */}
                                             <td className="px-6 py-4 text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-400 hover:text-white">
@@ -250,7 +233,7 @@ export default function ManageUsersTable({ users }: ManageUsersProps) {
                                     );
                                 })
                             ) : (
-                                /* ডাটা না থাকলে */
+
                                 <tr>
                                     <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                                         কোনো ইউজার পাওয়া যায়নি।

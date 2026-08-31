@@ -31,10 +31,9 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
         <div className="min-h-screen max-w-7xl mx-auto pt-20 text-white pb-16 selection:bg-amber-500 selection:text-black">
 
             <div className="max-w-6xl mx-auto px-4 pt-8 md:pt-12">
-                {/* 🟢 মেইন কন্টেন্ট গ্রিড: ইমেজ বনাম ডিটেইলস */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
-                    {/* 📸 বাম পাশ: বড় ইমেজের সেকশন */}
+                    {/* বাম পাশ*/}
                     <div className="relative w-full aspect-4/3 sm:aspect-video lg:aspect-square rounded-3xl overflow-hidden border border-white/5 bg-[#141414] shadow-2xl">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -60,7 +59,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                         </div>
                     </div>
 
-                    {/* 📝 ডান পাশ: খাবারের ইনফো ও অ্যাকশন বাটন */}
+                    {/* ডান পাশ*/}
                     <div className="flex flex-col">
                         <h1 className="text-3xl md:text-4xl font-black text-white mt-1 mb-3 tracking-tight">
                             {singleMealData.name}
@@ -113,7 +112,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                             </div>
                         </div>
 
-                        {/* 🛒 অ্যাকশন বাটনসমূহ (Add to Cart & Buy Now) */}
+                        {/* অ্যাকশন বাটনসমূহ (Add to Cart & Buy Now) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                               <AddToCart 
                               meal={singleMealData}
@@ -136,7 +135,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                     </div>
                 </div>
 
-                {/* 🟢 রিভিউজ সেকশন */}
+                {/* রিভিউজ সেকশন */}
                 {reviews?.length > 0 &&
                     <CustomerReviews
                         reviews={reviews}
@@ -144,7 +143,7 @@ export default function MealDetailsPage({ singleMealData }: MelaProps) {
                 }
 
 
-                {/* 🟢 সিমিলার ফুড সাজেস্টশন সেকশন */}
+                {/* সিমিলার ফুড সাজেস্টশন সেকশন */}
                 {similarMeals.length > 0 &&
                     <SimilarFoods
                         similarMeals={similarMeals}

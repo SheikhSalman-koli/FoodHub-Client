@@ -29,11 +29,9 @@ export default function ManageCategoriesTable({
   categories,
 }: ManageCategoriesProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  // 🟢 মডাল স্টেটসমূহ
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<CategoryData | null>(null);
 
-  // 📝 ফর্ম স্টেট
   const [form, setForm] = useState<{
     id?: string;
     name: string;
@@ -56,25 +54,25 @@ export default function ManageCategoriesTable({
     setIsModalOpen(true);
   };
 
-  // ➕ নতুন ক্যাটাগরি তৈরি মডাল ওপেন হ্যান্ডলার
+
   const handleOpenCreateModal = () => {
     setEditingCategory(null);
     setForm({ name: "", slug: "", isAvailable: true });
     setIsModalOpen(true);
   };
-  // 🔍 সার্চ ফিল্টারিং
+
   const filteredCategories = categories.filter(
     (cat) =>
-      // !cat.isDeleted &&
-      (cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cat.slug.toLowerCase().includes(searchTerm.toLowerCase()))
+    // !cat.isDeleted &&
+    (cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cat.slug.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
 
   return (
     <div className="space-y-5 w-full max-w-6xl mx-auto">
 
-      {/* 🔍 হেডার, সার্চ ও নতুন অ্যাড বাটন */}
+      {/* হেডার, সার্চ ও নতুন অ্যাড বাটন */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0F1015] border border-[#232630] p-4 rounded-2xl shadow-lg">
 
         {/* সার্চ ইনপুট */}
@@ -111,12 +109,10 @@ export default function ManageCategoriesTable({
         }
       </div>
 
-      {/* 📊 ক্যাটাগরি ডেটা টেবিল */}
       <div className="bg-[#0F1015] border border-[#232630] rounded-3xl overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-slate-300">
 
-            {/* টেবিল হেডার */}
             <thead className="bg-[#14161D] text-slate-400 border-b border-[#232630] uppercase text-[10px] tracking-wider font-bold">
               <tr>
                 <th className="px-6 py-4">ক্যাটাগরি নাম</th>
@@ -126,7 +122,6 @@ export default function ManageCategoriesTable({
               </tr>
             </thead>
 
-            {/* টেবিল বডি */}
             <tbody className="divide-y divide-[#232630]/60">
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => {
@@ -136,7 +131,7 @@ export default function ManageCategoriesTable({
                       key={category.id}
                       className="hover:bg-white/2 transition-colors group"
                     >
-                      {/* ১. ক্যাটাগরি নাম */}
+                      {/* ক্যাটাগরি নাম */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20 shrink-0">
@@ -153,21 +148,21 @@ export default function ManageCategoriesTable({
                         </div>
                       </td>
 
-                      {/* ২. স্লেগ */}
+                      {/* স্লেগ */}
                       <td className="px-6 py-4">
                         <span className="font-mono text-slate-400 bg-[#14161D] px-2.5 py-1 rounded-lg border border-[#2B2F3D] text-[11px]">
                           {category.slug}
                         </span>
                       </td>
 
-                      {/* 🖐️ ৩. Availability Toggle Switch & Badge */}
+                      {/* Availability Toggle Switch & Badge */}
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-center gap-3">
 
                           <span
                             className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-md border ${category.isAvailable
-                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                                : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                              : "bg-rose-500/10 text-rose-400 border-rose-500/20"
                               }`}
                           >
                             {category.isAvailable ? (
@@ -183,7 +178,7 @@ export default function ManageCategoriesTable({
                         </div>
                       </td>
 
-                      {/* ⚙️ ৪. অ্যাকশন বাটনসমূহ */}
+                      {/*অ্যাকশন বাটনসমূহ */}
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
 
@@ -196,41 +191,13 @@ export default function ManageCategoriesTable({
                             <Pencil size={14} />
                           </button>
 
-                          {/* ড্রপডাউন মেনু (অতিরিক্ত একশন যেমন Unavailable করার জন্য) */}
-                          {/* <DropdownMenu>
-                            <DropdownMenuTrigger className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-400 hover:text-white">
-                              <MoreVertical size={16} />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                              align="end"
-                              className="bg-[#14161D] border-[#2B2F3D] text-slate-200"
-                            >
-                              <DropdownMenuItem
-                                onClick={() => handleAvailability(!category.isAvailable)}
-                                className="cursor-pointer hover:bg-amber-500/20 text-xs font-semibold"
-                              >
-                                {category.isAvailable ? (
-                                  <>
-                                    <XCircle size={14} className="mr-2 text-rose-400" />
-                                    অনুপলব্ধ (Make Unavailable)
-                                  </>
-                                ) : (
-                                  <>
-                                    <CheckCircle2 size={14} className="mr-2 text-emerald-400" />
-                                    উপলব্ধ (Make Available)
-                                  </>
-                                )}
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu> */}
-
                         </div>
                       </td>
                     </tr>
                   );
                 })
               ) : (
-                /* ডাটা না থাকলে */
+                
                 <tr>
                   <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
                     কোনো ক্যাটাগরি পাওয়া যায়নি।

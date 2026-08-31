@@ -2,7 +2,9 @@
 import Hero from "@/myComponents/root/homepage/Hero";
 import PopularMeals from "@/myComponents/root/homepage/PopularMeals";
 import Providers from "@/myComponents/root/homepage/Providers";
+import Reviews from "@/myComponents/root/homepage/Reviews";
 
+export const dynamic = "force-dynamic";
 
  export default function HomePage() {
 
@@ -16,6 +18,8 @@ import Providers from "@/myComponents/root/homepage/Providers";
         <Providers />
 
        <PopularMeals/>
+
+       <Reviews />
 
       </main>
      
