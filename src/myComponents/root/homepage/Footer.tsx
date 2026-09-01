@@ -60,9 +60,9 @@ export default function Footer() {
                         {/* Social Icons */}
                         <div className="flex items-center gap-3 pt-2">
                             {[
-                                { icon: FaFacebookF, href: '#' },
-                                { icon: FaWhatsapp, href: '#' },
-                                { icon: FaLinkedin, href: '#' },
+                                { icon: FaFacebookF, href: 'https://www.facebook.com/sheikh.salman.257910' },
+                                { icon: FaWhatsapp, href: 'https://wa.me/8801875540498' },
+                                { icon: FaLinkedin, href: 'https://www.linkedin.com/in/sheikh-salman5/' },
                             ].map((social, idx) => (
                                 <a
                                     key={idx}

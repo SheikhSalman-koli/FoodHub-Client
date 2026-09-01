@@ -27,7 +27,7 @@ export default function SignInForm() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const res = await authClient.signIn.email({
+    await authClient.signIn.email({
       email,
       password,
     }, {
@@ -56,7 +56,6 @@ export default function SignInForm() {
       }
     });
 
-    console.log(res);
   };
 
   return (

@@ -9,18 +9,20 @@ export default function SocialLogin() {
 
     const pathname = usePathname()
 
-    const GoogleSing =async ()=> {
+    const GoogleSing = async () => {
         await authClient.signIn.social({
             provider: "google",
-            callbackURL: 'https://shei-shad-client.vercel.app'
-            // callbackURL: 'http://localhost:3000'
+            callbackURL: 'https://shei-shad-client.vercel.app',
+            fetchOptions: {
+                credentials: "include"
+            },
         })
     }
 
 
     return (
         <Button
-        onClick={()=> GoogleSing()}
+            onClick={() => GoogleSing()}
             className="w-full bg-amber-500 hover:bg-amber-400 text-[#0d0d0d] font-bold text-base py-6 rounded-xl shadow-lg shadow-amber-500/10 cursor-pointer mt-2">
             <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path

@@ -40,7 +40,7 @@ export default function ProviderMealsTable({ meals }: { meals?: MealData[] }) {
         CustomAlert.error("পরিবর্তন করতে ব্যর্থ হয়েছে, আবার চেষ্টা করুন।")
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
   };

@@ -81,7 +81,7 @@ export default function ChangeProfileImage({
 
             const res = await updateProfileInfo(id, { image: uploadedUrl })
             if (res.success) {
-                console.log(res.data);
+                // console.log(res.data);
                 CustomAlert.success('Profile picture updated successfully!');
             } else {
                 CustomAlert.error(res.message);

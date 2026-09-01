@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import SocialLogin from "@/myComponents/root/auth/SocialLogin";
 
 export default function SignUpPage() {
   const [role, setRole] = useState<"CUSTOMER" | "PROVIDER">("CUSTOMER");
@@ -241,6 +242,8 @@ export default function SignUpPage() {
               )}
             </Button>
           </form>
+
+          <SocialLogin />
 
           <div className="flex justify-center items-center text-sm text-gray-400 pt-2">
             ইতিমধ্যে অ্যাকাউন্ট আছে?{" "}
