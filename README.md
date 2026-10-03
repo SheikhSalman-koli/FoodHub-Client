@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍔 FoodHub — Full-Stack Meal Ordering Platform
 
-## Getting Started
+FoodHub is a modern, full-stack meal ordering and food delivery management web application. It connects customers with local food providers, enabling seamless meal browsing, real-time order tracking, menu administration, and administrative platform oversight.
 
-First, run the development server:
+---
 
+## 📌 Project Overview
+
+FoodHub is built to streamline the food delivery workflow across three core user groups:
+* **Customers** can explore restaurant menus, customize items, place orders, track delivery stages, and leave ratings.
+* **Food Providers** manage item listings, inventory, and incoming order updates from preparation to fulfillment.
+* **Admins** oversee platform health, manage user accounts, and resolve system-wide disputes.
+
+---
+## 🔗 Live Link
+
+* 🌐 **Live Website:** [https://shei-shad.vercel.app](https://shei-shad-client.vercel.app)
+
+---
+
+## 👥 Roles & Permissions
+
+| Role | Description | Key Permissions |
+| :--- | :--- | :--- |
+| **Customer** | Users ordering meals | Browse menus, place orders, track delivery status, leave reviews |
+| **Provider** | Food vendors/restaurants | Manage menu items, view incoming orders, update fulfillment status |
+| **Admin** | Platform moderators | Manage all users, oversee all orders, moderate platform content |
+
+---
+
+## 🔑 Demo Credentials
+
+| Role | Email | Password | Permissions & Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `assalmanmuhammad@gmail.com` | `pass1234` | Manage all users, oversee all orders, moderate platform content |
+| **Provider** | `purbachalhisab@gmail.com` | `pass0099` | Manage menu items, view incoming orders, update fulfillment status |
+| **Customer** | `sheikhsalman1999.24@gmail.com` | `pass1234word` | Browse menus, place orders, track delivery status, leave reviews |
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+| :--- | :--- |
+| **Next.js** | App Router, Server-Side Rendering (SSR), and Static Site Generation (SSG) |
+| **TypeScript** | End-to-end type safety |
+| **Tailwind CSS** | Modern utility-first styling |
+
+### Backend & Database
+| Technology | Purpose |
+| :--- | :--- |
+| **Node.js + Express** | RESTful API architecture |
+| **PostgreSQL** | Relational database management system |
+| **Prisma** | Next-generation ORM for type-safe database queries |
+
+### Deployment
+| Service | Purpose |
+| :--- | :--- |
+| **Vercel / Render** | Frontend & Backend API deployment |
+
+---
+
+## 🖼️ Application Screenshots
+### 1. Admin Overview & Management Panel
+![Admin Overview View](https://res.cloudinary.com/dobtto17a/image/upload/v1791018088/Screenshot_2026-10-03_130641_yd01bs.png)
+
+### 2. Menu Page with search, filtering and sorting
+![Provider Dashboard View](https://res.cloudinary.com/dobtto17a/image/upload/v1791018110/Screenshot_2026-10-03_130749_a6kpdy.png)
+
+### 3. Cart
+![Customer Menu View](https://res.cloudinary.com/dobtto17a/image/upload/v1791018127/Screenshot_2026-10-03_131106_fxqyon.png)
+
+---
+
+## 🚀 Getting Started Locally
+
+### Clone the repository and follow the commends below
 ```bash
+clone the repository
+cd FoodHub-Client
+npm inistall
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
